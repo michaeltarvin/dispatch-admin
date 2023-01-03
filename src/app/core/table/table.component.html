@@ -1,0 +1,14 @@
+<div style="height: 100%; display: flex; flex-direction: column;">
+  <div [ngStyle]="style">
+
+    <!-- <ag-grid-angular style="width: 100%; height: calc(100vh - 245px);" -->
+    <ag-grid-angular style="width: 100%; height: 500px;"
+      #agGrid
+      [ngClass]="tableTheme"
+      [rowData]="rowData"
+      [columnDefs]="columnDefs"
+      [defaultColDef]="defaultColDef"
+      (cellClicked)="onCellClicked($event)">
+    </ag-grid-angular>
+  </div>
+</div>

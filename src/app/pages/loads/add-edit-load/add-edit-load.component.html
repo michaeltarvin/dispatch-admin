@@ -1,0 +1,26 @@
+<div mat-dialog-title
+  fxLayout="row"
+  fxLayoutAlign="space-between center">
+  <div>{{data.id == 0 ? 'Add': 'Edit'}} Load</div>
+  <div *ngIf="load">
+
+  </div>
+</div>
+
+<mat-dialog-content>
+
+  <div *ngIf="load">
+
+
+  </div>
+
+</mat-dialog-content>
+
+
+<mat-dialog-actions align="end">
+  <button mat-raised-button
+    (click)="close()">Cancel</button>
+  <button mat-raised-button
+    color="primary"
+    (click)="save()">Save</button>
+</mat-dialog-actions>

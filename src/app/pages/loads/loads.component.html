@@ -1,0 +1,79 @@
+<div class="padding"
+  fxLayout="column">
+
+  <div fxLayout="column"
+    fxLayout.gt-md="row"
+    fxLayoutGap="24px">
+
+    <fury-card fxFlex="auto">
+      <fury-card-header>
+        <fury-card-header-heading><span>Loads</span>
+          <button mat-icon-button
+            color="primary"
+            (click)="openDialog(0)">
+            <mat-icon>add_circle_outline</mat-icon>
+          </button>
+        </fury-card-header-heading>
+      </fury-card-header>
+
+      <fury-card-content fxLayout="column">
+
+        <!-- TODO: create advacnced search options
+        <div class="adv-search"
+          fxLayout="column">
+
+          <mat-accordion>
+            <mat-expansion-panel (opened)="panelOpenState = true"
+              (closed)="panelOpenState = false">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Adavanced Search Criteria
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <p>I'm visible because I am open</p>
+            </mat-expansion-panel>
+          </mat-accordion>
+
+        </div> -->
+
+        <div fxLayout="column"
+          fxLayout.gt-sm="row"
+          fxLayoutGap.gt-sm="16px">
+
+          <mat-form-field appearance="outline"
+            color="primary">
+            <mat-label>Search</mat-label>
+            <input [matDatepicker]="datepicker"
+              [(ngModel)]="searchDate"
+              (dateChange)="onDateChange($event)"
+              matInput>
+            <mat-datepicker-toggle [for]="datepicker"
+              matSuffix></mat-datepicker-toggle>
+          </mat-form-field>
+          <mat-datepicker #datepicker></mat-datepicker>
+
+        </div>
+
+        <fury-scrollbar fxFlex="grow">
+
+          <div class="table-space"
+            fxLayout="column">
+            <ms-table [columnDefs]="columnDefs"
+              [rowData]="loadData"
+              (cellClicked)="onCellClicked($event)"></ms-table>
+          </div>
+
+          <div fxLayout="column">
+            <ms-table [columnDefs]="columnDefs"
+              [rowData]="backHaulData"
+              (cellClicked)="onCellClicked($event)"></ms-table>
+          </div>
+
+        </fury-scrollbar>
+
+      </fury-card-content>
+
+    </fury-card>
+  </div>
+
+</div>

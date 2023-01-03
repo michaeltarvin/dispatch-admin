@@ -1,0 +1,242 @@
+<div mat-dialog-title
+  fxLayout="row"
+  fxLayoutAlign="space-between center">
+  <div>{{data.id == 0 ? 'Add ': 'Edit '}} Customer</div>
+  <div *ngIf="customer">
+    <mat-checkbox [checked]="customer.is_active"
+      [(ngModel)]="customer.is_active"
+      color="primary">Active</mat-checkbox>
+  </div>
+</div>
+
+<mat-dialog-content>
+
+  <div *ngIf="customer">
+
+    <div fxLayout.gt-sm="row"
+      fxLayoutGap.gt-sm="48px">
+
+      <mat-form-field appearance="outline"
+        color="primary">
+        <mat-label>Type</mat-label>
+        <mat-select [(ngModel)]="customer.type_id">
+          <mat-option *ngFor="let type of customerTypes"
+            [value]="type.id"> {{ type.name }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+    </div>
+
+    <div fxLayout.gt-sm="row"
+      fxLayoutGap.gt-sm="48px">
+
+      <mat-form-field appearance="outline"
+        color="primary"
+        fxFlex>
+        <mat-label>Name</mat-label>
+        <input matInput
+          placeholder="Name"
+          [(ngModel)]="customer.name"
+          type="text">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline"
+        color="primary"
+        fxFlex>
+        <mat-label>Alias</mat-label>
+        <input matInput
+          placeholder="Alias"
+          type="text"
+          [(ngModel)]="customer.company">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline"
+        color="primary"
+        fxFlex>
+        <mat-label>Email</mat-label>
+        <input matInput
+          placeholder="Email"
+          [(ngModel)]="customer.email"
+          type="text">
+      </mat-form-field>
+
+    </div>
+
+    <div fxLayout.gt-sm="row"
+      fxLayoutGap.gt-sm="48px">
+
+      <mat-form-field appearance="outline"
+        class="example-full-width"
+        color="primary"
+        fxFlex>
+        <mat-label>Address</mat-label>
+        <input matInput
+          placeholder="Address"
+          [(ngModel)]="customer.address"
+          type="text">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline"
+        class="example-full-width"
+        color="primary"
+        fxFlex>
+        <mat-label>City</mat-label>
+        <input matInput
+          placeholder="City"
+          [(ngModel)]="customer.city"
+          type="text"
+          required>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline"
+        class="example-full-width"
+        color="primary"
+        fxFlex>
+        <mat-label>Zip</mat-label>
+        <input matInput
+          placeholder="Zip"
+          [(ngModel)]="customer.zip"
+          type="text"
+          required>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline"
+        class="example-full-width"
+        color="primary"
+        fxFlex>
+        <mat-label>State</mat-label>
+        <mat-select [(ngModel)]="customer.state">
+          <mat-option *ngFor="let state of stateList"
+            [value]="state.name"> {{ state.name }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+    </div>
+
+    <div fxLayout.gt-sm="row"
+      fxLayoutGap.gt-sm="48px">
+
+      <mat-form-field appearance="outline"
+        class="example-full-width"
+        color="primary"
+        fxFlex>
+        <mat-label>Bill Address</mat-label>
+        <input matInput
+          placeholder="Address"
+          [(ngModel)]="customer.bill_address"
+          type="text">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline"
+        class="example-full-width"
+        color="primary"
+        fxFlex>
+        <mat-label>Bill City</mat-label>
+        <input matInput
+          placeholder="City"
+          [(ngModel)]="customer.bill_city"
+          type="text"
+          required>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline"
+        class="example-full-width"
+        color="primary"
+        fxFlex>
+        <mat-label>Bill Zip</mat-label>
+        <input matInput
+          placeholder="Zip"
+          [(ngModel)]="customer.bill_zip"
+          type="text"
+          required>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline"
+        class="example-full-width"
+        color="primary"
+        fxFlex>
+        <mat-label>Bill State</mat-label>
+        <mat-select [(ngModel)]="customer.bill_state">
+          <mat-option *ngFor="let state of stateList"
+            [value]="state.name"> {{ state.name }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+    </div>
+
+    <div fxLayout.gt-sm="row"
+      fxLayoutGap.gt-sm="48px">
+      <mat-form-field appearance="outline"
+        class="example-full-width"
+        color="primary"
+        fxFlex>
+        <mat-label>Cell</mat-label>
+        <input matInput
+          placeholder="Cell"
+          [(ngModel)]="customer.cell"
+          type="text">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline"
+        class="example-full-width"
+        color="primary"
+        fxFlex>
+        <mat-label>Office</mat-label>
+        <input matInput
+          placeholder="Office"
+          [(ngModel)]="customer.office"
+          type="text">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline"
+        class="example-full-width"
+        color="primary"
+        fxFlex>
+        <mat-label>Fax</mat-label>
+        <input matInput
+          placeholder="Fax"
+          [(ngModel)]="customer.fax"
+          type="text">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline"
+        class="example-full-width"
+        color="primary"
+        fxFlex>
+        <mat-label>Bond</mat-label>
+        <input matInput
+          placeholder="Bond"
+          [(ngModel)]="customer.bond"
+          type="text">
+      </mat-form-field>
+
+    </div>
+
+    <div fxLayout.gt-sm="row"
+      fxLayoutGap.gt-sm="48px">
+
+      <mat-form-field appearance="outline"
+        class="example-full-width"
+        color="primary"
+        fxFlex>
+        <mat-label>Url</mat-label>
+        <input matInput
+          placeholder="Url"
+          [(ngModel)]="customer.url"
+          type="text">
+      </mat-form-field>
+
+    </div>
+
+  </div>
+
+</mat-dialog-content>
+
+
+<mat-dialog-actions align="end">
+  <button mat-raised-button
+    (click)="close()">Cancel</button>
+  <button mat-raised-button
+    color="primary"
+    (click)="save()">Save</button>
+</mat-dialog-actions>
