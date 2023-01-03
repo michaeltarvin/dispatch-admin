@@ -43,7 +43,6 @@ export class ThemeService {
     } else {
       this.setTheme('fury-default');
     }
-
   }
 
   setTheme(theme: Theme) {

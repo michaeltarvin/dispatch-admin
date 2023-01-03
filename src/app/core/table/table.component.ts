@@ -45,9 +45,9 @@ export class TableComponent implements OnDestroy {
   }
 
   getTableTheme(): string {
-    const theme = window.localStorage.getItem("table-theme").toString();
+    const theme = window.localStorage.getItem("table-theme");
     if (theme)
-      return theme;
+      return theme.toString();
     return environment.tableTheme;
   }
 
