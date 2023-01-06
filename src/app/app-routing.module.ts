@@ -25,8 +25,28 @@ const routes: Routes = [
         canActivate: [LoggedInGuard],
       },
       {
+        path: 'driver-types',
+        loadChildren: () => import('./pages/driver-types/driver-types.module').then(m => m.DriverTypesModule),
+        canActivate: [LoggedInGuard],
+      },
+      {
         path: 'customers',
         loadChildren: () => import('./pages/customers/customers.module').then(m => m.CustomersModule),
+        canActivate: [LoggedInGuard],
+      },
+      {
+        path: 'customer-types',
+        loadChildren: () => import('./pages/customer-types/customer-types.module').then(m => m.CustomerTypesModule),
+        canActivate: [LoggedInGuard],
+      },
+      {
+        path: 'ageing',
+        loadChildren: () => import('./pages/ageing/ageing.module').then(m => m.AgeingModule),
+        canActivate: [LoggedInGuard],
+      },
+      {
+        path: 'payments',
+        loadChildren: () => import('./pages/payments/payments.module').then(m => m.PaymentsModule),
         canActivate: [LoggedInGuard],
       },
     ]

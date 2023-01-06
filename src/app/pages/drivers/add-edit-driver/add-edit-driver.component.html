@@ -50,6 +50,17 @@
               type="text">
           </mat-form-field>
 
+          <mat-form-field appearance="outline"
+            class="example-full-width"
+            color="primary"
+            fxFlex>
+            <mat-label>Type</mat-label>
+            <mat-select [(ngModel)]="driver.type_id">
+              <mat-option *ngFor="let dt of driverTypes"
+                [value]="dt.id"> {{ dt.name }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
         </div>
 
         <div fxLayout.gt-sm="row"

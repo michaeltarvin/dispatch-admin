@@ -1,10 +1,11 @@
+
 export const environment = {
   production: false,
   backend: 'http://localhost:4200',
   imageUrl: "",
-  authUrl: "http://localhost:8000/api/login",
-  refreshUrl: "http://localhost:8000/api/refresh",
-  apiUrl: "http://localhost:8000/api/v1/",
+  authUrl: "https://phplaravel-909610-3159527.cloudwaysapps.com/api/login",
+  refreshUrl: "https://phplaravel-909610-3159527.cloudwaysapps.com/api/refresh",
+  apiUrl: "https://phplaravel-909610-3159527.cloudwaysapps.com/api/v1/",
   refreshTokenInMinutes: 120,
   tokenTimeout: 179,
   locale: "nb",

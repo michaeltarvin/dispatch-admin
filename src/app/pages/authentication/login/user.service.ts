@@ -45,7 +45,7 @@ export class UserService {
       window.localStorage.setItem("userId", res.user.id);
       window.localStorage.setItem("username", res.user.name);
       window.localStorage.setItem("lastlogin", moment().format());
-      this.router.navigate(["/"]);
+      this.router.navigate(["/loads"]);
       return res.authenticated;
     }
     return false;

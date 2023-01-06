@@ -18,8 +18,12 @@ export class AddEditDriverComponent implements OnInit {
   }
 
   driver: DriverInterface;
+  driverTypes: any;
 
   ngOnInit(): void {
+
+    this.getDriverTypes();
+
     if (this.data.id > 0) {
       this.getDriver();
     } else {
@@ -34,6 +38,18 @@ export class AddEditDriverComponent implements OnInit {
         next: (response) => {
           this.driver = response as DriverInterface;
           console.log(this.driver);
+        },
+        error: (error) => console.error(error),
+      });
+  }
+
+  getDriverTypes() {
+    this.http
+      .get(`${environment.apiUrl}driverTypes`)
+      .subscribe({
+        next: (response) => {
+          this.driverTypes = response;
+          console.log(this.driverTypes);
         },
         error: (error) => console.error(error),
       });

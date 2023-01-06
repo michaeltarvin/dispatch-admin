@@ -32,6 +32,8 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { NgxMatDatetimePickerModule, NgxMatTimepickerModule, NgxMatNativeDateModule } from '@angular-material-components/datetime-picker';
+
 
 @NgModule({
   imports: [
@@ -70,7 +72,10 @@ import { MatExpansionModule } from '@angular/material/expansion';
     FlexLayoutModule,
     MatDividerModule,
     MatBadgeModule,
-    MatExpansionModule
+    MatExpansionModule,
+    NgxMatDatetimePickerModule,
+    NgxMatTimepickerModule,
+    NgxMatNativeDateModule
   ]
 })
 export class MaterialModule {

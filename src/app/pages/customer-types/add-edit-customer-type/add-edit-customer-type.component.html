@@ -1,0 +1,65 @@
+<div mat-dialog-title
+  fxLayout="row"
+  fxLayoutAlign="space-between center">
+  <div>{{data.id == 0 ? 'Add': 'Edit'}} Customer Type</div>
+</div>
+
+<mat-dialog-content>
+
+  <div *ngIf="customerType">
+
+    <div class="tab-content"
+      fxLayout.gt-sm="row"
+      fxLayoutGap.gt-sm="48px">
+
+      <mat-form-field appearance="outline"
+        color="primary"
+        fxFlex>
+        <mat-label>Name</mat-label>
+        <input matInput
+          placeholder="Name"
+          [(ngModel)]="customerType.name"
+          type="text">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline"
+        color="primary"
+        fxFlex>
+        <mat-label>Description</mat-label>
+        <input matInput
+          placeholder="Description"
+          type="text"
+          [(ngModel)]="customerType.description">
+      </mat-form-field>
+
+    </div>
+
+    <div fxLayout.gt-sm="row">
+      <mat-checkbox [checked]="customerType.is_shipper"
+        [(ngModel)]="customerType.is_shipper"
+        color="primary">Is Shipper</mat-checkbox>
+    </div>
+    <div fxLayout.gt-sm="row">
+      <mat-checkbox [checked]="customerType.is_biller"
+        [(ngModel)]="customerType.is_biller"
+        color="primary">Is Biller</mat-checkbox>
+    </div>
+    <div fxLayout.gt-sm="row">
+      <mat-checkbox [checked]="customerType.is_receiver"
+        [(ngModel)]="customerType.is_receiver"
+        color="primary">Is Receiver</mat-checkbox>
+    </div>
+
+
+  </div>
+
+</mat-dialog-content>
+
+
+<mat-dialog-actions align="end">
+  <button mat-raised-button
+    (click)="close()">Cancel</button>
+  <button mat-raised-button
+    color="primary"
+    (click)="save()">Save</button>
+</mat-dialog-actions>

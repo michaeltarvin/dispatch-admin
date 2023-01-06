@@ -31,7 +31,6 @@ export class LoginComponent implements OnInit {
   }
 
   send() {
-    console.log(this.form.value.email, this.form.value.password);
     this.userService.login(this.form.value.email, this.form.value.password);
   }
 

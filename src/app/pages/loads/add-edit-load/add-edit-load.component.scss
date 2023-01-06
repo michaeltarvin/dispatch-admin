@@ -1,7 +1,29 @@
 .example-full-width {
-  width: 100%;
+  width: 250px;
 }
 
 .tab-content{
   margin-top: 40px;
+}
+
+.tab-content-sm{
+  margin-top: 20px;
+}
+
+.example-right-align {
+  text-align: right;
+}
+
+input.example-right-align::-webkit-outer-spin-button,
+input.example-right-align::-webkit-inner-spin-button {
+  display: none;
+}
+
+input.example-right-align {
+  -moz-appearance: textfield;
+}
+
+.raquo {
+    position:relative;
+    top:-4px;
 }

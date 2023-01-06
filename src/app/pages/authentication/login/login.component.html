@@ -1,6 +1,11 @@
-<div class="page background-pattern" fxLayout="column" fxLayoutAlign="center center">
-  <div [@fadeInUp] class="card border-radius elevation">
-    <div class="header padding background-primary" fxLayout="column" fxLayoutAlign="center center">
+<div class="page background-pattern"
+  fxLayout="column"
+  fxLayoutAlign="center center">
+  <div [@fadeInUp]
+    class="card border-radius elevation">
+    <div class="header padding background-primary"
+      fxLayout="column"
+      fxLayoutAlign="center center">
       <div class="logo fill-primary-contrast">
         <!-- <svg viewBox="0 0 33.74 33.99" xmlns="http://www.w3.org/2000/svg">
           <title>icon</title>
@@ -8,17 +13,30 @@
         </svg> -->
       </div>
     </div>
-    <div class="padding" fxLayout="column" fxLayoutGap="16px" [formGroup]="form">
-      <div fxFlex="auto" fxLayout="column">
+    <div class="padding"
+      fxLayout="column"
+      fxLayoutGap="16px"
+      [formGroup]="form">
+      <div fxFlex="auto"
+        fxLayout="column">
         <mat-form-field fxFlex="grow">
-          <mat-label>E-Mail</mat-label>
-          <input matInput required formControlName="email">
+          <mat-label>Email</mat-label>
+          <input matInput
+            required
+            formControlName="email">
           <mat-error *ngIf="form.get('email').hasError('required')">We need an email address to log you in</mat-error>
         </mat-form-field>
         <mat-form-field fxFlex="grow">
           <mat-label>Password</mat-label>
-          <input matInput [type]="inputType" formControlName="password" required>
-          <button type="button" mat-icon-button matSuffix (click)="toggleVisibility()" matTooltip="Toggle Visibility">
+          <input matInput
+            [type]="inputType"
+            formControlName="password"
+            required>
+          <button type="button"
+            mat-icon-button
+            matSuffix
+            (click)="toggleVisibility()"
+            matTooltip="Toggle Visibility">
             <mat-icon *ngIf="visible">visibility</mat-icon>
             <mat-icon *ngIf="!visible">visibility_off</mat-icon>
           </button>
@@ -26,7 +44,10 @@
           <mat-error *ngIf="form.get('password').hasError('required')">We need a password to log you in</mat-error>
         </mat-form-field>
       </div>
-      <button type="button" color="primary" mat-raised-button (click)="send()">
+      <button type="button"
+        color="primary"
+        mat-raised-button
+        (click)="send()">
         SIGN IN
       </button>
     </div>

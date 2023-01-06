@@ -63,7 +63,7 @@ export class LoadsComponent implements OnInit {
       .get(`${environment.apiUrl}loads?type=Load&deldate=${moment(this.searchDate).format('YYYY-MM-DD')}`)
       .subscribe({
         next: (response) => {
-          console.log(response);
+          //console.log(response);
           this.loadData = response;
         },
         error: (error) => console.error(error),
@@ -75,7 +75,7 @@ export class LoadsComponent implements OnInit {
       .get(`${environment.apiUrl}loads?type=Back-Haul&pudate=${moment(this.searchDate).format('YYYY-MM-DD')}`)
       .subscribe({
         next: (response) => {
-          console.log(response);
+          //console.log(response);
           this.backHaulData = response;
         },
         error: (error) => console.error(error),

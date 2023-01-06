@@ -1,9 +1,21 @@
 <div mat-dialog-title
   fxLayout="row"
   fxLayoutAlign="space-between center">
-  <div>{{data.id == 0 ? 'Add': 'Edit'}} Load</div>
-  <div *ngIf="load">
 
+  <div fxLayout.gt-sm="row"
+    fxLayoutGap.gt-sm="48px">
+    <div>{{data.id == 0 ? 'Add': 'Edit'}} Load</div>
+    <div *ngIf="load">
+      <mat-checkbox [checked]="load.is_dispatched"
+        style="padding-left: 80px;"
+        [(ngModel)]="load.is_dispatched"
+        color="primary">Dispactched</mat-checkbox>
+
+      <mat-checkbox [checked]="load.is_brokerage"
+        style="padding-left: 20px;"
+        [(ngModel)]="load.is_brokerage"
+        color="primary">Brokerage</mat-checkbox>
+    </div>
   </div>
 </div>
 
@@ -11,6 +23,529 @@
 
   <div *ngIf="load">
 
+    <mat-tab-group>
+
+      <mat-tab label="Details">
+
+        <div class="tab-content-sm"
+          fxLayout.gt-sm="row"
+          fxLayoutGap.gt-sm="48px">
+
+          <mat-form-field appearance="outline"
+            class="example-full-width"
+            color="primary">
+            <mat-label>Trip</mat-label>
+            <input matInput
+              placeholder="Trip"
+              readonly="true"
+              disabled="true"
+              [(ngModel)]="load.trip_id"
+              type="text">
+          </mat-form-field>
+
+          <mat-form-field appearance="outline"
+            class="example-full-width"
+            color="primary">
+            <mat-label>Type</mat-label>
+            <mat-select [(ngModel)]="load.type">
+              <mat-option *ngFor="let name of loadTypes"
+                [value]="name">{{ name }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline"
+            class="example-full-width"
+            color="primary">
+            <mat-label>Sub-Type</mat-label>
+            <mat-select [(ngModel)]="load.subtype">
+              <mat-option *ngFor="let name of loadSubTypes"
+                [value]="name">{{ name }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+        </div>
+
+        <div fxLayout.gt-sm="row"
+          fxLayoutGap.gt-sm="48px">
+
+          <mat-form-field appearance="outline"
+            class="example-full-width"
+            color="primary">
+            <mat-label>Pick Up Date</mat-label>
+            <input matInput
+              [ngxMatDatetimePicker]="picker"
+              placeholder="Pick Up Date"
+              [formControl]="dateControl">
+            <mat-datepicker-toggle matSuffix
+              [for]="picker"></mat-datepicker-toggle>
+            <ngx-mat-datetime-picker #picker
+              [showSpinners]="showSpinners"
+              [showSeconds]="showSeconds"
+              [stepHour]="stepHour"
+              [stepMinute]="stepMinute"
+              [touchUi]="touchUi"
+              [color]="primary"
+              [enableMeridian]="enableMeridian">
+            </ngx-mat-datetime-picker>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline"
+            class="example-full-width"
+            color="primary">
+            <mat-label>Del Date</mat-label>
+            <input matInput
+              [ngxMatDatetimePicker]="picker2"
+              placeholder="Del Up Date"
+              [formControl]="delDateControl">
+            <mat-datepicker-toggle matSuffix
+              [for]="picker2"></mat-datepicker-toggle>
+            <ngx-mat-datetime-picker #picker2
+              [showSpinners]="showSpinners"
+              [showSeconds]="showSeconds"
+              [stepHour]="stepHour"
+              [stepMinute]="stepMinute"
+              [touchUi]="touchUi"
+              [color]="primary"
+              [enableMeridian]="enableMeridian">
+            </ngx-mat-datetime-picker>
+          </mat-form-field>
+
+        </div>
+
+        <div fxLayout.gt-sm="row"
+          fxLayoutGap.gt-sm="48px">
+
+          <mat-form-field appearance="outline"
+            class="example-full-width"
+            color="primary"
+            fxFlex>
+            <mat-label>Drivers</mat-label>
+            <input type="text"
+              placeholder="Drivers"
+              aria-label="Number"
+              matInput
+              [formControl]="driversControl"
+              [matAutocomplete]="drivers">
+            <mat-autocomplete autoActiveFirstOption
+              [displayWith]="displayFn"
+              #drivers="matAutocomplete">
+              <mat-option *ngFor="let option of driversOptions | async"
+                [value]="option">
+                {{option.name}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline"
+            class="example-full-width"
+            color="primary"
+            fxFlex>
+            <mat-label>Shippers</mat-label>
+            <input type="text"
+              placeholder="Shippers"
+              aria-label="Number"
+              matInput
+              [formControl]="shipperControl"
+              [matAutocomplete]="shippers">
+            <mat-autocomplete autoActiveFirstOption
+              [displayWith]="displayFn"
+              #shippers="matAutocomplete">
+              <mat-option *ngFor="let option of shipperOptions | async"
+                [value]="option">
+                {{option.name}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline"
+            class="example-full-width"
+            color="primary"
+            fxFlex>
+            <mat-label>Billers</mat-label>
+            <input type="text"
+              placeholder="Billers"
+              aria-label="Number"
+              matInput
+              [formControl]="billersControl"
+              [matAutocomplete]="billers">
+            <mat-autocomplete autoActiveFirstOption
+              [displayWith]="displayFn"
+              #billers="matAutocomplete">
+              <mat-option *ngFor="let option of billersOptions | async"
+                [value]="option">
+                {{option.name}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline"
+            class="example-full-width"
+            color="primary"
+            fxFlex>
+            <mat-label>Receivers</mat-label>
+            <input type="text"
+              placeholder="Receivers"
+              aria-label="Number"
+              matInput
+              [formControl]="receiversControl"
+              [matAutocomplete]="receivers">
+            <mat-autocomplete autoActiveFirstOption
+              [displayWith]="displayFn"
+              #receivers="matAutocomplete">
+              <mat-option *ngFor="let option of receiversOptions | async"
+                [value]="option">
+                {{option.name}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+
+        </div>
+
+        <div fxLayout.gt-sm="row"
+          fxLayoutGap.gt-sm="48px">
+
+          <!-- PU # -->
+          <mat-form-field appearance="outline"
+            class="example-full-width"
+            color="primary">
+            <mat-label>PU #</mat-label>
+            <input matInput
+              placeholder="PU #"
+              [(ngModel)]="load.punum"
+              type="text">
+          </mat-form-field>
+
+          <!-- BOL # -->
+          <mat-form-field appearance="outline"
+            class="example-full-width"
+            color="primary">
+            <mat-label>BOL #</mat-label>
+            <input matInput
+              placeholder="BOL #"
+              [(ngModel)]="load.bolnum"
+              type="text">
+          </mat-form-field>
+
+          <!-- Confirmation # -->
+          <mat-form-field appearance="outline"
+            class="example-full-width"
+            color="primary">
+            <mat-label>Confirmation #</mat-label>
+            <input matInput
+              placeholder="Confirmation #"
+              [(ngModel)]="load.confirmation"
+              type="text">
+          </mat-form-field>
+
+          <!-- CHRW #: -->
+          <mat-form-field appearance="outline"
+            class="example-full-width"
+            color="primary">
+            <mat-label>CHRW #</mat-label>
+            <input matInput
+              placeholder="CHRW #"
+              [(ngModel)]="load.chrwnum"
+              type="text">
+          </mat-form-field>
+
+        </div>
+
+        <div fxLayout.gt-sm="row"
+          fxLayoutGap.gt-sm="48px">
+
+          <!-- Weight # -->
+          <mat-form-field appearance="outline"
+            class="example-full-width"
+            color="primary">
+            <mat-label>Weight</mat-label>
+            <input matInput
+              placeholder="Weight"
+              [(ngModel)]="load.weight"
+              type="text">
+          </mat-form-field>
+
+          <!-- Truck #: -->
+          <mat-form-field appearance="outline"
+            class="example-full-width"
+            color="primary">
+            <mat-label>Truck #</mat-label>
+            <input matInput
+              placeholder="Truck #"
+              [(ngModel)]="load.trucknum"
+              type="text">
+          </mat-form-field>
+
+          <!-- Trailer # -->
+          <mat-form-field appearance="outline"
+            class="example-full-width"
+            color="primary">
+            <mat-label>Trailer #</mat-label>
+            <input matInput
+              placeholder="Trailer #"
+              [(ngModel)]="load.trailernum"
+              type="text">
+          </mat-form-field>
+
+          <!-- Sub #: -->
+          <mat-form-field appearance="outline"
+            class="example-full-width"
+            color="primary">
+            <mat-label>Sub #</mat-label>
+            <input matInput
+              placeholder="Sub #"
+              [(ngModel)]="load.subnum"
+              type="text">
+          </mat-form-field>
+
+        </div>
+
+      </mat-tab>
+
+      <mat-tab label="Finance">
+
+        <div class="tab-content"
+          fxLayout.gt-sm="row"
+          fxLayoutGap.gt-sm="48px">
+
+          <mat-checkbox [checked]="load.is_paid_for"
+            [(ngModel)]="load.is_paid_for"
+            color="primary">Is Paid</mat-checkbox>
+
+        </div>
+
+        <div fxLayout.gt-sm="row"
+          fxLayoutGap.gt-sm="48px">
+
+          <mat-form-field appearance="outline"
+            class="example-full-width"
+            color="primary">
+            <mat-label>Date Paid</mat-label>
+            <input [matDatepicker]="datepicker"
+              [(ngModel)]="load.datepaid"
+              matInput>
+            <mat-datepicker-toggle [for]="datepicker"
+              matSuffix></mat-datepicker-toggle>
+          </mat-form-field>
+          <mat-datepicker #datepicker></mat-datepicker>
+
+        </div>
+
+        <div fxLayout.gt-sm="row"
+          fxLayoutGap.gt-sm="48px">
+
+          <mat-form-field appearance="outline"
+            class="example-full-width"
+            color="primary">
+            <mat-label>Rate</mat-label>
+            <input type="number"
+              class="example-right-align"
+              matInput
+              [readonly]="load.is_paid_for"
+              [disabled]="load.is_paid_for"
+              [(ngModel)]="load.rate"
+              placeholder="Rate">
+            <span class="raquo"
+              matPrefix>$&nbsp;</span>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline"
+            class="example-full-width"
+            color="primary">
+            <mat-label>Lumper</mat-label>
+            <input type="number"
+              class="example-right-align"
+              matInput
+              [readonly]="load.is_paid_for"
+              [disabled]="load.is_paid_for"
+              [(ngModel)]="load.lumper"
+              placeholder="Lumper">
+            <span matPrefix>$&nbsp;</span>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline"
+            class="example-full-width"
+            color="primary">
+            <mat-label>Driver Unload</mat-label>
+            <input type="number"
+              class="example-right-align"
+              matInput
+              [readonly]="load.is_paid_for"
+              [disabled]="load.is_paid_for"
+              [(ngModel)]="load.unload"
+              placeholder="Driver Unload">
+            <span matPrefix>$&nbsp;</span>
+          </mat-form-field>
+
+        </div>
+
+        <div fxLayout.gt-sm="row"
+          fxLayoutGap.gt-sm="48px">
+
+          <mat-form-field appearance="outline"
+            class="example-full-width"
+            color="primary">
+            <mat-label>Fuel Paid</mat-label>
+            <input type="number"
+              class="example-right-align"
+              matInput
+              [readonly]="load.is_paid_for"
+              [disabled]="load.is_paid_for"
+              [(ngModel)]="load.fuelpaid"
+              placeholder="Fuel Paid">
+            <span class="raquo"
+              matPrefix>$&nbsp;</span>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline"
+            class="example-full-width"
+            color="primary">
+            <mat-label>Fuel SC</mat-label>
+            <input type="number"
+              class="example-right-align"
+              matInput
+              [readonly]="load.is_paid_for"
+              [disabled]="load.is_paid_for"
+              [(ngModel)]="load.fuelsc"
+              placeholder="Fuel SC">
+            <span matPrefix>$&nbsp;</span>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline"
+            class="example-full-width"
+            color="primary">
+            <mat-label>Misc</mat-label>
+            <input type="number"
+              class="example-right-align"
+              matInput
+              [readonly]="load.is_paid_for"
+              [disabled]="load.is_paid_for"
+              [(ngModel)]="load.misc"
+              placeholder="Misc">
+            <span matPrefix>$&nbsp;</span>
+          </mat-form-field>
+
+        </div>
+
+        <div fxLayout.gt-sm="row"
+          fxLayoutGap.gt-sm="48px">
+
+          <mat-form-field appearance="outline"
+            class="example-full-width"
+            color="primary">
+            <mat-label>Layover</mat-label>
+            <input type="number"
+              class="example-right-align"
+              matInput
+              [readonly]="load.is_paid_for"
+              [disabled]="load.is_paid_for"
+              [(ngModel)]="load.layover"
+              placeholder="Layover">
+            <span class="raquo"
+              matPrefix>$&nbsp;</span>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline"
+            class="example-full-width"
+            color="primary">
+            <mat-label>Detention</mat-label>
+            <input type="number"
+              class="example-right-align"
+              matInput
+              [readonly]="load.is_paid_for"
+              [disabled]="load.is_paid_for"
+              [(ngModel)]="load.detention"
+              placeholder="Detention">
+            <span matPrefix>$&nbsp;</span>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline"
+            class="example-full-width"
+            color="primary">
+            <mat-label>Exten</mat-label>
+            <input type="number"
+              class="example-right-align"
+              matInput
+              [readonly]="load.is_paid_for"
+              [disabled]="load.is_paid_for"
+              [(ngModel)]="load.exten"
+              placeholder="Exten">
+            <span matPrefix>$&nbsp;</span>
+          </mat-form-field>
+
+        </div>
+
+        <div fxLayout.gt-sm="row"
+          fxLayoutGap.gt-sm="48px">
+
+          <mat-form-field appearance="outline"
+            class="example-full-width"
+            color="primary">
+            <mat-label>Total</mat-label>
+            <input type="number"
+              class="example-right-align"
+              matInput
+              readonly="true"
+              disabled="true"
+              [value]="getTotal()"
+              [(ngModel)]="load.total"
+              placeholder="Total">
+            <span class="raquo"
+              matPrefix>$&nbsp;</span>
+          </mat-form-field>
+
+
+          <mat-form-field appearance="outline"
+            class="example-full-width"
+            color="primary">
+            <mat-label>All Money</mat-label>
+            <input type="number"
+              class="example-right-align"
+              matInput
+              readonly="true"
+              disabled="true"
+              [value]="getAllMoney()"
+              [(ngModel)]="load.allmoney"
+              placeholder="All Money">
+            <span matPrefix>$&nbsp;</span>
+          </mat-form-field>
+
+        </div>
+
+      </mat-tab>
+
+      <mat-tab label="Notes">
+
+        <div class="tab-content"
+          fxLayout.gt-sm="row"
+          fxLayoutGap.gt-sm="48px">
+
+          <mat-form-field appearance="outline"
+            color="primary"
+            fxFlex>
+            <textarea matInput
+              placeholder="Notes:"
+              cdkTextareaAutosize
+              [(ngModel)]="load.notes"
+              placeholder="Notes"
+              cdkAutosizeMinRows="6"></textarea>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline"
+            color="primary"
+            fxFlex>
+            <textarea matInput
+              placeholder="Notes 1"
+              cdkTextareaAutosize
+              [(ngModel)]="load.notes1"
+              placeholder="Notes 1"
+              cdkAutosizeMinRows="6"></textarea>
+          </mat-form-field>
+
+        </div>
+
+      </mat-tab>
+
+    </mat-tab-group>
 
   </div>
 
@@ -19,8 +554,11 @@
 
 <mat-dialog-actions align="end">
   <button mat-raised-button
-    (click)="close()">Cancel</button>
-  <button mat-raised-button
     color="primary"
     (click)="save()">Save</button>
+  <button mat-raised-button
+    color="accent"
+    (click)="dispatch()">Dispatch</button>
+  <button mat-raised-button
+    (click)="close()">Cancel</button>
 </mat-dialog-actions>

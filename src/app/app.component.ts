@@ -43,7 +43,7 @@ export class AppComponent {
     this.sidenavService.addItems([
       {
         name: 'DISPATCH',
-        position: 5,
+        position: 1,
         type: 'subheading',
         customClass: 'first-subheading'
       },
@@ -51,44 +51,73 @@ export class AppComponent {
         name: 'Loads',
         routeOrFunction: '/loads',
         icon: 'dashboard',
-        position: 11,
+        position: 5,
         pathMatchExact: true
       },
       {
         name: 'CONFIGURATION',
-        position: 15,
+        position: 30,
         type: 'subheading',
       },
       {
         name: 'Drivers',
         routeOrFunction: '/drivers',
         icon: 'people_outline',
-        position: 20,
+        position: 31,
+      },
+      {
+        name: 'Driver Types',
+        routeOrFunction: '/driver-types',
+        icon: 'folder_shared',
+        position: 32,
       },
       {
         name: 'Customers',
         icon: 'account_circle',
-        position: 21,
+        position: 33,
         subItems: [
           {
             name: 'Shippers',
             icon: 'account_circle',
             routeOrFunction: '/customers/shippers',
-            position: 10
+            position: 1
           },
           {
             name: 'Billers',
             icon: 'account_circle',
             routeOrFunction: '/customers/billers',
-            position: 15
+            position: 2
           },
           {
             name: 'Recievers',
             icon: 'account_circle',
             routeOrFunction: '/customers/receivers',
-            position: 20
+            position: 3
           }
         ]
+      },
+      {
+        name: 'Customer Types',
+        routeOrFunction: '/customer-types',
+        icon: 'contacts',
+        position: 33,
+      },
+      {
+        name: 'FINANCE',
+        position: 11,
+        type: 'subheading',
+      },
+      {
+        name: 'Ageing',
+        routeOrFunction: '/ageing',
+        icon: 'account_balance',
+        position: 12,
+      },
+      {
+        name: 'Payments',
+        routeOrFunction: '/payments',
+        icon: 'payment',
+        position: 13,
       },
     ]);
   }

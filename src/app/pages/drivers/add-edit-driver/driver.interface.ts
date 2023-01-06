@@ -1,6 +1,7 @@
 export interface DriverInterface {
   id?: number;
   name: string;
+  type_id: number;
   email: string;
   company?: string;
   is_active: boolean;
