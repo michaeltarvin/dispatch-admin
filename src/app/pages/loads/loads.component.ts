@@ -24,6 +24,7 @@ export class LoadsComponent implements OnInit {
   result: string;
   searchDate: Date = new Date();
   panelOpenState = false;
+  tripId: number;
 
   range = new FormGroup({
     start: new FormControl<Date | null>(new Date()),
@@ -36,16 +37,8 @@ export class LoadsComponent implements OnInit {
     { headerName: "Type", field: 'type', width: 115 },
     { headerName: "Sub-Type", field: 'subtype', width: 115 },
     { headerName: "Dispatched", field: 'is_dispatched', width: 135 },
-    {
-      headerName: "Pick-Up", field: 'pudate', width: 175, cellRenderer: (data: any) => {
-        return moment(data.pudate).format('ll')
-      }
-    },
-    {
-      headerName: "Delivery", field: 'deldate', width: 175, cellRenderer: (data: any) => {
-        return moment(data.deldate).format('ll')
-      }
-    },
+    { headerName: "Pick-Up Date", field: 'pudate', width: 175, valueFormatter: this.dateFormatter },
+    { headerName: "Delivery Date", field: 'deldate', width: 175, valueFormatter: this.dateFormatter },
     { field: 'driver' },
     { field: 'shipper' },
     { field: 'receiver' },
@@ -63,7 +56,6 @@ export class LoadsComponent implements OnInit {
       .get(`${environment.apiUrl}loads?type=Load&deldate=${moment(this.searchDate).format('YYYY-MM-DD')}`)
       .subscribe({
         next: (response) => {
-          //console.log(response);
           this.loadData = response;
         },
         error: (error) => console.error(error),
@@ -113,9 +105,39 @@ export class LoadsComponent implements OnInit {
     });
   }
 
+  searchByTrip() {
+
+    if (!this.tripId || this.tripId < 0)
+      return;
+
+    this.http
+      .get(`${environment.apiUrl}loads?type=Load&trip_id=${this.tripId}`)
+      .subscribe({
+        next: (response) => {
+          this.loadData = response;
+        },
+        error: (error) => console.error(error),
+      });
+
+    this.http
+      .get(`${environment.apiUrl}loads?type=Back-Haul&trip_id=${this.tripId}`)
+      .subscribe({
+        next: (response) => {
+          //console.log(response);
+          this.backHaulData = response;
+        },
+        error: (error) => console.error(error),
+      });
+
+  }
+
   onDateChange($event) {
     this.getLoads();
     this.getBackHauls();
+  }
+
+  dateFormatter(params: any): string {
+    return moment(params.value).format('ll');
   }
 
 }
