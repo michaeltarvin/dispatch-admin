@@ -44,10 +44,11 @@
           <mat-error *ngIf="form.get('password').hasError('required')">We need a password to log you in</mat-error>
         </mat-form-field>
       </div>
+      <mat-error *ngIf="result">{{ result }}</mat-error>
       <button type="button"
         color="primary"
         mat-raised-button
-        (click)="send()">
+        (click)="login()">
         SIGN IN
       </button>
     </div>

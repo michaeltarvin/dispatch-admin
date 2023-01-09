@@ -34,7 +34,13 @@ export class ConfigPanelComponent implements OnInit {
     window.localStorage.setItem("table-theme", theme == 'fury-dark' ? 'ag-theme-alpine-dark' : 'ag-theme-alpine');
     window.localStorage.setItem("theme", theme);
     this.themeService.setTheme(theme);
-    window.location.reload();
+    this.redirectTo(this.router.url);
+    //window.location.reload();
+  }
+
+  redirectTo(uri: string) {
+    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() =>
+      this.router.navigate([uri]));
   }
 
   navigationChange(change: MatRadioChange) {

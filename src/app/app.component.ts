@@ -103,6 +103,12 @@ export class AppComponent {
         position: 33,
       },
       {
+        name: 'Users',
+        routeOrFunction: '/users',
+        icon: 'verified_user',
+        position: 34,
+      },
+      {
         name: 'FINANCE',
         position: 11,
         type: 'subheading',

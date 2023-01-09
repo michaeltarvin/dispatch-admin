@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DriverInterface } from "./driver.interface";
 import { environment } from '../../../../environments/environment';
+import * as moment from 'moment';
 
 @Component({
   selector: 'fury-add-edit-driver',
@@ -37,7 +38,7 @@ export class AddEditDriverComponent implements OnInit {
       .subscribe({
         next: (response) => {
           this.driver = response as DriverInterface;
-          console.log(this.driver);
+          console.log('driver', this.driver);
         },
         error: (error) => console.error(error),
       });
@@ -62,6 +63,14 @@ export class AddEditDriverComponent implements OnInit {
 
   save() {
     console.log(this.driver);
+
+    this.driver.license = moment(this.driver.license).format('YYYY-MM-DD');
+    this.driver.insurance = moment(this.driver.insurance).format('YYYY-MM-DD');
+    this.driver.w9date = moment(this.driver.w9date).format('YYYY-MM-DD');
+    this.driver.packet = moment(this.driver.packet).format('YYYY-MM-DD');
+    this.driver.drugtest = moment(this.driver.drugtest).format('YYYY-MM-DD');
+    this.driver.workcomp = moment(this.driver.workcomp).format('YYYY-MM-DD');
+    this.driver.workcompna = moment(this.driver.workcompna).format('YYYY-MM-DD');
 
     if (this.driver.id > 0) {
       this.http

@@ -61,7 +61,7 @@ export class SidenavService implements OnDestroy {
   expanded$ = this._expandedSubject.asObservable();
 
   constructor(private router: Router,
-              private mediaObserver: MediaObserver) {
+    private mediaObserver: MediaObserver) {
     this.router.events.pipe(
       filter<NavigationEnd>(event => event instanceof NavigationEnd),
       takeUntil(componentDestroyed(this))
@@ -144,9 +144,9 @@ export class SidenavService implements OnDestroy {
   sortRecursive(array: SidenavItem[], propertyName: string): SidenavItem[] {
     const that = this;
 
-    array.forEach(function (item) {
+    array.forEach(function(item) {
       const keyArray = keys(item);
-      keyArray.forEach(function (key) {
+      keyArray.forEach(function(key) {
         if (isArray(item[key])) {
           item[key] = that.sortRecursive(item[key], propertyName);
         }
@@ -160,7 +160,7 @@ export class SidenavService implements OnDestroy {
     return this.getItemByRouteRecursive(route, this.items);
   }
 
-  ngOnDestroy(): void {}
+  ngOnDestroy(): void { }
 
   private getParents(item: SidenavItem, items: SidenavItem[] = []) {
     items.unshift(item);

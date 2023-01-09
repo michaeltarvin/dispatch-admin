@@ -4,7 +4,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from '../../../../@fury/shared/material-components.module';
 import { LoginRoutingModule } from './login-routing.module';
 import { LoginComponent } from './login.component';
-import { UserService } from "./user.service";
 
 @NgModule({
   imports: [
@@ -15,7 +14,6 @@ import { UserService } from "./user.service";
   ],
   declarations: [LoginComponent],
   providers: [
-    UserService,
   ]
 })
 export class LoginModule {

@@ -1,0 +1,74 @@
+<div mat-dialog-title
+  fxLayout="row"
+  fxLayoutAlign="space-between center">
+  <div>{{data.id == 0 ? 'Add': 'Edit'}} User</div>
+</div>
+
+<mat-dialog-content>
+
+  <div *ngIf="user">
+
+    <div class="tab-content"
+      fxLayout.gt-sm="row"
+      fxLayoutGap.gt-sm="48px">
+
+      <mat-form-field appearance="outline"
+        color="primary"
+        fxFlex>
+        <mat-label>Name</mat-label>
+        <input matInput
+          placeholder="Name"
+          [(ngModel)]="user.name"
+          type="text">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline"
+        color="primary"
+        fxFlex>
+        <mat-label>Email</mat-label>
+        <input matInput
+          placeholder="Email"
+          type="text"
+          [(ngModel)]="user.email">
+      </mat-form-field>
+
+    </div>
+
+    <div class="tab-content"
+      fxLayout.gt-sm="row"
+      fxLayoutGap.gt-sm="48px">
+
+      <mat-form-field appearance="outline"
+        color="primary"
+        fxFlex>
+        <mat-label>Password</mat-label>
+        <input matInput
+          placeholder="Password"
+          [(ngModel)]="user.password"
+          type="password">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline"
+        color="primary"
+        fxFlex>
+        <mat-label>Confirm Password</mat-label>
+        <input matInput
+          placeholder="Confirm Password"
+          type="password"
+          [(ngModel)]="confirmPassword">
+      </mat-form-field>
+
+    </div>
+
+  </div>
+
+</mat-dialog-content>
+
+
+<mat-dialog-actions align="end">
+  <button mat-raised-button
+    (click)="close()">Cancel</button>
+  <button mat-raised-button
+    color="primary"
+    (click)="save()">Save</button>
+</mat-dialog-actions>

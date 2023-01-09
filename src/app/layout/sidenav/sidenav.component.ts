@@ -26,8 +26,8 @@ export class SidenavComponent implements OnInit, OnDestroy {
   items$: Observable<SidenavItem[]>;
 
   constructor(private router: Router,
-              private sidenavService: SidenavService,
-              private themeService: ThemeService) {
+    private sidenavService: SidenavService,
+    private themeService: ThemeService) {
   }
 
   ngOnInit() {

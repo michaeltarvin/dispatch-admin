@@ -49,6 +49,11 @@ const routes: Routes = [
         loadChildren: () => import('./pages/payments/payments.module').then(m => m.PaymentsModule),
         canActivate: [LoggedInGuard],
       },
+      {
+        path: 'users',
+        loadChildren: () => import('./pages/user/user.module').then(m => m.UserModule),
+        canActivate: [LoggedInGuard],
+      },
     ]
   }
 ];

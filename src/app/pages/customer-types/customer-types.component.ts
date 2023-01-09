@@ -19,9 +19,9 @@ export class CustomerTypesComponent implements OnInit {
   result: string;
 
   columnDefs: ColDef[] = [
-    { field: 'id' },
+    { field: 'id', hide: true },
     { field: 'name' },
-    { headerName: "Desc", field: 'description' },
+    { headerName: "Description", field: 'description' },
     { headerName: "Shipper", field: 'is_shipper' },
     { headerName: "Biller", field: 'is_biller' },
     { headerName: "Receiver", field: 'is_receiver' },
