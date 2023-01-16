@@ -15,19 +15,19 @@ export interface DriverInterface {
   mcnumber?: string;
   canumber?: string;
 
-  license?: string;
-  insurance?: string;
-  w9date?: string;
-  packet?: string;
-  drugtest?: string;
-  workcomp?: string;
-  workcompna?: string;
+  // license?: string;
+  // insurance?: string;
+  // w9date?: string;
+  // packet?: string;
+  // drugtest?: string;
+  // workcomp?: string;
+  // workcompna?: string;
 
-  // license?: Date;
-  // insurance?: Date;
-  // w9date?: Date;
-  // packet?: Date;
-  // drugtest?: Date;
-  // workcomp?: Date;
-  // workcompna?: Date;
+  license?: Date;
+  insurance?: Date;
+  w9date?: Date;
+  packet?: Date;
+  drugtest?: Date;
+  workcomp?: Date;
+  workcompna?: Date;
 }

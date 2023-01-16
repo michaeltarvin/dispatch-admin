@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { CellClickedEvent, ColDef } from 'ag-grid-community';
+import { CellClickedEvent, ColDef, RowDragEndEvent } from 'ag-grid-community';
 import { MatDialog } from '@angular/material/dialog';
 import { AddEditUserComponent } from './add-edit-user/add-edit-user.component';
 import { environment } from '../../../environments/environment';
@@ -22,7 +22,7 @@ export class UsersComponent implements OnInit {
 
   columnDefs: ColDef[] = [
     { field: 'id', width: 100, hide: true },
-    { field: 'name', width: 200 },
+    { field: 'name', width: 200, rowDrag: true },
     { field: 'email', width: 350 },
     { headerName: "Created", field: 'created_at', width: 250, valueFormatter: this.dateFormatter },
     { headerName: "Last Updated", field: 'updated_at', width: 250, valueFormatter: this.dateFormatter },
@@ -43,10 +43,20 @@ export class UsersComponent implements OnInit {
       });
   }
 
-  // Example of consuming Grid Event
   onCellClicked(e: CellClickedEvent): void {
     console.log(e.data.id);
     this.openDialog(e.data.id);
+  }
+
+  onRowDragEnd(e: RowDragEndEvent): void {
+    // console.log(e);
+    // console.log();
+    let d = e.api.getRenderedNodes();
+
+    for (let i = 0; i < d.length; i++) {
+      console.log(d[i].data);
+      // console.log(typeof (d[i]));
+    }
   }
 
   openDialog($id: Number) {

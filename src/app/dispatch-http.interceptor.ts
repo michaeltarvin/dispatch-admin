@@ -23,7 +23,9 @@ export class DispatchHttpInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
-    if (request.url.endsWith('/api/login') || request.url.endsWith('/api/refresh')) {
+    if (request.url.endsWith('/api/login')
+      || request.url.endsWith('/api/register')
+      || request.url.endsWith('/api/refresh')) {
       return next.handle(this.emptyRequest(request));
     }
 

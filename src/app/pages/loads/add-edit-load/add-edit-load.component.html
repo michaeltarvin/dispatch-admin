@@ -119,9 +119,9 @@
             class="example-full-width"
             color="primary"
             fxFlex>
-            <mat-label>Drivers</mat-label>
+            <mat-label>Driver</mat-label>
             <input type="text"
-              placeholder="Drivers"
+              placeholder="Driver"
               aria-label="Number"
               matInput
               [formControl]="driversControl"
@@ -140,9 +140,9 @@
             class="example-full-width"
             color="primary"
             fxFlex>
-            <mat-label>Shippers</mat-label>
+            <mat-label>Shipper</mat-label>
             <input type="text"
-              placeholder="Shippers"
+              placeholder="Shipper"
               aria-label="Number"
               matInput
               [formControl]="shipperControl"
@@ -161,9 +161,9 @@
             class="example-full-width"
             color="primary"
             fxFlex>
-            <mat-label>Billers</mat-label>
+            <mat-label>Biller</mat-label>
             <input type="text"
-              placeholder="Billers"
+              placeholder="Biller"
               aria-label="Number"
               matInput
               [formControl]="billersControl"
@@ -182,9 +182,9 @@
             class="example-full-width"
             color="primary"
             fxFlex>
-            <mat-label>Receivers</mat-label>
+            <mat-label>Receiver</mat-label>
             <input type="text"
-              placeholder="Receivers"
+              placeholder="Receiver"
               aria-label="Number"
               matInput
               [formControl]="receiversControl"
@@ -545,6 +545,28 @@
 
       </mat-tab>
 
+      <mat-tab *ngIf="load.has_linked_loads"
+        label="Linked Loads">
+
+        <div class="table-space tab-content-sm"
+          fxLayout="column">
+
+          <ms-table [columnDefs]="columnDefs"
+            [rowData]="loadData"
+            [gridOptions]="gridOptions"></ms-table>
+
+        </div>
+
+        <div class="tab-content"
+          fxLayout.gt-sm="row"
+          fxLayoutGap.gt-sm="48px">
+          <button type="button"
+            name="button">Save Position</button>
+
+        </div>
+
+      </mat-tab>
+
     </mat-tab-group>
 
   </div>
@@ -559,6 +581,19 @@
   <button mat-raised-button
     color="accent"
     (click)="dispatch()">Dispatch</button>
+  <button mat-raised-button
+    style="margin-right: 10px;"
+    color="warn"
+    [disabled]="canAddLinkedLoad()"
+    [matMenuTriggerFor]="menu">Add Linked Loads</button>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item
+      (click)="addLinkedLoad('Pre-Load')">Pre-Load</button>
+    <button mat-menu-item
+      (click)="addLinkedLoad('Stop')">Stop</button>
+    <button mat-menu-item
+      (click)="addLinkedLoad('Pick-Up')">Pick-Up</button>
+  </mat-menu>
   <button mat-raised-button
     (click)="close()">Cancel</button>
 </mat-dialog-actions>

@@ -9,6 +9,10 @@ const routes: Routes = [
     loadChildren: () => import('./pages/authentication/login/login.module').then(m => m.LoginModule),
   },
   {
+    path: 'register',
+    loadChildren: () => import('./pages/authentication/register/register.module').then(m => m.RegisterModule),
+  },
+  {
     path: '',
     component: LayoutComponent,
     canActivate: [LoggedInGuard],

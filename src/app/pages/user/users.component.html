@@ -22,7 +22,8 @@
           fxFlex="grow">
           <ms-table [columnDefs]="columnDefs"
             [rowData]="rowData"
-            (cellClicked)="onCellClicked($event)"></ms-table>
+            (cellClicked)="onCellClicked($event)"
+            (rowDragEnd)="onRowDragEnd($event)"></ms-table>
 
         </fury-scrollbar>
 

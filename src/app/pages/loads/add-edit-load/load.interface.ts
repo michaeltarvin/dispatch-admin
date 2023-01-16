@@ -4,12 +4,14 @@ export interface LoadInterface {
   is_dispatched: boolean;
   is_brokerage: boolean;
   is_paid_for: boolean;
+  has_linked_loads: boolean;
   pudate?: string;
   deldate?: string;
   notes: string;
   notes1: string;
   type: string;
   subtype: string;
+  linked_load_position: number;
 
   paid_on?: Date;
   datepaid?: Date;

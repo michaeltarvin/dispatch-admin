@@ -17,3 +17,13 @@ html, body {
 }
 
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.row-fail {
+  font-weight: bold;
+  background-color: #aa2e25 !important;
+}
+
+.row-pass {
+  font-weight: bold;
+  background-color: #357a38 !important;
+}

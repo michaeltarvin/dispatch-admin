@@ -2,7 +2,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-import { CellClickedEvent, ColDef } from 'ag-grid-community';
+import { CellClickedEvent, ColDef, GridOptions, GridApi } from 'ag-grid-community';
 import { MatDialog } from '@angular/material/dialog';
 import { AddEditLoadComponent } from "./add-edit-load/add-edit-load.component";
 import { environment } from '../../../environments/environment';
@@ -18,6 +18,8 @@ export class LoadsComponent implements OnInit {
   constructor(private http: HttpClient,
     private dialog: MatDialog) { }
 
+  gridApi: GridApi;
+  gridOptions: GridOptions;
   loadData: any = [];
   backHaulData: any = [];
   tableTheme: string;
@@ -33,12 +35,13 @@ export class LoadsComponent implements OnInit {
 
   columnDefs: ColDef[] = [
     { field: 'id', hide: true },
-    { headerName: "Trip", field: 'trip_id', width: 100 },
-    { headerName: "Type", field: 'type', width: 115 },
-    { headerName: "Sub-Type", field: 'subtype', width: 115 },
-    { headerName: "Dispatched", field: 'is_dispatched', width: 135 },
-    { headerName: "Pick-Up Date", field: 'pudate', width: 175, valueFormatter: this.dateFormatter },
-    { headerName: "Delivery Date", field: 'deldate', width: 175, valueFormatter: this.dateFormatter },
+    { headerName: "Trip", field: 'trip_id', width: 100, suppressSizeToFit: true },
+    { headerName: "Type", field: 'type', width: 115, suppressSizeToFit: true },
+    { headerName: "Sub-Type", field: 'subtype', width: 115, suppressSizeToFit: true },
+    { headerName: "Dispatched", field: 'is_dispatched', width: 135, suppressSizeToFit: true },
+    { headerName: "Pick-Up Date", field: 'pudate', width: 175, valueFormatter: this.dateFormatter, suppressSizeToFit: true },
+    { headerName: "Delivery Date", field: 'deldate', width: 175, valueFormatter: this.dateFormatter, suppressSizeToFit: true },
+    { headerName: "Linked Loads", field: 'has_linked_loads', width: 175, hide: true },
     { field: 'driver' },
     { field: 'shipper' },
     { field: 'receiver' },
@@ -53,7 +56,7 @@ export class LoadsComponent implements OnInit {
 
   getLoads(): any {
     this.http
-      .get(`${environment.apiUrl}loads?type=Load&deldate=${moment(this.searchDate).format('YYYY-MM-DD')}`)
+      .get(`${environment.apiUrl}loads?type=Load&deldate=${moment(this.searchDate).format('YYYY-MM-DD')}&position=0`)
       .subscribe({
         next: (response) => {
           this.loadData = response;
@@ -64,44 +67,39 @@ export class LoadsComponent implements OnInit {
 
   getBackHauls(): any {
     this.http
-      .get(`${environment.apiUrl}loads?type=Back-Haul&pudate=${moment(this.searchDate).format('YYYY-MM-DD')}`)
+      .get(`${environment.apiUrl}loads?type=Back-Haul&pudate=${moment(this.searchDate).format('YYYY-MM-DD')}&position=0`)
       .subscribe({
         next: (response) => {
-          //console.log(response);
           this.backHaulData = response;
         },
         error: (error) => console.error(error),
       });
   }
 
-
-  // getLoads(type: string): any {
-  //   this.http
-  //     .get(`${environment.apiUrl}loads?type=${type}`)
-  //     .subscribe({
-  //       next: (response) => {
-  //         return response;
-  //       },
-  //       error: (error) => console.error(error),
-  //     });
-  // }
-
   onCellClicked(e: CellClickedEvent): void {
     console.log(e.data.id);
     this.openDialog(e.data.id);
   }
 
-  openDialog($id: Number) {
+  openDialog($id: Number, $tripId: Number = 0, $type: string = null, $subtype: string = null) {
 
     this.dialog.open(AddEditLoadComponent, {
-      data: { id: $id },
+      data: { id: $id, tripId: $tripId, type: $type, subtype: $subtype },
       disableClose: false,
       width: "1200px",
       position: { top: "85px" }
     }).afterClosed().subscribe(result => {
       this.result = result;
-      this.getLoads();
-      this.getBackHauls();
+      if (result) {
+        console.log(result);
+        this.openDialog(0, result.tripId, result.type, result.subtype)
+      }
+      if (this.tripId && this.tripId > 0) {
+        this.searchByTrip()
+      } else {
+        this.getLoads();
+        this.getBackHauls();
+      }
     });
   }
 
@@ -111,7 +109,7 @@ export class LoadsComponent implements OnInit {
       return;
 
     this.http
-      .get(`${environment.apiUrl}loads?type=Load&trip_id=${this.tripId}`)
+      .get(`${environment.apiUrl}loads?type=Load&trip_id=${this.tripId}&position=9999`)
       .subscribe({
         next: (response) => {
           this.loadData = response;
@@ -120,10 +118,9 @@ export class LoadsComponent implements OnInit {
       });
 
     this.http
-      .get(`${environment.apiUrl}loads?type=Back-Haul&trip_id=${this.tripId}`)
+      .get(`${environment.apiUrl}loads?type=Back-Haul&trip_id=${this.tripId}&position=9999`)
       .subscribe({
         next: (response) => {
-          //console.log(response);
           this.backHaulData = response;
         },
         error: (error) => console.error(error),
@@ -131,9 +128,16 @@ export class LoadsComponent implements OnInit {
 
   }
 
-  onDateChange($event) {
-    this.getLoads();
-    this.getBackHauls();
+  onTableReady(params: any) {
+    this.gridApi = params.api;
+  }
+
+  onDateChange($event: any) {
+    this.tripId = null;
+    if ($event) {
+      this.getLoads();
+      this.getBackHauls();
+    }
   }
 
   dateFormatter(params: any): string {

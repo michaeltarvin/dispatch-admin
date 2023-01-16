@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output, OnDestroy } from "@angular/core";
-import { CellClickedEvent, ColDef, GridOptions, GridApi } from "ag-grid-community";
+import { CellClickedEvent, ColDef, GridOptions, GridApi, RowDragEndEvent } from "ag-grid-community";
 import { environment } from '../../../environments/environment';
 
 @Component({
@@ -16,6 +16,8 @@ export class TableComponent implements OnDestroy {
   @Input() rowSelection = "single";
   @Output() cellClicked = new EventEmitter<any>();
   @Output() rowDoubleClicked = new EventEmitter<any>();
+  @Output() rowDragEnd = new EventEmitter<any>();
+  @Output() tableReady: EventEmitter<any> = new EventEmitter<any>();
 
   tableTheme: string;
   gridApi: GridApi;
@@ -27,7 +29,19 @@ export class TableComponent implements OnDestroy {
     flex: '1 1 auto',
   };
 
+  rowStyle = {};
+
+  // set background color when load has linked loads
+  getRowStyle(params: any) {
+    if (params.data.has_linked_loads === true) {
+      // , 'font-weight': 'bold'
+      return { 'background-color': '#e6f5ff' }
+    }
+    return null;
+  };
+
   public defaultColDef: ColDef = {
+    resizable: true,
     sortable: true,
     filter: true,
   };
@@ -56,6 +70,12 @@ export class TableComponent implements OnDestroy {
   onGridReady(params: any) {
     this.gridApi = params.api;
     this.gridApi.setDomLayout("autoHeight");
+    this.gridApi.sizeColumnsToFit(params);
+    this.tableReady.emit(params);
+  }
+
+  onRowDragEnd($event: RowDragEndEvent) {
+    this.rowDragEnd.emit($event);
   }
 
 }

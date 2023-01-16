@@ -1,5 +1,6 @@
 import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
+import { CellClickedEvent, ColDef, GridOptions, GridApi, RowDragEndEvent } from 'ag-grid-community';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
@@ -24,7 +25,7 @@ export class AddEditLoadComponent implements OnInit {
   @ViewChild('picker') picker: any;
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: { id: number },
+    @Inject(MAT_DIALOG_DATA) public data: { id: number, tripId: number, type: string, subtype: string, is_brokerage: boolean },
     public dialogRef: MatDialogRef<AddEditLoadComponent>,
     private http: HttpClient) {
   }
@@ -40,6 +41,9 @@ export class AddEditLoadComponent implements OnInit {
   public delDateControl = new FormControl(null, [Validators.required]);
   public loadTypes: string[] = ['Load', 'Back-Haul'];
   public loadSubTypes: string[] = ['Pre-Load', 'Pick-Up', 'Stop'];
+  loadData: any = [];
+  gridApi: GridApi;
+  gridOptions: GridOptions;
 
   load: LoadInterface;
 
@@ -59,6 +63,16 @@ export class AddEditLoadComponent implements OnInit {
   driversControl = new FormControl(new CustomerList());
   driversOptions: Observable<string[]>;
 
+  columnDefs: ColDef[] = [
+    { field: 'id', hide: true },
+    { headerName: "Order", field: 'linked_load_position', width: 115, rowDrag: true },
+    { headerName: "Sub-Type", field: 'subtype', width: 115 },
+    { headerName: "Pick-Up Date", field: 'pudate', width: 175, valueFormatter: this.dateFormatter },
+    { headerName: "Delivery Date", field: 'deldate', width: 175, valueFormatter: this.dateFormatter },
+    { field: 'driver' },
+    { field: 'shipper' },
+    { field: 'receiver' },
+  ];
 
   ngOnInit(): void {
 
@@ -67,9 +81,31 @@ export class AddEditLoadComponent implements OnInit {
     if (this.data.id > 0) {
       this.getLoad();
     } else {
-      this.load = { is_dispatched: false } as LoadInterface;
-    }
+      this.load = {
+        is_dispatched: false,
+        trip_id: this.data.tripId,
+        type: this.data.type,
+        subtype: this.data.subtype,
+        is_brokerage: this.data.is_brokerage,
+        has_linked_loads: false
+      } as LoadInterface;
+      console.log(this.load);
 
+      if (this.load.trip_id > 0) {
+        this.getNextPosition();
+      }
+    }
+  }
+
+  getNextPosition() {
+    this.http
+      .get<LoadInterface[]>(`${environment.apiUrl}loads?trip_id=${this.load.trip_id}`)
+      .subscribe({
+        next: (response) => {
+          this.load.linked_load_position = response.length;
+        },
+        error: (error) => console.error(error),
+      });
   }
 
   getLoad() {
@@ -85,6 +121,18 @@ export class AddEditLoadComponent implements OnInit {
           this.driversControl.setValue(this.getCustomerFromArray(this.load.driver_id, this.drivers));
           this.dateControl.setValue(moment(this.load.pudate).toDate());
           this.delDateControl.setValue(moment(this.load.deldate).toDate());
+
+          if (this.load.has_linked_loads === true) {
+            this.http
+              .get(`${environment.apiUrl}loads?trip_id=${this.load.trip_id}&position=9999`)
+              .subscribe({
+                next: (response) => {
+                  this.loadData = response;
+                },
+                error: (error) => console.error(error),
+              });
+          }
+
         },
         error: (error) => console.error(error),
       });
@@ -101,10 +149,10 @@ export class AddEditLoadComponent implements OnInit {
   }
 
   close() {
-    this.dialogRef.close('close');
+    this.dialogRef.close(null);
   }
 
-  save() {
+  save(closeDialog: boolean = true) {
 
     //TODO find a better way to handle forms
     if (this.load.driver_id !== this.driversControl.value.id) {
@@ -146,15 +194,15 @@ export class AddEditLoadComponent implements OnInit {
         });
     }
 
-    this.dialogRef.close('saved');
+    if (closeDialog) {
+      this.dialogRef.close(null);
+    }
   }
 
   dispatch() {
-
     if (this.load.is_dispatched) {
       return;
     }
-
     this.load.is_dispatched = true;
     this.save();
   }
@@ -163,9 +211,7 @@ export class AddEditLoadComponent implements OnInit {
     var total = this.getBaseAmount() +
       Number(this.load.exten || 0) +
       Number(this.load.fuelpaid || 0);
-
     this.load.total = total || 0;
-    //console.log('getTotal()', total || 0);
   }
 
   getAllMoney() {
@@ -196,6 +242,10 @@ export class AddEditLoadComponent implements OnInit {
       .subscribe({
         next: (response) => {
           this.shippers = response as CustomerList[];
+          this.shipperOptions = this.shipperControl.valueChanges.pipe(
+            startWith(''),
+            map(value => this._filterShippers(value || '')),
+          );
         },
         error: (error) => console.error(error),
       });
@@ -204,6 +254,10 @@ export class AddEditLoadComponent implements OnInit {
       .subscribe({
         next: (response) => {
           this.receivers = response as CustomerList[];
+          this.receiversOptions = this.receiversControl.valueChanges.pipe(
+            startWith(''),
+            map(value => this._filterReceivers(value || '')),
+          );
         },
         error: (error) => console.error(error),
       });
@@ -212,6 +266,10 @@ export class AddEditLoadComponent implements OnInit {
       .subscribe({
         next: (response) => {
           this.billers = response as CustomerList[];
+          this.billersOptions = this.billersControl.valueChanges.pipe(
+            startWith(''),
+            map(value => this._filterBillers(value || '')),
+          );
         },
         error: (error) => console.error(error),
       });
@@ -220,29 +278,13 @@ export class AddEditLoadComponent implements OnInit {
       .subscribe({
         next: (response) => {
           this.drivers = response as CustomerList[];
+          this.driversOptions = this.driversControl.valueChanges.pipe(
+            startWith(''),
+            map(value => this._filterDrivers(value || '')),
+          );
         },
         error: (error) => console.error(error),
       });
-
-    this.shipperOptions = this.shipperControl.valueChanges.pipe(
-      startWith(''),
-      map(value => this._filterShippers(value || '')),
-    );
-
-    this.billersOptions = this.billersControl.valueChanges.pipe(
-      startWith(''),
-      map(value => this._filterBillers(value || '')),
-    );
-
-    this.receiversOptions = this.receiversControl.valueChanges.pipe(
-      startWith(''),
-      map(value => this._filterReceivers(value || '')),
-    );
-
-    this.driversOptions = this.driversControl.valueChanges.pipe(
-      startWith(''),
-      map(value => this._filterDrivers(value || '')),
-    );
   }
 
   private _filterShippers(value: any): string[] {
@@ -283,6 +325,26 @@ export class AddEditLoadComponent implements OnInit {
     }
 
     return this.drivers.filter(option => option.name.toLowerCase().includes(filterValue));
+  }
+
+  canAddLinkedLoad() {
+    return !(this.load && this.load.id > 0);
+  }
+
+  addLinkedLoad(subtype: string) {
+    this.save(false);
+    this.dialogRef.close({ tripId: this.load.trip_id, type: this.load.type, subtype: subtype });
+  }
+
+  dateFormatter(params: any): string {
+    return moment(params.value).format('ll');
+  }
+
+  onRowDragEnd(e: RowDragEndEvent): void {
+    let d = e.api.getRenderedNodes();
+    for (let i = 0; i < d.length; i++) {
+      console.log(d[i].data);
+    }
   }
 
 }

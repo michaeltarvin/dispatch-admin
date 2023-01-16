@@ -55,6 +55,13 @@ export class AppComponent {
         pathMatchExact: true
       },
       {
+        name: 'Brokerage',
+        routeOrFunction: '/loads/brokerage',
+        icon: 'apps',
+        position: 6,
+        pathMatchExact: true
+      },
+      {
         name: 'CONFIGURATION',
         position: 30,
         type: 'subheading',

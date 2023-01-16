@@ -10,6 +10,7 @@ import { TableModule } from "../../core/table/table.module";
 import { LoadsComponent } from './loads.component';
 import { AddEditLoadComponent } from "./add-edit-load/add-edit-load.component";
 import { LoadsRoutingModule } from './loads-routing.module';
+import { BrokerageComponent } from './brokerage/brokerage.component';
 
 @NgModule({
   imports: [
@@ -26,7 +27,8 @@ import { LoadsRoutingModule } from './loads-routing.module';
   ],
   declarations: [
     LoadsComponent,
-    AddEditLoadComponent
+    AddEditLoadComponent,
+    BrokerageComponent
   ],
 })
 export class LoadsModule { }

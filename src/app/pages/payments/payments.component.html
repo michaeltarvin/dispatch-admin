@@ -14,7 +14,26 @@
 
       <fury-card-content fxLayout="column">
 
-
+        <mat-form-field appearance="outline"
+          class="example-full-width"
+          color="primary"
+          fxFlex>
+          <mat-label>Biller</mat-label>
+          <input type="text"
+            placeholder="Biller"
+            aria-label="Number"
+            matInput
+            [formControl]="billersControl"
+            [matAutocomplete]="billers">
+          <mat-autocomplete autoActiveFirstOption
+            [displayWith]="displayFn"
+            #billers="matAutocomplete">
+            <mat-option *ngFor="let option of billersOptions | async"
+              [value]="option">
+              {{option.name}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
 
       </fury-card-content>
 
