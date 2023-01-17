@@ -39,8 +39,8 @@ export class LoadsComponent implements OnInit {
     { headerName: "Type", field: 'type', width: 115, suppressSizeToFit: true },
     { headerName: "Sub-Type", field: 'subtype', width: 115, suppressSizeToFit: true },
     { headerName: "Dispatched", field: 'is_dispatched', width: 135, suppressSizeToFit: true },
-    { headerName: "Pick-Up Date", field: 'pudate', width: 175, valueFormatter: this.dateFormatter, suppressSizeToFit: true },
-    { headerName: "Delivery Date", field: 'deldate', width: 175, valueFormatter: this.dateFormatter, suppressSizeToFit: true },
+    { headerName: "Pick-Up Date", field: 'pudate', width: 190, valueFormatter: this.dateFormatter, suppressSizeToFit: true },
+    { headerName: "Delivery Date", field: 'deldate', width: 190, valueFormatter: this.dateFormatter, suppressSizeToFit: true },
     { headerName: "Linked Loads", field: 'has_linked_loads', width: 175, hide: true },
     { field: 'driver' },
     { field: 'shipper' },
@@ -140,7 +140,10 @@ export class LoadsComponent implements OnInit {
   }
 
   dateFormatter(params: any): string {
-    return moment(params.value).format('ll');
+    //, h:mm
+    // ll
+    //return params.value ? moment(params.value).format('MMM Do, h:mm a') : '';
+    return params.value ? moment(params.value).format('lll') : '';
   }
 
 }

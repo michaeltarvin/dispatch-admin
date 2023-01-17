@@ -11,6 +11,7 @@ import { LoadsComponent } from './loads.component';
 import { AddEditLoadComponent } from "./add-edit-load/add-edit-load.component";
 import { LoadsRoutingModule } from './loads-routing.module';
 import { BrokerageComponent } from './brokerage/brokerage.component';
+import { NgxMatMomentModule } from '@angular-material-components/moment-adapter';
 
 @NgModule({
   imports: [
@@ -24,6 +25,7 @@ import { BrokerageComponent } from './brokerage/brokerage.component';
     AgGridModule,
     TableModule,
     LoadsRoutingModule,
+    NgxMatMomentModule,
   ],
   declarations: [
     LoadsComponent,

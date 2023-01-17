@@ -33,10 +33,10 @@ export class BrokerageComponent implements OnInit {
     { field: 'id', hide: true },
     { headerName: "Trip", field: 'trip_id', width: 100 },
     { headerName: "Type", field: 'type', width: 115 },
-    { headerName: "Sub-Type", field: 'subtype', width: 115 },
-    { headerName: "Dispatched", field: 'is_dispatched', width: 135 },
-    { headerName: "Pick-Up Date", field: 'pudate', width: 175, valueFormatter: this.dateFormatter },
-    { headerName: "Delivery Date", field: 'deldate', width: 175, valueFormatter: this.dateFormatter },
+    { headerName: "Sub-Type", field: 'subtype', width: 133 },
+    { headerName: "Dispatched", field: 'is_dispatched', width: 140 },
+    { headerName: "Pick-Up Date", field: 'pudate', width: 205, valueFormatter: this.dateFormatter },
+    { headerName: "Delivery Date", field: 'deldate', width: 205, valueFormatter: this.dateFormatter },
     { field: 'driver' },
     { field: 'shipper' },
     { field: 'receiver' },
@@ -96,7 +96,7 @@ export class BrokerageComponent implements OnInit {
   }
 
   dateFormatter(params: any): string {
-    return moment(params.value).format('ll');
+    return moment(params.value).format('lll');
   }
 
 }

@@ -19,6 +19,11 @@ const routes: Routes = [
     children: [
       // Dispatch
       {
+        path: '',
+        loadChildren: () => import('./pages/loads/loads.module').then(m => m.LoadsModule),
+        canActivate: [LoggedInGuard],
+      },
+      {
         path: 'loads',
         loadChildren: () => import('./pages/loads/loads.module').then(m => m.LoadsModule),
         canActivate: [LoggedInGuard],

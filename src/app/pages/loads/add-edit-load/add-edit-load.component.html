@@ -54,7 +54,8 @@
             class="example-full-width"
             color="primary">
             <mat-label>Type</mat-label>
-            <mat-select [(ngModel)]="load.type">
+            <mat-select [(ngModel)]="load.type"
+              required>
               <mat-option *ngFor="let name of loadTypes"
                 [value]="name">{{ name }}</mat-option>
             </mat-select>
@@ -92,6 +93,7 @@
               [stepMinute]="stepMinute"
               [touchUi]="touchUi"
               [color]="primary"
+              [defaultTime]="defaultTime"
               [enableMeridian]="enableMeridian">
             </ngx-mat-datetime-picker>
           </mat-form-field>
@@ -113,6 +115,7 @@
               [stepMinute]="stepMinute"
               [touchUi]="touchUi"
               [color]="primary"
+              [defaultTime]="defaultTime"
               [enableMeridian]="enableMeridian">
             </ngx-mat-datetime-picker>
           </mat-form-field>
@@ -586,23 +589,30 @@
 <mat-dialog-actions align="end">
   <button mat-raised-button
     color="primary"
-    (click)="save()">Save</button>
-  <button mat-raised-button
-    color="accent"
-    (click)="dispatch()">Dispatch</button>
-  <button mat-raised-button
     style="margin-right: 10px;"
-    color="warn"
-    [disabled]="canAddLinkedLoad()"
-    [matMenuTriggerFor]="menu">Add Linked Loads</button>
-  <mat-menu #menu="matMenu">
-    <button mat-menu-item
-      (click)="addLinkedLoad('Pre-Load')">Pre-Load</button>
-    <button mat-menu-item
-      (click)="addLinkedLoad('Stop')">Stop</button>
-    <button mat-menu-item
-      (click)="addLinkedLoad('Pick-Up')">Pick-Up</button>
-  </mat-menu>
+    (click)="save()">Save</button>
+
+  <div *ngIf="load && (load.id > 0)">
+    <button mat-raised-button
+      color="accent"
+      (click)="dispatch()">Dispatch</button>
+
+    <button mat-raised-button
+      style="margin-right: 10px;"
+      color="warn"
+      [disabled]="canAddLinkedLoad()"
+      [matMenuTriggerFor]="menu">Add Linked Loads</button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item
+        (click)="addLinkedLoad('Pre-Load')">Pre-Load</button>
+      <button mat-menu-item
+        (click)="addLinkedLoad('Stop')">Stop</button>
+      <button mat-menu-item
+        (click)="addLinkedLoad('Pick-Up')">Pick-Up</button>
+    </mat-menu>
+  </div>
+
+
   <button mat-raised-button
     (click)="close()">Cancel</button>
 </mat-dialog-actions>

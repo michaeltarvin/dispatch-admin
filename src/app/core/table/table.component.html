@@ -10,12 +10,14 @@
       [gridOptions]="gridOptions"
       [defaultColDef]="defaultColDef"
       [rowStyle]="rowStyle"
+      [rowSelection]="rowSelection"
       [getRowStyle]="getRowStyle"
       [domLayout]="domLayout"
       [animateRows]="true"
       [rowDragManaged]="true"
       (gridReady)="onGridReady($event)"
       (rowDragEnd)="onRowDragEnd($event)"
+      (selectionChanged)="onSelectionChanged($event)"
       (cellClicked)="onCellClicked($event)">
     </ag-grid-angular>
   </div>

@@ -6,9 +6,22 @@ import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { NgxSpinnerService } from "ngx-spinner";
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { NgxMatDateFormats, NGX_MAT_DATE_FORMATS } from '@angular-material-components/datetime-picker';
 import { LoadInterface } from "./load.interface";
 import * as moment from 'moment';
 import { environment } from '../../../../environments/environment';
+
+const CUSTOM_DATE_FORMATS: NgxMatDateFormats = {
+  parse: {
+    dateInput: 'MM/DD/YYYY HH:mm',
+  },
+  display: {
+    dateInput: 'lll',
+    monthYearLabel: 'MMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY',
+  },
+};
 
 export class CustomerList {
   id: number;
@@ -24,7 +37,8 @@ export class LinkedLoadPosition {
 @Component({
   selector: 'fury-add-edit-load',
   templateUrl: './add-edit-load.component.html',
-  styleUrls: ['./add-edit-load.component.scss']
+  styleUrls: ['./add-edit-load.component.scss'],
+  providers: [{ provide: NGX_MAT_DATE_FORMATS, useValue: CUSTOM_DATE_FORMATS }],
 })
 export class AddEditLoadComponent implements OnInit {
 
@@ -46,6 +60,7 @@ export class AddEditLoadComponent implements OnInit {
   public stepMinute = 5;
   public dateControl = new FormControl(null, [Validators.required]);
   public delDateControl = new FormControl(null, [Validators.required]);
+  public defaultTime = [new Date().getHours(), 0, 0]
   public loadTypes: string[] = ['Load', 'Back-Haul'];
   public loadSubTypes: string[] = ['Pre-Load', 'Pick-Up', 'Stop'];
   loadData: any = [];
@@ -356,6 +371,11 @@ export class AddEditLoadComponent implements OnInit {
       this.linkedLoadData.push({ loadId: d[i].data.id, position: i })
     }
     // console.log(this.linkedLoadData);
+  }
+
+  isLoadValidForSave(): boolean {
+    console.log('isLoadValidForSave()', !(this.load.type != ''));
+    return !(this.load.type != '');
   }
 
   savePositions() {

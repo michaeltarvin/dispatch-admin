@@ -1,5 +1,6 @@
-import { DOCUMENT } from '@angular/common';
+import { DOCUMENT, } from '@angular/common';
 import { Component, Inject, Renderer2 } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { MatIconRegistry } from '@angular/material/icon';
 import { SidenavService } from './layout/sidenav/sidenav.service';
 import { ThemeService } from '../@fury/services/theme.service';
@@ -7,6 +8,7 @@ import { ActivatedRoute } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { Platform } from '@angular/cdk/platform';
 import { SplashScreenService } from '../@fury/services/splash-screen.service';
+import { environment } from '../environments/environment';
 
 @Component({
   selector: 'fury-root',
@@ -15,6 +17,7 @@ import { SplashScreenService } from '../@fury/services/splash-screen.service';
 export class AppComponent {
 
   constructor(private sidenavService: SidenavService,
+    private http: HttpClient,
     private iconRegistry: MatIconRegistry,
     private renderer: Renderer2,
     private themeService: ThemeService,
@@ -133,5 +136,18 @@ export class AppComponent {
         position: 13,
       },
     ]);
+
+    //this a lame way to make sure the user is authenticated on app load
+    this.http
+      .get(`${environment.apiUrl}customerTypes`)
+      .subscribe({
+        next: (response) => {
+          if (!response) {
+            console.log(response);
+          }
+        }
+      });
+
   }
+
 }

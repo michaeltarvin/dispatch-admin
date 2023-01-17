@@ -25,7 +25,7 @@ export class UsersComponent implements OnInit {
     { field: 'name', width: 200, rowDrag: true },
     { field: 'email', width: 350 },
     { headerName: "Created", field: 'created_at', width: 250, valueFormatter: this.dateFormatter },
-    { headerName: "Last Updated", field: 'updated_at', width: 250, valueFormatter: this.dateFormatter },
+    { headerName: "Last Login", field: 'last_login', width: 250, valueFormatter: this.dateFormatter },
   ];
 
   ngOnInit(): void {
@@ -62,7 +62,7 @@ export class UsersComponent implements OnInit {
   }
 
   dateFormatter(params: any): string {
-    return moment(params.value).format('MMMM Do YYYY, h:mm a');
+    return params.value ? moment(params.value).format('MMMM Do YYYY, h:mm a') : '';
   }
 
 }

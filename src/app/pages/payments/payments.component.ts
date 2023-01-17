@@ -1,9 +1,9 @@
-import { Component, OnInit, Inject, ViewChild } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ColDef, SelectionChangedEvent } from 'ag-grid-community';
 import * as moment from 'moment';
 import { environment } from '../../../environments/environment';
 
@@ -27,6 +27,28 @@ export class PaymentsComponent implements OnInit {
     this.setupCustomers();
   }
 
+  rowData: any = [];
+  totalAmount: number = 0;
+
+  columnDefs: ColDef[] = [
+    { field: 'id', headerName: 'Load ID', hide: true },
+    {
+      field: 'trip_id', headerName: 'Trip', width: 155,
+      headerCheckboxSelection: true,
+      checkboxSelection: true,
+      showDisabledCheckboxes: true,
+
+    },
+    { field: 'days_past_due', headerName: 'Days Past Due', width: 170 },
+    { field: 'type', headerName: 'Type', width: 115 },
+    { field: 'deldate', headerName: "Delivery Date", width: 175, valueFormatter: this.dateFormatter },
+    { field: 'total', headerName: 'Total $', width: 115, valueFormatter: this.moneyFormatter },
+    { field: 'allmoney', headerName: 'All $', width: 115, valueFormatter: this.moneyFormatter },
+    { field: 'shipper', headerName: 'Shipper', width: 175 },
+    { field: 'receiver', headerName: 'Receiver', width: 175 },
+  ];
+
+  billerId: number;
   billers: any = [];
   billersControl = new FormControl(new CustomerList());
   billersOptions: Observable<string[]>;
@@ -50,6 +72,30 @@ export class PaymentsComponent implements OnInit {
       });
   }
 
+  getUnpaidLoadsForBiller($event: any) {
+    this.totalAmount = 0;
+    this.billerId = $event.option.value.id;
+    this.http
+      .get(`${environment.apiUrl}ageing?billto_id=${this.billerId}`)
+      .subscribe({
+        next: (response) => {
+          this.rowData = response;
+        },
+        error: (error) => console.error(error),
+      });
+  }
+
+  onSelectionChanged($event: SelectionChangedEvent) {
+    const selection = $event.api.getSelectedRows();
+    this.totalAmount = 0;
+
+    if (selection) {
+      selection.forEach((value) => {
+        this.totalAmount += Number(value.allmoney);
+      });
+    }
+  }
+
   private _filterBillers(value: any): string[] {
 
     let filterValue = '';
@@ -64,5 +110,12 @@ export class PaymentsComponent implements OnInit {
     return customer && customer.name ? customer.name : '';
   }
 
+  moneyFormatter(params: any): string {
+    return `$${params.value}`
+  }
+
+  dateFormatter(params: any): string {
+    return moment(params.value).format('ll');
+  }
 
 }

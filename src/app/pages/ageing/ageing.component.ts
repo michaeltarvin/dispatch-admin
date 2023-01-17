@@ -18,16 +18,14 @@ export class AgeingComponent implements OnInit {
   }
 
   rowData: any = [];
-  tableTheme: string;
-  result: string;
 
   columnDefs: ColDef[] = [
     { field: 'id', headerName: 'Load ID', hide: true },
     { field: 'trip_id', headerName: 'Trip', width: 100 },
-    { field: 'days_past_due', headerName: 'Days Past Due', width: 150 },
+    { field: 'days_past_due', headerName: 'Days Past Due', width: 170 },
     { field: 'type', headerName: 'Type', width: 115 },
     // { field: 'pudate', headerName: "Pick-Up Date", width: 150, valueFormatter: this.dateFormatter },
-    { field: 'deldate', headerName: "Delivery Date", width: 150, valueFormatter: this.dateFormatter },
+    { field: 'deldate', headerName: "Delivery Date", width: 175, valueFormatter: this.dateFormatter },
     { field: 'total', headerName: 'Total $', width: 115, valueFormatter: this.moneyFormatter },
     { field: 'allmoney', headerName: 'All $', width: 115, valueFormatter: this.moneyFormatter },
     { field: 'billed', headerName: 'Billed', width: 175 },

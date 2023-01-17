@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output, OnDestroy } from "@angular/core";
-import { CellClickedEvent, ColDef, GridOptions, GridApi, RowDragEndEvent } from "ag-grid-community";
+import { CellClickedEvent, ColDef, GridOptions, GridApi, RowDragEndEvent, SelectionChangedEvent } from "ag-grid-community";
 import { environment } from '../../../environments/environment';
 
 @Component({
@@ -15,6 +15,7 @@ export class TableComponent implements OnDestroy {
   @Input() rowData: any[];
   @Input() rowSelection = "single";
   @Output() cellClicked = new EventEmitter<any>();
+  @Output() selectionChanged = new EventEmitter<any>();
   @Output() rowDoubleClicked = new EventEmitter<any>();
   @Output() rowDragEnd = new EventEmitter<any>();
   @Output() tableReady: EventEmitter<any> = new EventEmitter<any>();
@@ -33,9 +34,10 @@ export class TableComponent implements OnDestroy {
 
   // set background color when load has linked loads
   getRowStyle(params: any) {
+    //'background-color': "#c4c9cc",
+    //'font-weight': 'bold'
     if (params.data.has_linked_loads === true) {
-      // , 'font-weight': 'bold'
-      return { 'background-color': '#e6f5ff' }
+      return { 'background-color': "#1976d2", 'color': "white" }
     }
     return null;
   };
@@ -54,6 +56,10 @@ export class TableComponent implements OnDestroy {
     this.cellClicked.emit($event);
   }
 
+  onSelectionChanged($event: SelectionChangedEvent) {
+    this.selectionChanged.emit($event);
+  }
+
   ngOnDestroy() {
     this.gridOptions = null;
     this.columnDefs = null;
@@ -65,6 +71,11 @@ export class TableComponent implements OnDestroy {
     if (theme)
       return theme.toString();
     return environment.tableTheme;
+  }
+
+  isDarkTheme(): boolean {
+    const theme = window.localStorage.getItem("theme");
+    return theme.indexOf('dark') >= 0;
   }
 
   onGridReady(params: any) {
