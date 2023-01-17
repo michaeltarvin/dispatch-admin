@@ -5,6 +5,14 @@
   <div fxLayout.gt-sm="row"
     fxLayoutGap.gt-sm="48px">
     <div>{{data.id == 0 ? 'Add': 'Edit'}} Load</div>
+
+  </div>
+</div>
+
+<mat-dialog-content>
+
+  <div fxLayout.gt-sm="row"
+    fxLayoutGap.gt-sm="48px">
     <div *ngIf="load">
       <mat-checkbox [checked]="load.is_dispatched"
         style="padding-left: 80px;"
@@ -17,11 +25,10 @@
         color="primary">Brokerage</mat-checkbox>
     </div>
   </div>
-</div>
-
-<mat-dialog-content>
 
   <div *ngIf="load">
+
+    <ngx-spinner type="ball-spin"></ngx-spinner>
 
     <mat-tab-group>
 
@@ -553,14 +560,16 @@
 
           <ms-table [columnDefs]="columnDefs"
             [rowData]="loadData"
+            (rowDragEnd)="onRowDragEnd($event)"
             [gridOptions]="gridOptions"></ms-table>
 
         </div>
 
-        <div class="tab-content"
+        <div class="action-space"
           fxLayout.gt-sm="row"
           fxLayoutGap.gt-sm="48px">
-          <button type="button"
+          <button mat-raised-button
+            (click)="savePositions()"
             name="button">Save Position</button>
 
         </div>

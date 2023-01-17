@@ -77,7 +77,6 @@ export class LoadsComponent implements OnInit {
   }
 
   onCellClicked(e: CellClickedEvent): void {
-    console.log(e.data.id);
     this.openDialog(e.data.id);
   }
 

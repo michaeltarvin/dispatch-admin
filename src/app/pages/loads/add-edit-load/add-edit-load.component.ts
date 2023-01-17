@@ -1,9 +1,10 @@
 import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-import { CellClickedEvent, ColDef, GridOptions, GridApi, RowDragEndEvent } from 'ag-grid-community';
+import { HttpClient } from '@angular/common/http';
+import { ColDef, GridOptions, GridApi, RowDragEndEvent } from 'ag-grid-community';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
-import { HttpClient } from '@angular/common/http';
+import { NgxSpinnerService } from "ngx-spinner";
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { LoadInterface } from "./load.interface";
 import * as moment from 'moment';
@@ -13,6 +14,11 @@ export class CustomerList {
   id: number;
   name: string;
   alias: string;
+}
+
+export class LinkedLoadPosition {
+  loadId: number;
+  position: number;
 }
 
 @Component({
@@ -27,6 +33,7 @@ export class AddEditLoadComponent implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: { id: number, tripId: number, type: string, subtype: string, is_brokerage: boolean },
     public dialogRef: MatDialogRef<AddEditLoadComponent>,
+    private spinner: NgxSpinnerService,
     private http: HttpClient) {
   }
 
@@ -42,6 +49,7 @@ export class AddEditLoadComponent implements OnInit {
   public loadTypes: string[] = ['Load', 'Back-Haul'];
   public loadSubTypes: string[] = ['Pre-Load', 'Pick-Up', 'Stop'];
   loadData: any = [];
+  linkedLoadData: LinkedLoadPosition[] = [];
   gridApi: GridApi;
   gridOptions: GridOptions;
 
@@ -64,14 +72,14 @@ export class AddEditLoadComponent implements OnInit {
   driversOptions: Observable<string[]>;
 
   columnDefs: ColDef[] = [
-    { field: 'id', hide: true },
-    { headerName: "Order", field: 'linked_load_position', width: 115, rowDrag: true },
-    { headerName: "Sub-Type", field: 'subtype', width: 115 },
-    { headerName: "Pick-Up Date", field: 'pudate', width: 175, valueFormatter: this.dateFormatter },
-    { headerName: "Delivery Date", field: 'deldate', width: 175, valueFormatter: this.dateFormatter },
-    { field: 'driver' },
-    { field: 'shipper' },
-    { field: 'receiver' },
+    { headerName: "Order", field: 'linked_load_position', width: 115, rowDrag: true, suppressSizeToFit: true },
+    { headerName: "Load ID", field: 'id', width: 115 },
+    { headerName: "Sub-Type", field: 'subtype', width: 115, suppressSizeToFit: true },
+    { headerName: "Pick-Up Date", field: 'pudate', width: 175, valueFormatter: this.dateFormatter, suppressSizeToFit: true },
+    { headerName: "Delivery Date", field: 'deldate', width: 175, valueFormatter: this.dateFormatter, suppressSizeToFit: true },
+    { field: 'driver', width: 175, suppressSizeToFit: true },
+    { field: 'shipper', width: 175, suppressSizeToFit: true },
+    { field: 'receiver', width: 175, suppressSizeToFit: true },
   ];
 
   ngOnInit(): void {
@@ -341,10 +349,41 @@ export class AddEditLoadComponent implements OnInit {
   }
 
   onRowDragEnd(e: RowDragEndEvent): void {
+    this.linkedLoadData = [];
     let d = e.api.getRenderedNodes();
     for (let i = 0; i < d.length; i++) {
-      console.log(d[i].data);
+      // console.log(d[i].data);
+      this.linkedLoadData.push({ loadId: d[i].data.id, position: i })
     }
+    // console.log(this.linkedLoadData);
+  }
+
+  savePositions() {
+    if (!this.linkedLoadData || this.linkedLoadData.length == 0) return;
+    /** spinner starts on init */
+    this.spinner.show(undefined, {
+      type: 'ball-spin',
+      size: 'large',
+      bdColor: 'rgba(100,149,237, .8)',
+      color: 'white',
+      fullScreen: false,
+    });
+
+    for (let i = 0; i < this.linkedLoadData.length; i++) {
+      this.http
+        .patch(`${environment.apiUrl}loads/${this.linkedLoadData[i].loadId}`, { linked_load_position: this.linkedLoadData[i].position })
+        .subscribe({
+          next: (response) => {
+            console.log(response);
+          },
+          error: (error) => console.error(error),
+        });
+    }
+
+    setTimeout(() => {
+      /** spinner ends after 5 seconds */
+      this.spinner.hide();
+    }, 5000);
   }
 
 }

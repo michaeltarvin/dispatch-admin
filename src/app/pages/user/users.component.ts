@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { CellClickedEvent, ColDef, RowDragEndEvent } from 'ag-grid-community';
+import { CellClickedEvent, ColDef } from 'ag-grid-community';
 import { MatDialog } from '@angular/material/dialog';
 import { AddEditUserComponent } from './add-edit-user/add-edit-user.component';
 import { environment } from '../../../environments/environment';
@@ -46,17 +46,6 @@ export class UsersComponent implements OnInit {
   onCellClicked(e: CellClickedEvent): void {
     console.log(e.data.id);
     this.openDialog(e.data.id);
-  }
-
-  onRowDragEnd(e: RowDragEndEvent): void {
-    // console.log(e);
-    // console.log();
-    let d = e.api.getRenderedNodes();
-
-    for (let i = 0; i < d.length; i++) {
-      console.log(d[i].data);
-      // console.log(typeof (d[i]));
-    }
   }
 
   openDialog($id: Number) {

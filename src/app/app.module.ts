@@ -8,7 +8,6 @@ import { LayoutModule } from './layout/layout.module';
 import { PendingInterceptorModule } from '../@fury/shared/loading-indicator/pending-interceptor.module';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldDefaultOptions } from '@angular/material/form-field';
 import { MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarConfig } from '@angular/material/snack-bar';
-
 /// App service
 import { AppService } from "./app.service";
 import { LoggedInGuard } from "./logged-in.guard";
@@ -20,7 +19,6 @@ import { DispatchHttpInterceptor } from "./dispatch-http.interceptor";
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
-
     // Fury Core Modules
     AppRoutingModule,
 
@@ -50,7 +48,7 @@ import { DispatchHttpInterceptor } from "./dispatch-http.interceptor";
       } as MatSnackBarConfig
     },
     { provide: HTTP_INTERCEPTORS, useClass: DispatchHttpInterceptor, multi: true }
-  ]
+  ],
 })
 export class AppModule {
 }
