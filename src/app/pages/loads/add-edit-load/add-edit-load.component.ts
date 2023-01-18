@@ -62,7 +62,8 @@ export class AddEditLoadComponent implements OnInit {
   public delDateControl = new FormControl(null, [Validators.required]);
   public defaultTime = [new Date().getHours(), 0, 0]
   public loadTypes: string[] = ['Load', 'Back-Haul'];
-  public loadSubTypes: string[] = ['Pre-Load', 'Pick-Up', 'Stop'];
+  // public loadSubTypes: string[] = ['Pre-Load', 'Pick-Up', 'Stop'];
+  loadSubTypesDB: any = [];
   loadData: any = [];
   linkedLoadData: LinkedLoadPosition[] = [];
   gridApi: GridApi;
@@ -100,6 +101,7 @@ export class AddEditLoadComponent implements OnInit {
   ngOnInit(): void {
 
     this.setupCustomers();
+    this.getLoadSubTypes();
 
     if (this.data.id > 0) {
       this.getLoad();
@@ -112,7 +114,6 @@ export class AddEditLoadComponent implements OnInit {
         is_brokerage: this.data.is_brokerage,
         has_linked_loads: false
       } as LoadInterface;
-      console.log(this.load);
 
       if (this.load.trip_id > 0) {
         this.getNextPosition();
@@ -137,7 +138,6 @@ export class AddEditLoadComponent implements OnInit {
       .subscribe({
         next: (response) => {
           this.load = response as LoadInterface;
-          console.log(this.load);
           this.shipperControl.setValue(this.getCustomerFromArray(this.load.shipper_id, this.shippers));
           this.billersControl.setValue(this.getCustomerFromArray(this.load.billto_id, this.billers));
           this.receiversControl.setValue(this.getCustomerFromArray(this.load.receiver_id, this.receivers));
@@ -165,6 +165,17 @@ export class AddEditLoadComponent implements OnInit {
     return list.find((obj) => {
       return obj.id === id;
     });
+  }
+
+  getLoadSubTypes() {
+    this.http
+      .get(`${environment.apiUrl}loadSubTypes`)
+      .subscribe({
+        next: (response) => {
+          this.loadSubTypesDB = response;
+        },
+        error: (error) => console.error(error),
+      });
   }
 
   getDropdownData(type: string) {
@@ -356,7 +367,9 @@ export class AddEditLoadComponent implements OnInit {
 
   addLinkedLoad(subtype: string) {
     this.save(false);
-    this.dialogRef.close({ tripId: this.load.trip_id, type: this.load.type, subtype: subtype });
+    const config = { tripId: this.load.trip_id, type: this.load.type, subtype: subtype };
+    console.log(config)
+    this.dialogRef.close(config);
   }
 
   dateFormatter(params: any): string {
@@ -367,14 +380,11 @@ export class AddEditLoadComponent implements OnInit {
     this.linkedLoadData = [];
     let d = e.api.getRenderedNodes();
     for (let i = 0; i < d.length; i++) {
-      // console.log(d[i].data);
       this.linkedLoadData.push({ loadId: d[i].data.id, position: i })
     }
-    // console.log(this.linkedLoadData);
   }
 
   isLoadValidForSave(): boolean {
-    console.log('isLoadValidForSave()', !(this.load.type != ''));
     return !(this.load.type != '');
   }
 

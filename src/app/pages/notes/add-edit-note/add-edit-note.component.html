@@ -1,0 +1,103 @@
+<div mat-dialog-title
+  fxLayout="row"
+  fxLayoutAlign="space-between center">
+  <div>{{data.id == 0 ? 'Add': 'Edit'}} Note</div>
+  <div *ngIf="note">
+    <mat-checkbox [checked]="note.is_closed"
+      style="padding-left: 80px;"
+      [(ngModel)]="note.is_closed"
+      color="primary">Closed?</mat-checkbox>
+  </div>
+</div>
+
+<mat-dialog-content>
+
+  <div *ngIf="note">
+
+    <div class="tab-content"
+      fxLayout.gt-sm="row"
+      fxLayoutGap.gt-sm="48px">
+
+      <mat-form-field appearance="outline"
+        color="primary"
+        fxFlex>
+        <mat-label>Title</mat-label>
+        <input matInput
+          placeholder="Title"
+          [(ngModel)]="note.title"
+          type="text">
+      </mat-form-field>
+
+    </div>
+
+    <div fxLayout.gt-sm="row"
+      fxLayoutGap.gt-sm="48px">
+
+      <mat-form-field appearance="outline"
+        class="example-full-width"
+        color="primary"
+        fxFlex>
+        <mat-label>From</mat-label>
+        <mat-select [(ngModel)]="note.from_user_id">
+          <mat-option *ngFor="let user of users"
+            [value]="user.id">{{ user.name }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline"
+        class="example-full-width"
+        color="primary"
+        fxFlex>
+        <mat-label>To</mat-label>
+        <mat-select [(ngModel)]="note.to_user_id">
+          <mat-option *ngFor="let user of users"
+            [value]="user.id">{{ user.name }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+    </div>
+
+    <div fxLayout.gt-sm="row"
+      fxLayoutGap.gt-sm="48px">
+
+      <mat-form-field appearance="outline"
+        color="primary"
+        fxFlex>
+        <mat-label>Question</mat-label>
+        <textarea matInput
+          cdkTextareaAutosize
+          [(ngModel)]="note.request"
+          #autosize="cdkTextareaAutosize"
+          cdkAutosizeMinRows="3"></textarea>
+      </mat-form-field>
+
+    </div>
+
+    <div fxLayout.gt-sm="row"
+      fxLayoutGap.gt-sm="48px">
+
+      <mat-form-field appearance="outline"
+        color="primary"
+        fxFlex>
+        <mat-label>Answer</mat-label>
+        <textarea matInput
+          cdkTextareaAutosize
+          [(ngModel)]="note.response"
+          #autosize="cdkTextareaAutosize"
+          cdkAutosizeMinRows="3"></textarea>
+      </mat-form-field>
+
+    </div>
+
+  </div>
+
+</mat-dialog-content>
+
+
+<mat-dialog-actions align="end">
+  <button mat-raised-button
+    (click)="close()">Cancel</button>
+  <button mat-raised-button
+    color="primary"
+    (click)="save()">Save</button>
+</mat-dialog-actions>

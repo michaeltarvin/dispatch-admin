@@ -73,7 +73,7 @@ export class AppComponent {
         name: 'Drivers',
         routeOrFunction: '/drivers',
         icon: 'people_outline',
-        position: 31,
+        position: 34,
       },
       {
         name: 'Driver Types',
@@ -84,7 +84,7 @@ export class AppComponent {
       {
         name: 'Customers',
         icon: 'account_circle',
-        position: 33,
+        position: 37,
         subItems: [
           {
             name: 'Shippers',
@@ -110,13 +110,19 @@ export class AppComponent {
         name: 'Customer Types',
         routeOrFunction: '/customer-types',
         icon: 'contacts',
-        position: 33,
+        position: 36,
       },
       {
         name: 'Users',
         routeOrFunction: '/users',
         icon: 'verified_user',
-        position: 34,
+        position: 31,
+      },
+      {
+        name: 'Load Sub Types',
+        routeOrFunction: '/load-sub-types',
+        icon: 'clear_all',
+        position: 35,
       },
       {
         name: 'FINANCE',
@@ -134,6 +140,19 @@ export class AppComponent {
         routeOrFunction: '/payments',
         icon: 'payment',
         position: 13,
+      },
+      {
+        name: 'NOTES & ISSUES',
+        position: 100,
+        type: 'subheading',
+        customClass: 'first-subheading'
+      },
+      {
+        name: 'Notes',
+        routeOrFunction: '/notes',
+        icon: 'speaker_notes',
+        position: 105,
+        pathMatchExact: true
       },
     ]);
 

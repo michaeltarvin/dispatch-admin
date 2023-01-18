@@ -66,8 +66,8 @@
             color="primary">
             <mat-label>Sub-Type</mat-label>
             <mat-select [(ngModel)]="load.subtype">
-              <mat-option *ngFor="let name of loadSubTypes"
-                [value]="name">{{ name }}</mat-option>
+              <mat-option *ngFor="let subType of loadSubTypesDB"
+                [value]="subType.name">{{ subType.name }}</mat-option>
             </mat-select>
           </mat-form-field>
 
@@ -350,8 +350,8 @@
             <input type="number"
               class="example-right-align"
               matInput
-              [readonly]="load.is_paid_for"
-              [disabled]="load.is_paid_for"
+              [readonly]="load.is_paid_for == true"
+              [disabled]="load.is_paid_for == true"
               [(ngModel)]="load.rate"
               placeholder="Rate">
             <span class="raquo"
@@ -365,8 +365,8 @@
             <input type="number"
               class="example-right-align"
               matInput
-              [readonly]="load.is_paid_for"
-              [disabled]="load.is_paid_for"
+              [readonly]="load.is_paid_for == true"
+              [disabled]="load.is_paid_for == true"
               [(ngModel)]="load.lumper"
               placeholder="Lumper">
             <span matPrefix>$&nbsp;</span>
@@ -379,8 +379,8 @@
             <input type="number"
               class="example-right-align"
               matInput
-              [readonly]="load.is_paid_for"
-              [disabled]="load.is_paid_for"
+              [readonly]="load.is_paid_for == true"
+              [disabled]="load.is_paid_for == true"
               [(ngModel)]="load.unload"
               placeholder="Driver Unload">
             <span matPrefix>$&nbsp;</span>
@@ -398,8 +398,8 @@
             <input type="number"
               class="example-right-align"
               matInput
-              [readonly]="load.is_paid_for"
-              [disabled]="load.is_paid_for"
+              [readonly]="load.is_paid_for == true"
+              [disabled]="load.is_paid_for == true"
               [(ngModel)]="load.fuelpaid"
               placeholder="Fuel Paid">
             <span class="raquo"
@@ -413,8 +413,8 @@
             <input type="number"
               class="example-right-align"
               matInput
-              [readonly]="load.is_paid_for"
-              [disabled]="load.is_paid_for"
+              [readonly]="load.is_paid_for == true"
+              [disabled]="load.is_paid_for == true"
               [(ngModel)]="load.fuelsc"
               placeholder="Fuel SC">
             <span matPrefix>$&nbsp;</span>
@@ -427,8 +427,8 @@
             <input type="number"
               class="example-right-align"
               matInput
-              [readonly]="load.is_paid_for"
-              [disabled]="load.is_paid_for"
+              [readonly]="load.is_paid_for == true"
+              [disabled]="load.is_paid_for == true"
               [(ngModel)]="load.misc"
               placeholder="Misc">
             <span matPrefix>$&nbsp;</span>
@@ -446,8 +446,8 @@
             <input type="number"
               class="example-right-align"
               matInput
-              [readonly]="load.is_paid_for"
-              [disabled]="load.is_paid_for"
+              [readonly]="load.is_paid_for == true"
+              [disabled]="load.is_paid_for == true"
               [(ngModel)]="load.layover"
               placeholder="Layover">
             <span class="raquo"
@@ -461,8 +461,8 @@
             <input type="number"
               class="example-right-align"
               matInput
-              [readonly]="load.is_paid_for"
-              [disabled]="load.is_paid_for"
+              [readonly]="load.is_paid_for == true"
+              [disabled]="load.is_paid_for == true"
               [(ngModel)]="load.detention"
               placeholder="Detention">
             <span matPrefix>$&nbsp;</span>
@@ -475,8 +475,8 @@
             <input type="number"
               class="example-right-align"
               matInput
-              [readonly]="load.is_paid_for"
-              [disabled]="load.is_paid_for"
+              [readonly]="load.is_paid_for == true"
+              [disabled]="load.is_paid_for == true"
               [(ngModel)]="load.exten"
               placeholder="Exten">
             <span matPrefix>$&nbsp;</span>
@@ -604,11 +604,10 @@
       [matMenuTriggerFor]="menu">Add Linked Loads</button>
     <mat-menu #menu="matMenu">
       <button mat-menu-item
-        (click)="addLinkedLoad('Pre-Load')">Pre-Load</button>
-      <button mat-menu-item
-        (click)="addLinkedLoad('Stop')">Stop</button>
-      <button mat-menu-item
-        (click)="addLinkedLoad('Pick-Up')">Pick-Up</button>
+        *ngFor="let subType of loadSubTypesDB"
+        (click)="addLinkedLoad(subType.name)">
+        {{ subType.name }}
+      </button>
     </mat-menu>
   </div>
 

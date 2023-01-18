@@ -3,7 +3,7 @@ import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
-import { ColDef, SelectionChangedEvent } from 'ag-grid-community';
+import { GridApi, ColDef, SelectionChangedEvent } from 'ag-grid-community';
 import * as moment from 'moment';
 import { environment } from '../../../environments/environment';
 
@@ -29,6 +29,13 @@ export class PaymentsComponent implements OnInit {
 
   rowData: any = [];
   totalAmount: number = 0;
+  paymentAmount: number = 0;
+  paymentBalance: number = 0;
+  gridApi: GridApi;
+  billerId: number;
+  billers: any = [];
+  billersControl = new FormControl(new CustomerList());
+  billersOptions: Observable<string[]>;
 
   columnDefs: ColDef[] = [
     { field: 'id', headerName: 'Load ID', hide: true },
@@ -48,10 +55,9 @@ export class PaymentsComponent implements OnInit {
     { field: 'receiver', headerName: 'Receiver', width: 175 },
   ];
 
-  billerId: number;
-  billers: any = [];
-  billersControl = new FormControl(new CustomerList());
-  billersOptions: Observable<string[]>;
+  onTableReady(params: any) {
+    this.gridApi = params.api;
+  }
 
   getDropdownData(type: string) {
     return this.http.get(`${environment.apiUrl}${type}`);
@@ -94,6 +100,33 @@ export class PaymentsComponent implements OnInit {
         this.totalAmount += Number(value.allmoney);
       });
     }
+  }
+
+  findLoads() {
+
+    if (this.paymentAmount && this.paymentAmount > 0) {
+
+      this.paymentBalance = 0;
+      let balance = this.paymentAmount;
+
+      console.log('starting balance: ', balance);
+
+      this.gridApi.forEachNode((node) => {
+
+        let am = node.data.allmoney;
+        if (balance >= am) {
+          balance -= am;
+          node.setSelected(true);
+
+          console.log('allmoney: ', am);
+          console.log('new balance: ', balance);
+
+        }
+      });
+
+      this.paymentBalance = balance;
+    }
+
   }
 
   private _filterBillers(value: any): string[] {

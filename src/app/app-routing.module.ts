@@ -63,6 +63,16 @@ const routes: Routes = [
         loadChildren: () => import('./pages/user/user.module').then(m => m.UserModule),
         canActivate: [LoggedInGuard],
       },
+      {
+        path: 'load-sub-types',
+        loadChildren: () => import('./pages/load-sub-types/load-sub-types.module').then(m => m.LoadSubTypesModule),
+        canActivate: [LoggedInGuard],
+      },
+      {
+        path: 'notes',
+        loadChildren: () => import('./pages/notes/notes.module').then(m => m.NotesModule),
+        canActivate: [LoggedInGuard],
+      },
     ]
   }
 ];

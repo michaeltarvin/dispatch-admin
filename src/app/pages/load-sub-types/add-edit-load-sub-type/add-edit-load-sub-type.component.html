@@ -1,0 +1,38 @@
+<div mat-dialog-title
+  fxLayout="row"
+  fxLayoutAlign="space-between center">
+  <div>{{data.id == 0 ? 'Add': 'Edit'}} Load Sub Type</div>
+</div>
+
+<mat-dialog-content>
+
+  <div *ngIf="loadSubType">
+
+    <div class="tab-content"
+      fxLayout.gt-sm="row"
+      fxLayoutGap.gt-sm="48px">
+
+      <mat-form-field appearance="outline"
+        color="primary"
+        fxFlex>
+        <mat-label>Name</mat-label>
+        <input matInput
+          placeholder="Name"
+          [(ngModel)]="loadSubType.name"
+          type="text">
+      </mat-form-field>
+
+    </div>
+
+  </div>
+
+</mat-dialog-content>
+
+
+<mat-dialog-actions align="end">
+  <button mat-raised-button
+    (click)="close()">Cancel</button>
+  <button mat-raised-button
+    color="primary"
+    (click)="save()">Save</button>
+</mat-dialog-actions>

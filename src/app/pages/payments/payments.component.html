@@ -14,38 +14,61 @@
 
       <fury-card-content fxLayout="column">
 
-        <mat-form-field appearance="outline"
-          class="example-full-width"
-          color="primary"
-          fxFlex>
-          <mat-label>Biller</mat-label>
-          <input type="text"
-            placeholder="Biller"
-            aria-label="Number"
-            matInput
-            [formControl]="billersControl"
-            [matAutocomplete]="billers">
-          <mat-autocomplete autoActiveFirstOption
-            [displayWith]="displayFn"
-            (optionSelected)="getUnpaidLoadsForBiller($event)"
-            #billers="matAutocomplete">
-            <mat-option *ngFor="let option of billersOptions | async"
-              [value]="option">
-              {{option.name}}
-            </mat-option>
-          </mat-autocomplete>
-        </mat-form-field>
+        <div fxLayout.gt-sm="row"
+          fxLayoutGap.gt-sm="75px">
+
+          <mat-form-field appearance="outline"
+            class="example-full-width"
+            color="primary"
+            fxFlex>
+            <mat-label>Biller</mat-label>
+            <input type="text"
+              placeholder="Biller"
+              aria-label="Number"
+              matInput
+              [formControl]="billersControl"
+              [matAutocomplete]="billers">
+            <mat-autocomplete autoActiveFirstOption
+              [displayWith]="displayFn"
+              (optionSelected)="getUnpaidLoadsForBiller($event)"
+              #billers="matAutocomplete">
+              <mat-option *ngFor="let option of billersOptions | async"
+                [value]="option">
+                {{option.name}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline"
+            class="example-full-width"
+            color="primary">
+            <mat-label>Payment Amount</mat-label>
+            <input type="number"
+              class="example-right-align"
+              matInput
+              [(ngModel)]="paymentAmount"
+              placeholder="Payment Amount">
+            <span class="raquo"
+              matPrefix>$&nbsp;</span>
+            <mat-icon (click)="findLoads()"
+              matSuffix>search</mat-icon>
+
+          </mat-form-field>
+
+        </div>
 
         <fury-scrollbar class="icon-list"
           fxFlex="grow">
           <ms-table [columnDefs]="columnDefs"
+            (tableReady)="onTableReady($event)"
             [rowSelection]="'multiple'"
             [rowData]="rowData"
-            (selectionChanged)="onSelectionChanged($event)"></ms-table>
-
+            (selectionChanged)="onSelectionChanged($event)">
+          </ms-table>
 
           <div fxLayout.gt-sm="row"
             fxLayoutGap.gt-sm="48px">
+
             <mat-form-field appearance="outline"
               class="example-full-width"
               color="primary">
@@ -60,6 +83,24 @@
               <span class="raquo"
                 matPrefix>$&nbsp;</span>
             </mat-form-field>
+
+            <div *ngIf="paymentBalance>0">
+              <mat-form-field appearance="outline"
+                class="example-full-width"
+                color="primary">
+                <mat-label>Payment Balance</mat-label>
+                <input type="number"
+                  class="example-right-align"
+                  matInput
+                  readonly
+                  disabled
+                  [(ngModel)]="paymentBalance"
+                  placeholder="Payment Balance">
+                <span class="raquo"
+                  matPrefix>$&nbsp;</span>
+              </mat-form-field>
+            </div>
+
           </div>
 
         </fury-scrollbar>
