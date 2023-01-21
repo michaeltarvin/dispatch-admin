@@ -1,6 +1,7 @@
 export class SidenavItem {
   name: string;
   icon?: string;
+  isFaIcon?: boolean;
   routeOrFunction?: any;
   parent?: SidenavItem;
   subItems?: SidenavItem[];

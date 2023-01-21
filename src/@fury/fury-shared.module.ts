@@ -9,7 +9,6 @@ import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { BreadcrumbsModule } from './shared/breadcrumbs/breadcrumbs.module';
 import { TitleModule } from './shared/title/title.module';
 import { PageModule } from './shared/page/page.module';
@@ -41,7 +40,6 @@ import { PageLayoutModule } from './shared/page-layout/page-layout.module';
     MatCheckboxModule,
     MatRadioModule,
     MatMenuModule,
-    FontAwesomeModule,
     ScrollingModule
   ]
 })

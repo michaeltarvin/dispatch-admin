@@ -35,7 +35,6 @@ export class NotesComponent implements OnInit {
       .get(`${environment.apiUrl}notes`)
       .subscribe({
         next: (response) => {
-          console.log(response);
           this.rowData = response;
         },
         error: (error) => console.error(error),

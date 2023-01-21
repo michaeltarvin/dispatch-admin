@@ -34,17 +34,63 @@ export class LoadsComponent implements OnInit {
   });
 
   columnDefs: ColDef[] = [
-    { field: 'id', hide: true },
-    { headerName: "Trip", field: 'trip_id', width: 100, suppressSizeToFit: true },
-    { headerName: "Type", field: 'type', width: 115, suppressSizeToFit: true },
-    { headerName: "Sub-Type", field: 'subtype', width: 115, suppressSizeToFit: true },
-    { headerName: "Dispatched", field: 'is_dispatched', width: 135, suppressSizeToFit: true },
-    { headerName: "Pick-Up Date", field: 'pudate', width: 190, valueFormatter: this.dateFormatter, suppressSizeToFit: true },
-    { headerName: "Delivery Date", field: 'deldate', width: 190, valueFormatter: this.dateFormatter, suppressSizeToFit: true },
-    { headerName: "Linked Loads", field: 'has_linked_loads', width: 175, hide: true },
-    { field: 'driver' },
-    { field: 'shipper' },
-    { field: 'receiver' },
+    {
+      "field": "id",
+      "hide": true
+    },
+    {
+      "headerName": "Trip",
+      "field": "trip_id",
+      "width": 100,
+      "suppressSizeToFit": true
+    },
+    {
+      "headerName": "Type",
+      "field": "type",
+      "width": 115,
+      "suppressSizeToFit": true
+    },
+    {
+      "headerName": "Sub-Type",
+      "field": "subtype",
+      "width": 115,
+      "suppressSizeToFit": true
+    },
+    {
+      "headerName": "Dispatched",
+      "field": "is_dispatched",
+      "width": 135,
+      "suppressSizeToFit": true
+    },
+    {
+      "headerName": "Pick-Up Date",
+      "field": "pudate",
+      "width": 190,
+      "valueFormatter": this.dateFormatter,
+      "suppressSizeToFit": true
+    },
+    {
+      "headerName": "Delivery Date",
+      "field": "deldate",
+      "width": 190,
+      "valueFormatter": this.dateFormatter,
+      "suppressSizeToFit": true
+    },
+    {
+      "headerName": "Linked Loads",
+      "field": "has_linked_loads",
+      "width": 175,
+      "hide": true
+    },
+    {
+      "field": "driver"
+    },
+    {
+      "field": "shipper"
+    },
+    {
+      "field": "receiver"
+    }
   ];
 
   ngOnInit(): void {

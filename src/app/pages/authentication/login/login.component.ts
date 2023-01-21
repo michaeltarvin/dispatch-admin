@@ -19,6 +19,7 @@ export class LoginComponent implements OnInit {
   inputType = 'password';
   visible = false;
   result: any;
+  year: any = moment().format("YYYY");;
 
   constructor(
     private fb: UntypedFormBuilder,

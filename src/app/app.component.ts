@@ -4,9 +4,6 @@ import { HttpClient } from '@angular/common/http';
 import { MatIconRegistry } from '@angular/material/icon';
 import { SidenavService } from './layout/sidenav/sidenav.service';
 import { ThemeService } from '../@fury/services/theme.service';
-import { ActivatedRoute } from '@angular/router';
-import { filter } from 'rxjs/operators';
-import { Platform } from '@angular/cdk/platform';
 import { SplashScreenService } from '../@fury/services/splash-screen.service';
 import { environment } from '../environments/environment';
 
@@ -22,14 +19,8 @@ export class AppComponent {
     private renderer: Renderer2,
     private themeService: ThemeService,
     @Inject(DOCUMENT) private document: Document,
-    private platform: Platform,
-    private route: ActivatedRoute,
     private splashScreenService: SplashScreenService) {
     this.splashScreenService.load();
-    this.route.queryParamMap.pipe(
-      filter(queryParamMap => queryParamMap.has('style'))
-    ).subscribe(queryParamMap => this.themeService.setStyle(queryParamMap.get('style')));
-
     this.iconRegistry.setDefaultFontSetClass('material-icons-outlined');
     this.themeService.theme$.subscribe(theme => {
       if (theme[0]) {
@@ -38,10 +29,6 @@ export class AppComponent {
 
       this.renderer.addClass(this.document.body, theme[1]);
     });
-
-    if (this.platform.BLINK) {
-      this.renderer.addClass(this.document.body, 'is-blink');
-    }
 
     this.sidenavService.addItems([
       {
@@ -53,14 +40,18 @@ export class AppComponent {
       {
         name: 'Loads',
         routeOrFunction: '/loads',
-        icon: 'dashboard',
+        // icon: 'dashboard',
+        icon: 'fa fa-light fa-truck fa-lg',
+        isFaIcon: true,
         position: 5,
         pathMatchExact: true
       },
       {
         name: 'Brokerage',
         routeOrFunction: '/loads/brokerage',
-        icon: 'apps',
+        // icon: 'dashboard',
+        icon: 'fa fa-truck fa-lg fa-flip-horizontal',
+        isFaIcon: true,
         position: 6,
         pathMatchExact: true
       },
@@ -72,18 +63,18 @@ export class AppComponent {
       {
         name: 'Drivers',
         routeOrFunction: '/drivers',
-        icon: 'people_outline',
+        icon: 'contact_page',
         position: 34,
       },
       {
         name: 'Driver Types',
         routeOrFunction: '/driver-types',
-        icon: 'folder_shared',
+        icon: 'contact_page',
         position: 32,
       },
       {
         name: 'Customers',
-        icon: 'account_circle',
+        icon: 'contact_page',
         position: 37,
         subItems: [
           {

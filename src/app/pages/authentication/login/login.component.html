@@ -19,6 +19,7 @@
       [formGroup]="form">
       <div fxFlex="auto"
         fxLayout="column">
+
         <mat-form-field fxFlex="grow">
           <mat-label>Email</mat-label>
           <input matInput
@@ -26,6 +27,7 @@
             formControlName="email">
           <mat-error *ngIf="form.get('email').hasError('required')">We need an email address to log you in</mat-error>
         </mat-form-field>
+
         <mat-form-field fxFlex="grow">
           <mat-label>Password</mat-label>
           <input matInput
@@ -40,7 +42,6 @@
             <mat-icon *ngIf="visible">visibility</mat-icon>
             <mat-icon *ngIf="!visible">visibility_off</mat-icon>
           </button>
-          <mat-hint>Click the eye to toggle visibility</mat-hint>
           <mat-error *ngIf="form.get('password').hasError('required')">We need a password to log you in</mat-error>
         </mat-form-field>
       </div>
@@ -52,5 +53,10 @@
         SIGN IN
       </button>
     </div>
+
+  </div>
+  <div class="company"
+    fxLayout="row">
+    <span class="copyright">&copy; {{year}} MJTC</span>
   </div>
 </div>

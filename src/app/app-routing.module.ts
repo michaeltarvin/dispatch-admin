@@ -83,7 +83,8 @@ const routes: Routes = [
     preloadingStrategy: PreloadAllModules,
     scrollPositionRestoration: 'enabled',
     anchorScrolling: 'enabled',
-    relativeLinkResolution: 'legacy'
+    relativeLinkResolution: 'legacy',
+    useHash: true,
   })],
   exports: [RouterModule]
 })

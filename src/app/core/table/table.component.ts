@@ -39,6 +39,14 @@ export class TableComponent implements OnDestroy {
     if (params.data.has_linked_loads === true) {
       return { 'background-color': "#1976d2", 'color': "white" }
     }
+
+    const username = window.localStorage.getItem("username");
+    if (username) {
+      if (params.data.is_closed === false && params.data.to_user == username.toString()) {
+        return { 'background-color': "#1976d2", 'color': "white" }
+      }
+    }
+
     return null;
   };
 

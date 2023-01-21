@@ -34,8 +34,16 @@
   </ng-template>
 
   <ng-template #linkContent>
-    <mat-icon *ngIf="level === 0"
-      class="icon">{{ item.icon }}</mat-icon>
+    <!--<mat-icon *ngIf="level === 0" class="icon">{{ item.icon }}</mat-icon> -->
+    <div *ngIf="item.isFaIcon == true">
+      <i *ngIf="level === 0"
+        [class]="item.icon"> </i>
+    </div>
+    <div *ngIf="!item.isFaIcon">
+      <mat-icon *ngIf="level === 0"
+        class="icon">{{ item.icon }}</mat-icon>
+    </div>
+
     <div *ngIf="level > 0"
       class="text-icon"
       fxFlex="none">{{ getTextIcon(item) }}</div>
