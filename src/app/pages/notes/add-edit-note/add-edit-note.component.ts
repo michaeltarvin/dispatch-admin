@@ -36,7 +36,6 @@ export class AddEditNoteComponent implements OnInit {
       .subscribe({
         next: (response) => {
           this.note = response;
-          console.log(this.note);
         },
         error: (error) => console.error(error),
       });
@@ -54,29 +53,20 @@ export class AddEditNoteComponent implements OnInit {
   }
 
   close() {
-    console.log(this.note);
     this.dialogRef.close('close');
   }
 
   save() {
-    console.log(this.note);
-
     if (this.note.id > 0) {
       this.http
         .patch(`${environment.apiUrl}notes/${this.data.id}`, this.note)
         .subscribe({
-          next: (response) => {
-            console.log(response);
-          },
           error: (error) => console.error(error),
         });
     } else {
       this.http
         .post(`${environment.apiUrl}notes`, this.note)
         .subscribe({
-          next: (response) => {
-            console.log(response);
-          },
           error: (error) => console.error(error),
         });
     }

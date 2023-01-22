@@ -5,6 +5,10 @@ import { LoggedInGuard } from "./logged-in.guard";
 
 const routes: Routes = [
   {
+    path: '',
+    loadChildren: () => import('./pages/authentication/login/login.module').then(m => m.LoginModule),
+  },
+  {
     path: 'login',
     loadChildren: () => import('./pages/authentication/login/login.module').then(m => m.LoginModule),
   },

@@ -34,7 +34,6 @@ export class AddEditUserComponent implements OnInit {
       .subscribe({
         next: (response) => {
           this.user = response as UserInterface;
-          console.log(this.user);
         },
         error: (error) => console.error(error),
       });

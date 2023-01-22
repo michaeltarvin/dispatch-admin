@@ -1,6 +1,10 @@
 import { Component, EventEmitter, Input, Output, OnDestroy } from "@angular/core";
 import { CellClickedEvent, ColDef, GridOptions, GridApi, RowDragEndEvent, SelectionChangedEvent } from "ag-grid-community";
+import { HttpClient } from '@angular/common/http';
+import { TableInterface } from './table.column.interface';
+import { TableService } from './table.service';
 import { environment } from '../../../environments/environment';
+import * as moment from "moment";
 
 @Component({
   selector: "ms-table",
@@ -9,10 +13,11 @@ import { environment } from '../../../environments/environment';
 })
 export class TableComponent implements OnDestroy {
 
-  @Input() tableTitle: string;
+  @Input() tableTitle: string = '';
+  @Input() dataRoute: string = '';
   @Input() gridOptions: GridOptions;
-  @Input() columnDefs: any[];
-  @Input() rowData: any[];
+  @Input() columnDefs: ColDef[] = [];
+  @Input() rowData: any;
   @Input() rowSelection = "single";
   @Output() cellClicked = new EventEmitter<any>();
   @Output() selectionChanged = new EventEmitter<any>();
@@ -23,6 +28,7 @@ export class TableComponent implements OnDestroy {
   tableTheme: string;
   gridApi: GridApi;
   domLayout: any;
+  params: any;
 
   public style: any = {
     width: '100%',
@@ -30,12 +36,74 @@ export class TableComponent implements OnDestroy {
     flex: '1 1 auto',
   };
 
-  rowStyle = {};
+  constructor(private http: HttpClient, private tableService: TableService) {
+
+    this.tableService.refresh$.subscribe(item => this.refreshTable(item));
+  }
+
+  ngOnInit(): void {
+    this.tableTheme = this.getTableTheme();
+
+    if (this.tableTitle && this.tableTitle != '') {
+      this.getTableColumns();
+    }
+
+    this.gedata();
+  }
+
+  gedata() {
+    if (this.dataRoute && this.dataRoute != '') {
+      this.http
+        .get(`${environment.apiUrl}${this.dataRoute}`)
+        .subscribe({
+          next: (response) => {
+            this.rowData = response;
+          },
+          error: (error) => console.error(error),
+        });
+    }
+  }
+
+  refreshTable(apply: boolean) {
+    if (apply) {
+      this.gedata();
+    }
+  }
+
+  getTableColumns() {
+    this.http
+      .get<TableInterface[]>(`${environment.apiUrl}table?table_name=${this.tableTitle}`)
+      .subscribe({
+        next: (response) => {
+          let data = response;
+          let cd: ColDef[] = [];
+
+          if (data) {
+            data.forEach((item) => {
+
+              const column: ColDef = {
+                field: item.field,
+                hide: item.hide,
+                width: item.width,
+                rowDrag: item.rowDrag,
+                suppressSizeToFit: item.suppressSizeToFit,
+                valueFormatter: item.type === 'date' ? this.dateFormatter : null
+              };
+              if (item.headerName && item.headerName != '') {
+                column.headerName = item.headerName;
+              }
+              cd.push(column);
+            });
+            this.columnDefs = cd;
+            this.gridApi.sizeColumnsToFit(this.params);
+          }
+        },
+        error: (error) => console.error(error),
+      });
+  }
 
   // set background color when load has linked loads
   getRowStyle(params: any) {
-    //'background-color': "#c4c9cc",
-    //'font-weight': 'bold'
     if (params.data.has_linked_loads === true) {
       return { 'background-color': "#1976d2", 'color': "white" }
     }
@@ -55,10 +123,6 @@ export class TableComponent implements OnDestroy {
     sortable: true,
     filter: true,
   };
-
-  ngOnInit(): void {
-    this.tableTheme = this.getTableTheme();
-  }
 
   onCellClicked($event: CellClickedEvent) {
     this.cellClicked.emit($event);
@@ -87,14 +151,19 @@ export class TableComponent implements OnDestroy {
   }
 
   onGridReady(params: any) {
+    this.params = params;
     this.gridApi = params.api;
     this.gridApi.setDomLayout("autoHeight");
-    this.gridApi.sizeColumnsToFit(params);
+    // this.gridApi.sizeColumnsToFit(params);
     this.tableReady.emit(params);
   }
 
   onRowDragEnd($event: RowDragEndEvent) {
     this.rowDragEnd.emit($event);
+  }
+
+  dateFormatter(params: any): string {
+    return params.value ? moment(params.value).format('lll') : '';
   }
 
 }

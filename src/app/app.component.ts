@@ -41,7 +41,7 @@ export class AppComponent {
         name: 'Loads',
         routeOrFunction: '/loads',
         // icon: 'dashboard',
-        icon: 'fa fa-light fa-truck fa-lg',
+        icon: 'fa fa-truck-fast fa-lg',
         isFaIcon: true,
         position: 5,
         pathMatchExact: true
@@ -50,7 +50,7 @@ export class AppComponent {
         name: 'Brokerage',
         routeOrFunction: '/loads/brokerage',
         // icon: 'dashboard',
-        icon: 'fa fa-truck fa-lg fa-flip-horizontal',
+        icon: 'fa fa-truck fa-lg',
         isFaIcon: true,
         position: 6,
         pathMatchExact: true
@@ -63,18 +63,23 @@ export class AppComponent {
       {
         name: 'Drivers',
         routeOrFunction: '/drivers',
-        icon: 'contact_page',
+        //<i class="fa-light fa-id-card"></i>
+        icon: 'fa fa-light fa-id-card fa-lg',
+        isFaIcon: true,
         position: 34,
       },
       {
         name: 'Driver Types',
         routeOrFunction: '/driver-types',
-        icon: 'contact_page',
+        //<i class="fa-solid fa-id-card"></i>
+        icon: 'fa fa-address-card fa-lg',
+        isFaIcon: true,
         position: 32,
       },
       {
         name: 'Customers',
-        icon: 'contact_page',
+        icon: 'fa fa-user fa-lg',
+        isFaIcon: true,
         position: 37,
         subItems: [
           {
@@ -100,7 +105,8 @@ export class AppComponent {
       {
         name: 'Customer Types',
         routeOrFunction: '/customer-types',
-        icon: 'contacts',
+        icon: 'fa fa-users fa-lg',
+        isFaIcon: true,
         position: 36,
       },
       {
