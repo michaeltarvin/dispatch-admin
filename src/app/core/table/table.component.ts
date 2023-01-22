@@ -13,7 +13,7 @@ import * as moment from "moment";
 })
 export class TableComponent implements OnDestroy {
 
-  @Input() tableTitle: string = '';
+  @Input() tableName: string = '';
   @Input() dataRoute: string = '';
   @Input() gridOptions: GridOptions;
   @Input() columnDefs: ColDef[] = [];
@@ -44,7 +44,7 @@ export class TableComponent implements OnDestroy {
   ngOnInit(): void {
     this.tableTheme = this.getTableTheme();
 
-    if (this.tableTitle && this.tableTitle != '') {
+    if (this.tableName && this.tableName != '') {
       this.getTableColumns();
     }
 
@@ -72,7 +72,7 @@ export class TableComponent implements OnDestroy {
 
   getTableColumns() {
     this.http
-      .get<TableInterface[]>(`${environment.apiUrl}table?table_name=${this.tableTitle}`)
+      .get<TableInterface[]>(`${environment.apiUrl}table?table_name=${this.tableName}`)
       .subscribe({
         next: (response) => {
           let data = response;
@@ -87,15 +87,32 @@ export class TableComponent implements OnDestroy {
                 width: item.width,
                 rowDrag: item.rowDrag,
                 suppressSizeToFit: item.suppressSizeToFit,
-                valueFormatter: item.type === 'date' ? this.dateFormatter : null
               };
+
               if (item.headerName && item.headerName != '') {
                 column.headerName = item.headerName;
               }
+
+              if (item.type === 'date') {
+                column.valueFormatter = this.dateFormatter;
+              }
+
+              if (item.type === 'currency') {
+                column.valueFormatter = this.moneyFormatter;
+              }
+
+              if (item.type === 'checkbox') {
+                column.headerCheckboxSelection = true;
+                column.checkboxSelection = true;
+                column.showDisabledCheckboxes = true;
+              }
+
               cd.push(column);
             });
             this.columnDefs = cd;
-            this.gridApi.sizeColumnsToFit(this.params);
+            this.gridApi.sizeColumnsToFit({
+              defaultMinWidth: 500,
+            });
           }
         },
         error: (error) => console.error(error),
@@ -164,6 +181,10 @@ export class TableComponent implements OnDestroy {
 
   dateFormatter(params: any): string {
     return params.value ? moment(params.value).format('lll') : '';
+  }
+
+  moneyFormatter(params: any): string {
+    return `$${params.value}`
   }
 
 }

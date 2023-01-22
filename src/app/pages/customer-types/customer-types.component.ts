@@ -1,8 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { CellClickedEvent, ColDef } from 'ag-grid-community';
+import { Component } from '@angular/core';
+import { CellClickedEvent } from 'ag-grid-community';
 import { MatDialog } from '@angular/material/dialog';
-import { environment } from '../../../environments/environment';
+import { TableService } from '../../core/table/table.service';
 import { AddEditCustomerTypeComponent } from "./add-edit-customer-type/add-edit-customer-type.component";
 
 @Component({
@@ -10,52 +9,25 @@ import { AddEditCustomerTypeComponent } from "./add-edit-customer-type/add-edit-
   templateUrl: './customer-types.component.html',
   styleUrls: ['./customer-types.component.scss']
 })
-export class CustomerTypesComponent implements OnInit {
+export class CustomerTypesComponent {
 
-  constructor(private http: HttpClient,
-    private dialog: MatDialog) { }
+  constructor(private dialog: MatDialog, private tableService: TableService) { }
 
-  rowData: any = [];
-  result: string;
-
-  columnDefs: ColDef[] = [
-    { field: 'id', hide: true },
-    { field: 'name' },
-    { headerName: "Description", field: 'description' },
-    { headerName: "Shipper", field: 'is_shipper' },
-    { headerName: "Biller", field: 'is_biller' },
-    { headerName: "Receiver", field: 'is_receiver' },
-  ];
-
-  ngOnInit(): void {
-    this.getCustomerTypes();
-  }
-
-  getCustomerTypes() {
-    this.http
-      .get(`${environment.apiUrl}customerTypes`)
-      .subscribe({
-        next: (response) => {
-          this.rowData = response;
-        },
-        error: (error) => console.error(error),
-      });
-  }
+  tableName: string = 'customer_types';
+  dataRoute: string = 'customer_types';
 
   onCellClicked(e: CellClickedEvent): void {
     this.openDialog(e.data.id);
   }
 
   openDialog($id: Number) {
-
     this.dialog.open(AddEditCustomerTypeComponent, {
       data: { id: $id },
       disableClose: false,
       width: "700px",
       position: { top: "85px" }
-    }).afterClosed().subscribe(result => {
-      this.result = result;
-      this.getCustomerTypes();
+    }).afterClosed().subscribe(() => {
+      this.tableService.refresh(true);
     });
   }
 

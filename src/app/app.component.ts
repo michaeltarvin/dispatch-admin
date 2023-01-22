@@ -139,6 +139,19 @@ export class AppComponent {
         position: 13,
       },
       {
+        name: 'UI TABLE SETTINGS',
+        position: 75,
+        type: 'subheading',
+        customClass: 'first-subheading'
+      },
+      {
+        name: 'Table Settings',
+        routeOrFunction: '/table-settings',
+        icon: 'view_list',
+        position: 76,
+        pathMatchExact: true
+      },
+      {
         name: 'NOTES & ISSUES',
         position: 100,
         type: 'subheading',
@@ -155,7 +168,7 @@ export class AppComponent {
 
     //this a lame way to make sure the user is authenticated on app load
     this.http
-      .get(`${environment.apiUrl}customerTypes`)
+      .get(`${environment.apiUrl}customer_types`)
       .subscribe({
         next: (response) => {
           if (!response) {

@@ -1,0 +1,59 @@
+<ngx-spinner type="ball-spin"></ngx-spinner>
+
+<div class="padding"
+  fxLayout="column">
+
+  <div fxLayout="column"
+    fxLayout.gt-md="row"
+    fxLayoutGap="24px">
+
+    <fury-card fxFlex="auto">
+      <fury-card-header>
+        <fury-card-header-heading>
+          <span>UI Table Setting</span>
+        </fury-card-header-heading>
+      </fury-card-header>
+
+      <fury-card-content fxLayout="column">
+
+        <div fxLayout="column"
+          fxLayoutGap="8px"
+          style="padding-bottom: 20px;">
+
+          <mat-form-field appearance="outline"
+            class="example-full-width"
+            color="primary">
+            <mat-label>Table</mat-label>
+            <mat-select (selectionChange)="onSelectionChanged($event)"
+              [(ngModel)]="selectedTableName">
+              <mat-option *ngFor="let table of tableNames"
+                [value]="table.table_name">{{ table.table_name }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <button mat-raised-button
+            color="primary"
+            (click)="reset()">Reset</button>
+
+          <button mat-raised-button
+            color="warn"
+            (click)="save()">Save</button>
+
+        </div>
+
+        <div *ngIf="columnData">
+
+
+          <ms-table [columnDefs]="columnDefs"
+            [rowData]="columnData"
+            (rowDragEnd)=onRowDragEnd($event)>
+          </ms-table>
+
+        </div>
+
+      </fury-card-content>
+
+    </fury-card>
+  </div>
+
+</div>

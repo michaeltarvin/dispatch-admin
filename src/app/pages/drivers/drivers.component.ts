@@ -1,8 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { CellClickedEvent, ColDef } from 'ag-grid-community';
+import { Component } from '@angular/core';
+import { CellClickedEvent } from 'ag-grid-community';
 import { MatDialog } from '@angular/material/dialog';
-import { environment } from '../../../environments/environment';
+import { TableService } from '../../core/table/table.service';
 import { AddEditDriverComponent } from "./add-edit-driver/add-edit-driver.component";
 
 @Component({
@@ -10,58 +9,25 @@ import { AddEditDriverComponent } from "./add-edit-driver/add-edit-driver.compon
   templateUrl: './drivers.component.html',
   styleUrls: ['./drivers.component.scss']
 })
-export class DriversComponent implements OnInit {
+export class DriversComponent {
 
-  constructor(private http: HttpClient,
-    private dialog: MatDialog) { }
+  constructor(private dialog: MatDialog, private tableService: TableService) { }
 
-  rowData: any = [];
-  tableTheme: string;
-  result: string;
+  tableName: string = 'drivers';
+  dataRoute: string = 'drivers';
 
-  columnDefs: ColDef[] = [
-    { field: 'id', hide: true },
-    { field: 'name' },
-    { field: 'company' },
-    { field: 'email' },
-    { field: 'address' },
-    { field: 'city' },
-    { field: 'state' },
-    { field: 'zip' },
-    { field: 'cell' },
-  ];
-
-  ngOnInit(): void {
-    this.getDrivers();
-  }
-
-  getDrivers() {
-    this.http
-      .get(`${environment.apiUrl}drivers`)
-      .subscribe({
-        next: (response) => {
-          this.rowData = response;
-        },
-        error: (error) => console.error(error),
-      });
-  }
-
-  // Example of consuming Grid Event
   onCellClicked(e: CellClickedEvent): void {
-    console.log(e.data.id);
     this.openDialog(e.data.id);
   }
 
   openDialog($id: Number) {
-
     this.dialog.open(AddEditDriverComponent, {
       data: { id: $id },
       disableClose: false,
-      width: "1200px",
+      width: "700px",
       position: { top: "85px" }
-    }).afterClosed().subscribe(result => {
-      this.result = result;
-      this.getDrivers();
+    }).afterClosed().subscribe(() => {
+      this.tableService.refresh(true);
     });
   }
 

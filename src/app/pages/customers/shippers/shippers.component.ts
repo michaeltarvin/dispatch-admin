@@ -1,8 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { CellClickedEvent, ColDef } from 'ag-grid-community';
+import { Component } from '@angular/core';
+import { CellClickedEvent } from 'ag-grid-community';
 import { MatDialog } from '@angular/material/dialog';
-import { environment } from '../../../../environments/environment';
+import { TableService } from '../../../core/table/table.service';
 import { AddEditCustomerComponent } from "../add-edit-customer/add-edit-customer.component";
 
 @Component({
@@ -10,46 +9,14 @@ import { AddEditCustomerComponent } from "../add-edit-customer/add-edit-customer
   templateUrl: './shippers.component.html',
   styleUrls: ['./shippers.component.scss']
 })
-export class ShippersComponent implements OnInit {
+export class ShippersComponent {
 
-  constructor(private http: HttpClient,
-    private dialog: MatDialog) { }
+  constructor(private dialog: MatDialog, private tableService: TableService) { }
 
-  rowData: any = [];
-  tableTheme: string;
+  tableName: string = 'customers';
+  dataRoute: string = 'shippers';
 
-  columnDefs: ColDef[] = [
-    { field: 'id', hide: true },
-    { field: 'name' },
-    { field: 'alias' },
-    { headerName: "Type", field: 'type_name' },
-    { field: 'email' },
-    { field: 'address' },
-    { field: 'city' },
-    { field: 'state' },
-    { field: 'zip' },
-    { field: 'cell' },
-    { headerName: "Active", field: 'is_active' },
-  ];
-
-  ngOnInit(): void {
-    this.getCustomers();
-  }
-
-  getCustomers() {
-    this.http
-      .get(`${environment.apiUrl}shippers`)
-      .subscribe({
-        next: (response) => {
-          this.rowData = response;
-        },
-        error: (error) => console.error(error),
-      });
-  }
-
-  // Example of consuming Grid Event
   onCellClicked(e: CellClickedEvent): void {
-    console.log(e.data.id);
     this.openDialog(e.data.id);
   }
 
@@ -57,11 +24,10 @@ export class ShippersComponent implements OnInit {
     this.dialog.open(AddEditCustomerComponent, {
       data: { id: $id },
       disableClose: false,
-      width: "1200px",
+      width: "700px",
       position: { top: "85px" }
-    }).afterClosed().subscribe(result => {
-      console.log(result);
-      this.getCustomers();
+    }).afterClosed().subscribe(() => {
+      this.tableService.refresh(true);
     });
   }
 

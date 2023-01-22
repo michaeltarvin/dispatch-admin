@@ -77,6 +77,11 @@ const routes: Routes = [
         loadChildren: () => import('./pages/notes/notes.module').then(m => m.NotesModule),
         canActivate: [LoggedInGuard],
       },
+      {
+        path: 'table-settings',
+        loadChildren: () => import('./pages/table-settings/table-settings.module').then(m => m.TableSettingsModule),
+        canActivate: [LoggedInGuard],
+      },
     ]
   }
 ];

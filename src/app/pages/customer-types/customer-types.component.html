@@ -20,9 +20,11 @@
 
         <fury-scrollbar class="icon-list"
           fxFlex="grow">
-          <ms-table [columnDefs]="columnDefs"
-            [rowData]="rowData"
-            (cellClicked)="onCellClicked($event)"></ms-table>
+
+          <ms-table [tableName]="tableName"
+            [dataRoute]="dataRoute"
+            (cellClicked)="onCellClicked($event)">
+          </ms-table>
 
         </fury-scrollbar>
       </fury-card-content>
