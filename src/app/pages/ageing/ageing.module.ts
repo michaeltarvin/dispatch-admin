@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { BreadcrumbsModule } from '../../../@fury/shared/breadcrumbs/breadcrumbs.module';
 import { FuryCardModule } from '../../../@fury/shared/card/card.module';
 import { MaterialModule } from '../../../@fury/shared/material-components.module';
 import { ScrollbarModule } from '../../../@fury/shared/scrollbar/scrollbar.module';
@@ -17,7 +16,6 @@ import { AgeingComponent } from '../ageing/ageing.component';
     ReactiveFormsModule,
     FormsModule,
     MaterialModule,
-    BreadcrumbsModule,
     FuryCardModule,
     ScrollbarModule,
     AgGridModule,

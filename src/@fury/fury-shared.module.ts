@@ -9,13 +9,10 @@ import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { BreadcrumbsModule } from './shared/breadcrumbs/breadcrumbs.module';
 import { TitleModule } from './shared/title/title.module';
-import { PageModule } from './shared/page/page.module';
 import { SidebarModule } from './shared/sidebar/sidebar.module';
 import { RouterModule } from '@angular/router';
 import { ScrollingModule } from '@angular/cdk/scrolling';
-import { PageLayoutModule } from './shared/page-layout/page-layout.module';
 
 @NgModule({
   imports: [
@@ -23,12 +20,9 @@ import { PageLayoutModule } from './shared/page-layout/page-layout.module';
   ],
   declarations: [],
   exports: [
-    BreadcrumbsModule,
     TitleModule,
-    PageModule,
     SidebarModule,
     RouterModule,
-    PageLayoutModule,
 
     // External
     FlexLayoutModule,

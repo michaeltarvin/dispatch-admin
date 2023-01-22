@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { BreadcrumbsModule } from '../../../@fury/shared/breadcrumbs/breadcrumbs.module';
 import { FuryCardModule } from '../../../@fury/shared/card/card.module';
 import { MaterialModule } from '../../../@fury/shared/material-components.module';
 import { DriversRoutingModule } from './drivers-routing.module';
@@ -18,7 +17,6 @@ import { AddEditDriverComponent } from "./add-edit-driver/add-edit-driver.compon
     FormsModule,
     ReactiveFormsModule,
     MaterialModule,
-    BreadcrumbsModule,
     FuryCardModule,
     ScrollbarModule,
     AgGridModule,

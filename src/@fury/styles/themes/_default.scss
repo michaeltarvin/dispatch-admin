@@ -68,32 +68,11 @@ $toolbar-search-dropdown-elevation: $elevation !default;
 
 @import "../../../app/layout/toolbar/toolbar.component.theme";
 
-// Navigation
-@import "../../../app/layout/navigation/navigation.component.theme";
-
 // Card
 @import "../../shared/card/card.component.theme";
-
-// Footer
-$footer-background: $theme-app-bar !default;
-$footer-border-top: 1px solid $theme-divider !default;
-$footer-elevation: 0 !default;
-@import "../../../app/layout/footer/footer.component.theme";
 
 // Title
 @import "../../shared/title/title.directive.theme";
 
-// Page
-@import "../../shared/page/page.directive.theme";
-
-// Page Layout
-@import "../../shared/page-layout/page-layout.directive.theme";
-
 // Backdrop
 @import "../../shared/backdrop/backdrop.directive.theme";
-
-// Breadcrumbs
-@import "../../shared/breadcrumbs/breadcrumbs.component.theme";
-
-// List
-@import "../../shared/list/list.component.theme";
