@@ -77,6 +77,7 @@ export class AddEditLoadComponent implements OnInit {
   gridApi: GridApi;
   gridOptions: GridOptions;
   myDriverId: number = 97;
+  errorMessage: string;
 
   load: LoadInterface;
 
@@ -102,13 +103,25 @@ export class AddEditLoadComponent implements OnInit {
         is_dispatched: false,
         trip_id: this.data.tripId,
         type: this.data.type,
-        subtype: this.data.subtype,
+        subtype: this.data.subtype || '',
         is_brokerage: this.data.is_brokerage,
         has_linked_loads: false,
-        driver_id: this.data.driverId,
-        shipper_id: 0,
-        receiver_id: 0,
-        billto_id: 0
+        driver_id: this.data.driverId > 0 ? this.data.driverId : null,
+        // shipper_id: 0,
+        // receiver_id: 0,
+        // billto_id: 0,
+        allmoney: 0,
+        remaining_balance: 0,
+        total: 0,
+        misc: 0,
+        rate: 0,
+        lumper: 0,
+        unload: 0,
+        exten: 0,
+        fuelpaid: 0,
+        fuelsc: 0,
+        detention: 0,
+        layover: 0,
       } as LoadInterface;
 
       if (this.load.trip_id > 0) {
@@ -203,9 +216,14 @@ export class AddEditLoadComponent implements OnInit {
   }
 
   save(closeDialog: boolean = true) {
+    this.errorMessage = null;
 
-    this.load.pudate = moment(this.dateControl.value).format('YYYY-MM-DDTHH:mm:00.000000Z');
-    this.load.deldate = moment(this.delDateControl.value).format('YYYY-MM-DDTHH:mm:00.000000Z');
+    if (this.dateControl.value) {
+      this.load.pudate = moment(this.dateControl.value).format('YYYY-MM-DDTHH:mm:00.000000Z');
+    }
+    if (this.delDateControl.value) {
+      this.load.deldate = moment(this.delDateControl.value).format('YYYY-MM-DDTHH:mm:00.000000Z');
+    }
 
     if (this.load.id > 0) {
       this.http
@@ -213,8 +231,14 @@ export class AddEditLoadComponent implements OnInit {
         .subscribe({
           next: (response) => {
             console.log(response);
+            if (closeDialog) {
+              this.dialogRef.close(null);
+            }
           },
-          error: (error) => console.error(error),
+          error: (error) => {
+            console.error(error.error.message);
+            this.errorMessage = error.error.message;
+          },
         });
     } else {
       this.http
@@ -222,14 +246,17 @@ export class AddEditLoadComponent implements OnInit {
         .subscribe({
           next: (response) => {
             console.log(response);
+            if (closeDialog) {
+              this.dialogRef.close(null);
+            }
           },
-          error: (error) => console.error(error),
+          error: (error) => {
+            console.error(error.error.message);
+            this.errorMessage = error.error.message;
+          },
         });
     }
 
-    if (closeDialog) {
-      this.dialogRef.close(null);
-    }
   }
 
   dispatch() {
@@ -242,17 +269,17 @@ export class AddEditLoadComponent implements OnInit {
 
   getTotal() {
     var total = this.getBaseAmount() +
-      Number(this.load.exten || 0) +
-      Number(this.load.fuelpaid || 0);
-    this.load.total = total || 0;
+      Number(this.load.exten) +
+      Number(this.load.fuelpaid);
+    this.load.total = total;
   }
 
   getAllMoney() {
     var allmoney = this.getBaseAmount() +
-      Number(this.load.rate || 0) +
-      Number(this.load.fuelsc || 0);
-    this.load.allmoney = allmoney || 0;
-    return allmoney || 0;
+      Number(this.load.rate) +
+      Number(this.load.fuelsc);
+    this.load.allmoney = allmoney;
+    return allmoney;
   }
 
   getBaseAmount() {
@@ -262,7 +289,7 @@ export class AddEditLoadComponent implements OnInit {
       Number(this.load.misc) +
       Number(this.load.layover) +
       Number(this.load.detention);
-    return baseAmount || 0;
+    return baseAmount;
   }
 
   canAddLinkedLoad() {

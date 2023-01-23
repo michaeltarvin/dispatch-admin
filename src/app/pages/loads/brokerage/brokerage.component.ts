@@ -58,20 +58,58 @@ export class BrokerageComponent implements OnInit {
   }
 
   onCellClicked(e: CellClickedEvent): void {
-    console.log(e.data.id);
-    this.openDialog(e.data.id);
+    this.openDialog(e.data.id,
+      0,
+      null,
+      null,
+      e.data.driver_id,
+      e.data.shipper_id,
+      e.data.billto_id,
+      e.data.receiver_id);
   }
 
-  openDialog($id: Number) {
+  openDialog($id: Number,
+    $tripId: Number = 0,
+    $type: string = null,
+    $subtype: string = null,
+    $driverId: number = 0,
+    $shipperId: number = 0,
+    $billerId: number = 0,
+    $receiverId: number = 0
+  ) {
 
     this.dialog.open(AddEditLoadComponent, {
-      data: { id: $id, is_brokerage: true },
+      data: {
+        id: $id,
+        tripId: $tripId,
+        type: $type,
+        subtype: $subtype,
+        driverId: $driverId,
+        shipperId: $shipperId,
+        billerId: $billerId,
+        receiverId: $receiverId
+      },
       disableClose: false,
       width: "1200px",
       position: { top: "85px" }
     }).afterClosed().subscribe(result => {
       this.result = result;
-      this.getLoads();
+      if (result) {
+        console.log(result);
+        this.openDialog(0,
+          result.tripId,
+          result.type,
+          result.subtype,
+          result.driverId,
+          0,
+          0,
+          0)
+      }
+      if (this.tripId && this.tripId > 0) {
+        this.searchByTrip()
+      } else {
+        this.getLoads();
+      }
     });
   }
 
@@ -91,8 +129,11 @@ export class BrokerageComponent implements OnInit {
 
   }
 
-  onDateChange($event) {
-    this.getLoads();
+  onDateChange($event: any) {
+    this.tripId = null;
+    if ($event) {
+      this.getLoads();
+    }
   }
 
   dateFormatter(params: any): string {

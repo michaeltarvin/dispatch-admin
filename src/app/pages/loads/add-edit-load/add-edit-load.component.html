@@ -24,7 +24,10 @@
         [(ngModel)]="load.is_brokerage"
         color="primary">Brokerage</mat-checkbox>
     </div>
+
   </div>
+
+  <mat-error *ngIf="errorMessage">{{errorMessage}}</mat-error>
 
   <div *ngIf="load">
 
@@ -313,7 +316,8 @@
               [disabled]="load.is_paid_for == true"
               [(ngModel)]="load.lumper"
               placeholder="Lumper">
-            <span matPrefix>$&nbsp;</span>
+            <span class="raquo"
+              matPrefix>$&nbsp;</span>
           </mat-form-field>
 
           <mat-form-field appearance="outline"
@@ -327,7 +331,8 @@
               [disabled]="load.is_paid_for == true"
               [(ngModel)]="load.unload"
               placeholder="Driver Unload">
-            <span matPrefix>$&nbsp;</span>
+            <span class="raquo"
+              matPrefix>$&nbsp;</span>
           </mat-form-field>
 
         </div>
@@ -361,7 +366,8 @@
               [disabled]="load.is_paid_for == true"
               [(ngModel)]="load.fuelsc"
               placeholder="Fuel SC">
-            <span matPrefix>$&nbsp;</span>
+            <span class="raquo"
+              matPrefix>$&nbsp;</span>
           </mat-form-field>
 
           <mat-form-field appearance="outline"
@@ -375,7 +381,8 @@
               [disabled]="load.is_paid_for == true"
               [(ngModel)]="load.misc"
               placeholder="Misc">
-            <span matPrefix>$&nbsp;</span>
+            <span class="raquo"
+              matPrefix>$&nbsp;</span>
           </mat-form-field>
 
         </div>
@@ -409,7 +416,8 @@
               [disabled]="load.is_paid_for == true"
               [(ngModel)]="load.detention"
               placeholder="Detention">
-            <span matPrefix>$&nbsp;</span>
+            <span class="raquo"
+              matPrefix>$&nbsp;</span>
           </mat-form-field>
 
           <mat-form-field appearance="outline"
@@ -423,7 +431,8 @@
               [disabled]="load.is_paid_for == true"
               [(ngModel)]="load.exten"
               placeholder="Exten">
-            <span matPrefix>$&nbsp;</span>
+            <span class="raquo"
+              matPrefix>$&nbsp;</span>
           </mat-form-field>
 
         </div>
@@ -460,7 +469,8 @@
               [value]="getAllMoney()"
               [(ngModel)]="load.allmoney"
               placeholder="All Money">
-            <span matPrefix>$&nbsp;</span>
+            <span class="raquo"
+              matPrefix>$&nbsp;</span>
           </mat-form-field>
 
         </div>
