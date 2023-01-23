@@ -29,7 +29,7 @@ export class AddEditCustomerTypeComponent implements OnInit {
 
   getDriver() {
     this.http
-      .get(`${environment.apiUrl}customerTypes/${this.data.id}`)
+      .get(`${environment.apiUrl}customer_types/${this.data.id}`)
       .subscribe({
         next: (response) => {
           this.customerType = response as CustomerTypeInterface;
@@ -49,7 +49,7 @@ export class AddEditCustomerTypeComponent implements OnInit {
 
     if (this.customerType.id > 0) {
       this.http
-        .patch(`${environment.apiUrl}customerTypes/${this.data.id}`, this.customerType)
+        .patch(`${environment.apiUrl}customer_types/${this.data.id}`, this.customerType)
         .subscribe({
           next: (response) => {
             console.log(response);
@@ -58,7 +58,7 @@ export class AddEditCustomerTypeComponent implements OnInit {
         });
     } else {
       this.http
-        .post(`${environment.apiUrl}customerTypes`, this.customerType)
+        .post(`${environment.apiUrl}customer_types`, this.customerType)
         .subscribe({
           next: (response) => {
             console.log(response);

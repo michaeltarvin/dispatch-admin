@@ -29,7 +29,7 @@ export class AddEditLoadSubTypeComponent implements OnInit {
 
   getDriverTypes() {
     this.http
-      .get<LoadSubTypeInterface>(`${environment.apiUrl}loadSubTypes/${this.data.id}`)
+      .get<LoadSubTypeInterface>(`${environment.apiUrl}load_sub_types/${this.data.id}`)
       .subscribe({
         next: (response) => {
           this.loadSubType = response;
@@ -49,7 +49,7 @@ export class AddEditLoadSubTypeComponent implements OnInit {
 
     if (this.loadSubType.id > 0) {
       this.http
-        .patch(`${environment.apiUrl}loadSubTypes/${this.data.id}`, this.loadSubType)
+        .patch(`${environment.apiUrl}load_sub_types/${this.data.id}`, this.loadSubType)
         .subscribe({
           next: (response) => {
             console.log(response);
@@ -58,7 +58,7 @@ export class AddEditLoadSubTypeComponent implements OnInit {
         });
     } else {
       this.http
-        .post(`${environment.apiUrl}loadSubTypes`, this.loadSubType)
+        .post(`${environment.apiUrl}load_sub_types`, this.loadSubType)
         .subscribe({
           next: (response) => {
             console.log(response);

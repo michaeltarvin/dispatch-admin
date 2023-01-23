@@ -123,13 +123,37 @@ export class LoadsComponent implements OnInit {
   }
 
   onCellClicked(e: CellClickedEvent): void {
-    this.openDialog(e.data.id);
+    this.openDialog(e.data.id,
+      0,
+      null,
+      null,
+      e.data.driver_id,
+      e.data.shipper_id,
+      e.data.billto_id,
+      e.data.receiver_id);
   }
 
-  openDialog($id: Number, $tripId: Number = 0, $type: string = null, $subtype: string = null) {
+  openDialog($id: Number,
+    $tripId: Number = 0,
+    $type: string = null,
+    $subtype: string = null,
+    $driverId: number = 0,
+    $shipperId: number = 0,
+    $billerId: number = 0,
+    $receiverId: number = 0
+  ) {
 
     this.dialog.open(AddEditLoadComponent, {
-      data: { id: $id, tripId: $tripId, type: $type, subtype: $subtype },
+      data: {
+        id: $id,
+        tripId: $tripId,
+        type: $type,
+        subtype: $subtype,
+        driverId: $driverId,
+        shipperId: $shipperId,
+        billerId: $billerId,
+        receiverId: $receiverId
+      },
       disableClose: false,
       width: "1200px",
       position: { top: "85px" }
@@ -137,7 +161,14 @@ export class LoadsComponent implements OnInit {
       this.result = result;
       if (result) {
         console.log(result);
-        this.openDialog(0, result.tripId, result.type, result.subtype)
+        this.openDialog(0,
+          result.tripId,
+          result.type,
+          result.subtype,
+          result.driverId,
+          0,
+          0,
+          0)
       }
       if (this.tripId && this.tripId > 0) {
         this.searchByTrip()
@@ -186,9 +217,6 @@ export class LoadsComponent implements OnInit {
   }
 
   dateFormatter(params: any): string {
-    //, h:mm
-    // ll
-    //return params.value ? moment(params.value).format('MMM Do, h:mm a') : '';
     return params.value ? moment(params.value).format('lll') : '';
   }
 

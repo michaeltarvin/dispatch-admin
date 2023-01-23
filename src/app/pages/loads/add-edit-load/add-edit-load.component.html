@@ -125,89 +125,33 @@
         <div fxLayout.gt-sm="row"
           fxLayoutGap.gt-sm="48px">
 
-          <mat-form-field appearance="outline"
-            class="example-full-width"
-            color="primary"
-            fxFlex>
-            <mat-label>Driver</mat-label>
-            <input type="text"
-              placeholder="Driver"
-              aria-label="Number"
-              matInput
-              [formControl]="driversControl"
-              [matAutocomplete]="drivers">
-            <mat-autocomplete autoActiveFirstOption
-              [displayWith]="displayFn"
-              #drivers="matAutocomplete">
-              <mat-option *ngFor="let option of driversOptions | async"
-                [value]="option">
-                {{option.name}}
-              </mat-option>
-            </mat-autocomplete>
-          </mat-form-field>
+          <fury-customer-auto-complete class="example-full-width"
+            [title]="'Driver'"
+            [customerType]="'drivers-list'"
+            [customerId]="data.driverId"
+            (selectionChanged)="onDriverChange($event)"
+            fxFlex></fury-customer-auto-complete>
 
-          <mat-form-field appearance="outline"
-            class="example-full-width"
-            color="primary"
-            fxFlex>
-            <mat-label>Shipper</mat-label>
-            <input type="text"
-              placeholder="Shipper"
-              aria-label="Number"
-              matInput
-              [formControl]="shipperControl"
-              [matAutocomplete]="shippers">
-            <mat-autocomplete autoActiveFirstOption
-              [displayWith]="displayFn"
-              #shippers="matAutocomplete">
-              <mat-option *ngFor="let option of shipperOptions | async"
-                [value]="option">
-                {{option.name}}
-              </mat-option>
-            </mat-autocomplete>
-          </mat-form-field>
+          <fury-customer-auto-complete class="example-full-width"
+            [title]="'Shipper'"
+            [customerType]="'shippers-list'"
+            [customerId]="data.shipperId"
+            (selectionChanged)="onShipperChange($event)"
+            fxFlex></fury-customer-auto-complete>
 
-          <mat-form-field appearance="outline"
-            class="example-full-width"
-            color="primary"
-            fxFlex>
-            <mat-label>Biller</mat-label>
-            <input type="text"
-              placeholder="Biller"
-              aria-label="Number"
-              matInput
-              [formControl]="billersControl"
-              [matAutocomplete]="billers">
-            <mat-autocomplete autoActiveFirstOption
-              [displayWith]="displayFn"
-              #billers="matAutocomplete">
-              <mat-option *ngFor="let option of billersOptions | async"
-                [value]="option">
-                {{option.name}}
-              </mat-option>
-            </mat-autocomplete>
-          </mat-form-field>
+          <fury-customer-auto-complete class="example-full-width"
+            [title]="'Biller'"
+            [customerType]="'billers-list'"
+            [customerId]="data.billerId"
+            (selectionChanged)="onBillerChange($event)"
+            fxFlex></fury-customer-auto-complete>
 
-          <mat-form-field appearance="outline"
-            class="example-full-width"
-            color="primary"
-            fxFlex>
-            <mat-label>Receiver</mat-label>
-            <input type="text"
-              placeholder="Receiver"
-              aria-label="Number"
-              matInput
-              [formControl]="receiversControl"
-              [matAutocomplete]="receivers">
-            <mat-autocomplete autoActiveFirstOption
-              [displayWith]="displayFn"
-              #receivers="matAutocomplete">
-              <mat-option *ngFor="let option of receiversOptions | async"
-                [value]="option">
-                {{option.name}}
-              </mat-option>
-            </mat-autocomplete>
-          </mat-form-field>
+          <fury-customer-auto-complete class="example-full-width"
+            [title]="'Receiver'"
+            [customerType]="'receivers-list'"
+            [customerId]="data.receiverId"
+            (selectionChanged)="onReceiverChange($event)"
+            fxFlex></fury-customer-auto-complete>
 
         </div>
 

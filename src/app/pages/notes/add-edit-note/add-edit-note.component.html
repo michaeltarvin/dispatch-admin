@@ -64,11 +64,16 @@
         color="primary"
         fxFlex>
         <mat-label>Question</mat-label>
-        <textarea matInput
-          cdkTextareaAutosize
+        <!-- <textarea matInput
           [(ngModel)]="note.request"
-          #autosize="cdkTextareaAutosize"
-          cdkAutosizeMinRows="3"></textarea>
+          rows="8"></textarea> -->
+        <textarea matInput
+          name="questionText"
+          cols="35"
+          rows="8"
+          placeholder="Question"
+          [(ngModel)]="note.request"
+          required></textarea>
       </mat-form-field>
 
     </div>

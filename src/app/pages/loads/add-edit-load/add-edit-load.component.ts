@@ -2,8 +2,6 @@ import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { ColDef, GridOptions, GridApi, RowDragEndEvent } from 'ag-grid-community';
-import { Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
 import { NgxSpinnerService } from "ngx-spinner";
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { NgxMatDateFormats, NGX_MAT_DATE_FORMATS } from '@angular-material-components/datetime-picker';
@@ -45,7 +43,17 @@ export class AddEditLoadComponent implements OnInit {
   @ViewChild('picker') picker: any;
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: { id: number, tripId: number, type: string, subtype: string, is_brokerage: boolean },
+    @Inject(MAT_DIALOG_DATA) public data: {
+      id: number,
+      tripId: number,
+      type: string,
+      subtype: string,
+      is_brokerage: boolean,
+      driverId: number
+      shipperId: number,
+      billerId: number,
+      receiverId: number
+    },
     public dialogRef: MatDialogRef<AddEditLoadComponent>,
     private spinner: NgxSpinnerService,
     private http: HttpClient) {
@@ -68,24 +76,9 @@ export class AddEditLoadComponent implements OnInit {
   linkedLoadData: LinkedLoadPosition[] = [];
   gridApi: GridApi;
   gridOptions: GridOptions;
+  myDriverId: number = 97;
 
   load: LoadInterface;
-
-  shippers: any = [];
-  shipperControl = new FormControl(new CustomerList());
-  shipperOptions: Observable<string[]>;
-
-  billers: any = [];
-  billersControl = new FormControl(new CustomerList());
-  billersOptions: Observable<string[]>;
-
-  receivers: any = [];
-  receiversControl = new FormControl(new CustomerList());
-  receiversOptions: Observable<string[]>;
-
-  drivers: any = [];
-  driversControl = new FormControl(new CustomerList());
-  driversOptions: Observable<string[]>;
 
   columnDefs: ColDef[] = [
     { headerName: "Order", field: 'linked_load_position', width: 115, rowDrag: true, suppressSizeToFit: true },
@@ -100,7 +93,6 @@ export class AddEditLoadComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.setupCustomers();
     this.getLoadSubTypes();
 
     if (this.data.id > 0) {
@@ -112,7 +104,11 @@ export class AddEditLoadComponent implements OnInit {
         type: this.data.type,
         subtype: this.data.subtype,
         is_brokerage: this.data.is_brokerage,
-        has_linked_loads: false
+        has_linked_loads: false,
+        driver_id: this.data.driverId,
+        shipper_id: 0,
+        receiver_id: 0,
+        billto_id: 0
       } as LoadInterface;
 
       if (this.load.trip_id > 0) {
@@ -138,10 +134,6 @@ export class AddEditLoadComponent implements OnInit {
       .subscribe({
         next: (response) => {
           this.load = response as LoadInterface;
-          this.shipperControl.setValue(this.getCustomerFromArray(this.load.shipper_id, this.shippers));
-          this.billersControl.setValue(this.getCustomerFromArray(this.load.billto_id, this.billers));
-          this.receiversControl.setValue(this.getCustomerFromArray(this.load.receiver_id, this.receivers));
-          this.driversControl.setValue(this.getCustomerFromArray(this.load.driver_id, this.drivers));
           this.dateControl.setValue(moment(this.load.pudate).toDate());
           this.delDateControl.setValue(moment(this.load.deldate).toDate());
 
@@ -169,7 +161,7 @@ export class AddEditLoadComponent implements OnInit {
 
   getLoadSubTypes() {
     this.http
-      .get(`${environment.apiUrl}loadSubTypes`)
+      .get(`${environment.apiUrl}load_sub_types`)
       .subscribe({
         next: (response) => {
           this.loadSubTypesDB = response;
@@ -186,24 +178,31 @@ export class AddEditLoadComponent implements OnInit {
     this.dialogRef.close(null);
   }
 
+  onBillerChange($event: CustomerList) {
+    if ($event && this.load.billto_id !== $event.id) {
+      this.load.billto_id = $event.id;
+    }
+  }
+
+  onDriverChange($event: CustomerList) {
+    if ($event && this.load.driver_id !== $event.id) {
+      this.load.driver_id = $event.id;
+    }
+  }
+
+  onShipperChange($event: CustomerList) {
+    if ($event && this.load.shipper_id !== $event.id) {
+      this.load.shipper_id = $event.id;
+    }
+  }
+
+  onReceiverChange($event: CustomerList) {
+    if ($event && this.load.receiver_id !== $event.id) {
+      this.load.receiver_id = $event.id;
+    }
+  }
+
   save(closeDialog: boolean = true) {
-
-    //TODO find a better way to handle forms
-    if (this.load.driver_id !== this.driversControl.value.id) {
-      this.load.driver_id = this.driversControl.value.id
-    }
-
-    if (this.load.shipper_id !== this.shipperControl.value.id) {
-      this.load.shipper_id = this.shipperControl.value.id
-    }
-
-    if (this.load.billto_id !== this.billersControl.value.id) {
-      this.load.billto_id = this.billersControl.value.id
-    }
-
-    if (this.load.receiver_id !== this.receiversControl.value.id) {
-      this.load.receiver_id = this.receiversControl.value.id
-    }
 
     this.load.pudate = moment(this.dateControl.value).format('YYYY-MM-DDTHH:mm:00.000000Z');
     this.load.deldate = moment(this.delDateControl.value).format('YYYY-MM-DDTHH:mm:00.000000Z');
@@ -266,108 +265,22 @@ export class AddEditLoadComponent implements OnInit {
     return baseAmount || 0;
   }
 
-  displayFn(customer: CustomerList): string {
-    return customer && customer.name ? customer.name : '';
-  }
-
-  setupCustomers() {
-
-    this.getDropdownData('shippers-list')
-      .subscribe({
-        next: (response) => {
-          this.shippers = response as CustomerList[];
-          this.shipperOptions = this.shipperControl.valueChanges.pipe(
-            startWith(''),
-            map(value => this._filterShippers(value || '')),
-          );
-        },
-        error: (error) => console.error(error),
-      });
-
-    this.getDropdownData('receivers-list')
-      .subscribe({
-        next: (response) => {
-          this.receivers = response as CustomerList[];
-          this.receiversOptions = this.receiversControl.valueChanges.pipe(
-            startWith(''),
-            map(value => this._filterReceivers(value || '')),
-          );
-        },
-        error: (error) => console.error(error),
-      });
-
-    this.getDropdownData('billers-list')
-      .subscribe({
-        next: (response) => {
-          this.billers = response as CustomerList[];
-          this.billersOptions = this.billersControl.valueChanges.pipe(
-            startWith(''),
-            map(value => this._filterBillers(value || '')),
-          );
-        },
-        error: (error) => console.error(error),
-      });
-
-    this.getDropdownData('drivers-list')
-      .subscribe({
-        next: (response) => {
-          this.drivers = response as CustomerList[];
-          this.driversOptions = this.driversControl.valueChanges.pipe(
-            startWith(''),
-            map(value => this._filterDrivers(value || '')),
-          );
-        },
-        error: (error) => console.error(error),
-      });
-  }
-
-  private _filterShippers(value: any): string[] {
-
-    let filterValue = '';
-    if ((typeof value) == 'string') {
-      filterValue = value.toLowerCase();
-    }
-
-    return this.shippers.filter(option => option.name.toLowerCase().includes(filterValue));
-  }
-
-  private _filterBillers(value: any): string[] {
-
-    let filterValue = '';
-    if ((typeof value) == 'string') {
-      filterValue = value.toLowerCase();
-    }
-
-    return this.billers.filter(option => option.name.toLowerCase().includes(filterValue));
-  }
-
-  private _filterReceivers(value: any): string[] {
-
-    let filterValue = '';
-    if ((typeof value) == 'string') {
-      filterValue = value.toLowerCase();
-    }
-
-    return this.receivers.filter(option => option.name.toLowerCase().includes(filterValue));
-  }
-
-  private _filterDrivers(value: any): string[] {
-
-    let filterValue = '';
-    if ((typeof value) == 'string') {
-      filterValue = value.toLowerCase();
-    }
-
-    return this.drivers.filter(option => option.name.toLowerCase().includes(filterValue));
-  }
-
   canAddLinkedLoad() {
     return !(this.load && this.load.id > 0);
   }
 
   addLinkedLoad(subtype: string) {
     this.save(false);
-    const config = { tripId: this.load.trip_id, type: this.load.type, subtype: subtype };
+    const config =
+    {
+      tripId: this.load.trip_id,
+      type: this.load.type,
+      subtype: subtype,
+      driverId: this.load.driver_id,
+      shipperId: this.load.shipper_id,
+      billerId: this.load.billto_id,
+      receiverId: this.load.receiver_id
+    };
     console.log(config)
     this.dialogRef.close(config);
   }

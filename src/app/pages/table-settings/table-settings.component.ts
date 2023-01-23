@@ -41,11 +41,13 @@ export class TableSettingsComponent implements OnInit {
     },
     {
       field: 'field',
+      headerTooltip: 'This the API property name, it cannot be changed.',
       editable: false,
       rowDrag: true,
     },
     {
       field: 'headerName',
+      headerTooltip: 'OPTIONAL: The header display name, if missing the field name is used. If the field is "name" the displayed value would be "Name"',
       editable: true,
     },
     {

@@ -6,6 +6,7 @@ import { MaterialModule } from '../../../@fury/shared/material-components.module
 import { ScrollbarModule } from '../../../@fury/shared/scrollbar/scrollbar.module';
 import { AgGridModule } from 'ag-grid-angular';
 import { TableModule } from "../../core/table/table.module";
+import { CustomerAutoCompleteModule } from "../../core/customer-auto-complete/customer-auto-complete.module";
 import { PaymentsRoutingModule } from './payments-routing.module';
 import { PaymentsComponent } from '../payments/payments.component';
 
@@ -21,6 +22,7 @@ import { PaymentsComponent } from '../payments/payments.component';
     ScrollbarModule,
     AgGridModule,
     TableModule,
+    CustomerAutoCompleteModule,
   ],
   declarations: [
     PaymentsComponent

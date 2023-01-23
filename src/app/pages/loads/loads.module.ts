@@ -12,6 +12,7 @@ import { AddEditLoadComponent } from "./add-edit-load/add-edit-load.component";
 import { LoadsRoutingModule } from './loads-routing.module';
 import { BrokerageComponent } from './brokerage/brokerage.component';
 import { NgxMatMomentModule } from '@angular-material-components/moment-adapter';
+import { CustomerAutoCompleteModule } from "../../core/customer-auto-complete/customer-auto-complete.module";
 
 @NgModule({
   imports: [
@@ -26,6 +27,7 @@ import { NgxMatMomentModule } from '@angular-material-components/moment-adapter'
     TableModule,
     LoadsRoutingModule,
     NgxMatMomentModule,
+    CustomerAutoCompleteModule,
   ],
   declarations: [
     LoadsComponent,

@@ -35,7 +35,7 @@ export class AddEditCustomerComponent implements OnInit {
   getCustomerTypes() {
     //customerTypes
     this.http
-      .get(`${environment.apiUrl}customerTypes`)
+      .get(`${environment.apiUrl}customer_types`)
       .subscribe({
         next: (response) => {
           this.customerTypes = response as CustomerInterface;

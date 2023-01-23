@@ -1,7 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { GridApi, ColDef, SelectionChangedEvent } from 'ag-grid-community';
 import * as moment from 'moment';
@@ -22,10 +19,7 @@ export class PaymentsComponent implements OnInit {
 
   constructor(private http: HttpClient) { }
 
-  ngOnInit(): void {
-
-    this.setupCustomers();
-  }
+  ngOnInit(): void { }
 
   rowData: any = [];
   totalAmount: number = 0;
@@ -33,9 +27,6 @@ export class PaymentsComponent implements OnInit {
   paymentBalance: number = 0;
   gridApi: GridApi;
   billerId: number;
-  billers: any = [];
-  billersControl = new FormControl(new CustomerList());
-  billersOptions: Observable<string[]>;
 
   columnDefs: ColDef[] = [
     { field: 'id', headerName: 'Load ID', hide: true },
@@ -59,28 +50,13 @@ export class PaymentsComponent implements OnInit {
     this.gridApi = params.api;
   }
 
-  getDropdownData(type: string) {
-    return this.http.get(`${environment.apiUrl}${type}`);
+  onCustomerChange($event: CustomerList) {
+    this.getUnpaidLoadsForBiller($event.id);
   }
 
-  setupCustomers() {
-
-    this.getDropdownData('billers-list')
-      .subscribe({
-        next: (response) => {
-          this.billers = response as CustomerList[];
-          this.billersOptions = this.billersControl.valueChanges.pipe(
-            startWith(''),
-            map(value => this._filterBillers(value || '')),
-          );
-        },
-        error: (error) => console.error(error),
-      });
-  }
-
-  getUnpaidLoadsForBiller($event: any) {
+  getUnpaidLoadsForBiller($id: number) {
     this.totalAmount = 0;
-    this.billerId = $event.option.value.id;
+    this.billerId = $id;
     this.http
       .get(`${environment.apiUrl}ageing?billto_id=${this.billerId}`)
       .subscribe({
@@ -127,20 +103,6 @@ export class PaymentsComponent implements OnInit {
       this.paymentBalance = balance;
     }
 
-  }
-
-  private _filterBillers(value: any): string[] {
-
-    let filterValue = '';
-    if ((typeof value) == 'string') {
-      filterValue = value.toLowerCase();
-    }
-
-    return this.billers.filter(option => option.name.toLowerCase().includes(filterValue));
-  }
-
-  displayFn(customer: CustomerList): string {
-    return customer && customer.name ? customer.name : '';
   }
 
   moneyFormatter(params: any): string {
