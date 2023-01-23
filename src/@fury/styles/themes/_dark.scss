@@ -15,4 +15,12 @@ $sidenav-item-subheading-color: $theme-secondary-text !default;
 $toolbar-background: $theme-app-bar !default;
 $toolbar-search-background: $theme-card !default;
 
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active{
+    -webkit-box-shadow: 0 0 0 30px rgba(85, 85, 85) inset !important;
+    -webkit-text-fill-color: $theme-text !important;
+}
+
 @import "./default";
