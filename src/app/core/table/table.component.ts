@@ -1,5 +1,13 @@
 import { Component, EventEmitter, Input, Output, OnDestroy } from "@angular/core";
-import { CellClickedEvent, ColDef, GridOptions, GridApi, RowDragEndEvent, SelectionChangedEvent } from "ag-grid-community";
+import {
+  ColDef,
+  GridOptions,
+  GridApi,
+  RowDragEndEvent,
+  SelectionChangedEvent,
+  CellClickedEvent,
+  CellDoubleClickedEvent
+} from "ag-grid-community";
 import { HttpClient } from '@angular/common/http';
 import { TableInterface } from './table.column.interface';
 import { TableService } from './table.service';
@@ -19,12 +27,15 @@ export class TableComponent implements OnDestroy {
   @Input() columnDefs: ColDef[] = [];
   @Input() rowData: any;
   @Input() rowSelection = "single";
+  @Input() pagination: boolean = false;
   @Output() cellClicked = new EventEmitter<any>();
   @Output() selectionChanged = new EventEmitter<any>();
   @Output() rowDoubleClicked = new EventEmitter<any>();
   @Output() rowDragEnd = new EventEmitter<any>();
   @Output() tableReady: EventEmitter<any> = new EventEmitter<any>();
 
+  rowHeight = 35;
+  pageSize = 20;
   tableTheme: string;
   gridApi: GridApi;
   domLayout: any;
@@ -141,7 +152,7 @@ export class TableComponent implements OnDestroy {
     filter: true,
   };
 
-  onCellClicked($event: CellClickedEvent) {
+  onCellClicked($event: CellDoubleClickedEvent) {
     this.cellClicked.emit($event);
   }
 

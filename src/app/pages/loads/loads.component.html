@@ -7,13 +7,14 @@
 
     <fury-card fxFlex="auto">
       <fury-card-header>
-        <fury-card-header-heading><span>Loads</span>
+        <!-- <fury-card-header-heading>
+          <span>Loads</span>
           <button mat-icon-button
             color="primary"
             (click)="openDialog(0)">
             <mat-icon>add_circle_outline</mat-icon>
           </button>
-        </fury-card-header-heading>
+        </fury-card-header-heading> -->
       </fury-card-header>
 
       <fury-card-content fxLayout="column">
@@ -69,12 +70,27 @@
             </button>
           </mat-form-field>
 
+          <div style="padding-top: 10px">
+            <button mat-icon-button
+              color="primary"
+              (click)="openDialog(0)">
+              <mat-icon>add_circle_outline</mat-icon>
+            </button>
+          </div>
+
         </div>
 
         <fury-scrollbar fxFlex="grow">
 
           <div class="table-space"
             fxLayout="column">
+
+            <h3>
+              <span #tooltip="matTooltip"
+                matTooltip="Double click row to edit.">Loads</span>
+            </h3>
+
+
             <ms-table [columnDefs]="columnDefs"
               [rowData]="loadData"
               [gridOptions]="gridOptions"
@@ -82,6 +98,7 @@
               (cellClicked)="onCellClicked($event)"></ms-table>
           </div>
 
+          <h3>Back-Hauls</h3>
           <div fxLayout="column">
             <ms-table [columnDefs]="columnDefs"
               [rowData]="backHaulData"

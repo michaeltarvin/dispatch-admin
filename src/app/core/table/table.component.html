@@ -14,11 +14,14 @@
         [getRowStyle]="getRowStyle"
         [domLayout]="domLayout"
         [animateRows]="true"
+        [rowHeight]="rowHeight"
         [rowDragManaged]="true"
+        [pagination]="pagination"
+        [paginationPageSize]="pageSize"
         (gridReady)="onGridReady($event)"
         (rowDragEnd)="onRowDragEnd($event)"
         (selectionChanged)="onSelectionChanged($event)"
-        (cellClicked)="onCellClicked($event)">
+        (cellDoubleClicked)="onCellClicked($event)">
       </ag-grid-angular>
     </div>
 

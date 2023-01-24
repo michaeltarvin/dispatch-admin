@@ -5,6 +5,7 @@ import { ColDef, GridOptions, GridApi, RowDragEndEvent } from 'ag-grid-community
 import { NgxSpinnerService } from "ngx-spinner";
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { NgxMatDateFormats, NGX_MAT_DATE_FORMATS } from '@angular-material-components/datetime-picker';
+import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { LoadInterface } from "./load.interface";
 import * as moment from 'moment';
 import { environment } from '../../../../environments/environment';
@@ -56,7 +57,8 @@ export class AddEditLoadComponent implements OnInit {
     },
     public dialogRef: MatDialogRef<AddEditLoadComponent>,
     private spinner: NgxSpinnerService,
-    private http: HttpClient) {
+    private http: HttpClient,
+    private _snackBar: MatSnackBar) {
   }
 
   public disabled = false;
@@ -70,7 +72,7 @@ export class AddEditLoadComponent implements OnInit {
   public delDateControl = new FormControl(null, [Validators.required]);
   public defaultTime = [new Date().getHours(), 0, 0]
   public loadTypes: string[] = ['Load', 'Back-Haul'];
-  // public loadSubTypes: string[] = ['Pre-Load', 'Pick-Up', 'Stop'];
+  durationInSeconds = 4;
   loadSubTypesDB: any = [];
   loadData: any = [];
   linkedLoadData: LinkedLoadPosition[] = [];
@@ -227,10 +229,10 @@ export class AddEditLoadComponent implements OnInit {
 
     if (this.load.id > 0) {
       this.http
-        .patch(`${environment.apiUrl}loads/${this.data.id}`, this.load)
+        .patch<LoadInterface>(`${environment.apiUrl}loads/${this.data.id}`, this.load)
         .subscribe({
           next: (response) => {
-            console.log(response);
+            this.openSnackBar(`Updated Trip: ${response.trip_id}`, "Close");
             if (closeDialog) {
               this.dialogRef.close(null);
             }
@@ -242,10 +244,10 @@ export class AddEditLoadComponent implements OnInit {
         });
     } else {
       this.http
-        .post(`${environment.apiUrl}loads`, this.load)
+        .post<LoadInterface>(`${environment.apiUrl}loads`, this.load)
         .subscribe({
           next: (response) => {
-            console.log(response);
+            this.openSnackBar(`Created Trip: ${response.trip_id}`, "Close");
             if (closeDialog) {
               this.dialogRef.close(null);
             }
@@ -341,7 +343,8 @@ export class AddEditLoadComponent implements OnInit {
 
     for (let i = 0; i < this.linkedLoadData.length; i++) {
       this.http
-        .patch(`${environment.apiUrl}loads/${this.linkedLoadData[i].loadId}`, { linked_load_position: this.linkedLoadData[i].position })
+        .patch(`${environment.apiUrl}loads/${this.linkedLoadData[i].loadId}`,
+          { linked_load_position: this.linkedLoadData[i].position })
         .subscribe({
           next: (response) => {
             console.log(response);
@@ -354,6 +357,17 @@ export class AddEditLoadComponent implements OnInit {
       /** spinner ends after 5 seconds */
       this.spinner.hide();
     }, 5000);
+  }
+
+  openSnackBar(message: string, action: string) {
+
+    const config: MatSnackBarConfig = {
+      duration: this.durationInSeconds * 1000,
+      horizontalPosition: 'center',
+      panelClass: "success-dialog"
+    };
+
+    this._snackBar.open(message, action, config);
   }
 
 }
