@@ -4,13 +4,8 @@ import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { CustomerList } from '../classes/customer.list';
 import { environment } from '../../../environments/environment';
-
-export class CustomerList {
-  id: number;
-  name: string;
-  alias: string;
-}
 
 @Component({
   selector: 'fury-customer-auto-complete',

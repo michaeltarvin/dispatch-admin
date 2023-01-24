@@ -5,7 +5,6 @@ import {
   GridApi,
   RowDragEndEvent,
   SelectionChangedEvent,
-  CellClickedEvent,
   CellDoubleClickedEvent
 } from "ag-grid-community";
 import { HttpClient } from '@angular/common/http';
@@ -96,6 +95,7 @@ export class TableComponent implements OnDestroy {
                 field: item.field,
                 hide: item.hide,
                 width: item.width,
+                editable: item.field === 'trip_id' ? true : false,
                 rowDrag: item.rowDrag,
                 suppressSizeToFit: item.suppressSizeToFit,
               };

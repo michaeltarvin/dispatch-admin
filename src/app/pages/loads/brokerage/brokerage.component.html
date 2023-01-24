@@ -57,9 +57,12 @@
 
           <div class="table-space"
             fxLayout="column">
-            <ms-table [columnDefs]="columnDefs"
+
+            <ms-table [tableName]="tableName"
               [rowData]="loadData"
-              (cellClicked)="onCellClicked($event)"></ms-table>
+              (cellClicked)="onCellClicked($event)">
+            </ms-table>
+
           </div>
 
         </fury-scrollbar>

@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
 import { CellClickedEvent } from 'ag-grid-community';
-import { MatDialog } from '@angular/material/dialog';
-import { TableService } from '../../core/table/table.service';
 
 @Component({
   selector: 'fury-ageing',
@@ -10,7 +8,7 @@ import { TableService } from '../../core/table/table.service';
 })
 export class AgeingComponent {
 
-  constructor(private dialog: MatDialog, private tableService: TableService) { }
+  constructor() { }
 
   tableName: string = 'ageing';
   dataRoute: string = 'ageing';

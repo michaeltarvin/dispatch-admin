@@ -43,7 +43,8 @@
 
         <fury-scrollbar class="icon-list"
           fxFlex="grow">
-          <ms-table [columnDefs]="columnDefs"
+
+          <ms-table [tableName]="tableName"
             (tableReady)="onTableReady($event)"
             [rowSelection]="'multiple'"
             [rowData]="rowData"

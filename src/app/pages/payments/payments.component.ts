@@ -1,14 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { GridApi, ColDef, SelectionChangedEvent } from 'ag-grid-community';
-import * as moment from 'moment';
+import { GridApi, SelectionChangedEvent } from 'ag-grid-community';
+import { TableService } from '../../core/table/table.service';
+import { CustomerList } from '../../core/classes/customer.list';
 import { environment } from '../../../environments/environment';
-
-export class CustomerList {
-  id: number;
-  name: string;
-  alias: string;
-}
 
 @Component({
   selector: 'fury-payments',
@@ -17,10 +12,11 @@ export class CustomerList {
 })
 export class PaymentsComponent implements OnInit {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private tableService: TableService) { }
 
   ngOnInit(): void { }
 
+  tableName: string = 'ageing';
   rowData: any = [];
   totalAmount: number = 0;
   paymentAmount: number;
@@ -28,24 +24,6 @@ export class PaymentsComponent implements OnInit {
   gridApi: GridApi;
   billerId: number;
   canCreatePayment: boolean = false;
-
-  columnDefs: ColDef[] = [
-    { field: 'id', hide: true },
-    {
-      field: 'trip_id', headerName: 'Trip', width: 155,
-      headerCheckboxSelection: true,
-      checkboxSelection: true,
-      showDisabledCheckboxes: true,
-
-    },
-    { field: 'days_past_due', headerName: 'Days Past Due', width: 170 },
-    { field: 'type', headerName: 'Type', width: 115 },
-    { field: 'deldate', headerName: "Delivery Date", width: 175, valueFormatter: this.dateFormatter },
-    { field: 'total', headerName: 'Total $', width: 115, valueFormatter: this.moneyFormatter },
-    { field: 'allmoney', headerName: 'All $', width: 115, valueFormatter: this.moneyFormatter },
-    { field: 'shipper', headerName: 'Shipper', width: 175 },
-    { field: 'receiver', headerName: 'Receiver', width: 175 },
-  ];
 
   onTableReady(params: any) {
     this.gridApi = params.api;
@@ -63,6 +41,7 @@ export class PaymentsComponent implements OnInit {
       .subscribe({
         next: (response) => {
           this.rowData = response;
+          this.tableService.refresh(true);
         },
         error: (error) => console.error(error),
       });
@@ -113,10 +92,6 @@ export class PaymentsComponent implements OnInit {
     }
   }
 
-  disableCreatePayment() {
-    return this.billerId <= 0;
-  }
-
   findLoads() {
 
     if (this.paymentAmount && this.paymentAmount > 0) {
@@ -141,15 +116,6 @@ export class PaymentsComponent implements OnInit {
 
       this.paymentBalance = balance;
     }
-
-  }
-
-  moneyFormatter(params: any): string {
-    return `$${params.value}`
-  }
-
-  dateFormatter(params: any): string {
-    return moment(params.value).format('ll');
   }
 
 }

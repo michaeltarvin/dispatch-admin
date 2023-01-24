@@ -61,7 +61,7 @@ export class TableSettingsComponent implements OnInit {
       width: 120,
       cellEditor: 'agSelectCellEditor',
       cellEditorParams: {
-        values: ['string', 'number', 'boolean', 'date', 'currency'],
+        values: ['string', 'number', 'boolean', 'date', 'currency', 'checkbox'],
       }
     },
     {

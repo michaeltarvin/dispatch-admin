@@ -90,19 +90,22 @@
                 matTooltip="Double click row to edit.">Loads</span>
             </h3>
 
-
-            <ms-table [columnDefs]="columnDefs"
-              [rowData]="loadData"
-              [gridOptions]="gridOptions"
+            <ms-table [tableName]="tableName"
               (tableReady)="onTableReady($event)"
-              (cellClicked)="onCellClicked($event)"></ms-table>
+              [rowData]="loadData"
+              (cellClicked)="onCellClicked($event)">
+            </ms-table>
+
           </div>
 
           <h3>Back-Hauls</h3>
           <div fxLayout="column">
-            <ms-table [columnDefs]="columnDefs"
+
+            <ms-table [tableName]="tableName"
               [rowData]="backHaulData"
-              (cellClicked)="onCellClicked($event)"></ms-table>
+              (cellClicked)="onCellClicked($event)">
+            </ms-table>
+
           </div>
 
         </fury-scrollbar>

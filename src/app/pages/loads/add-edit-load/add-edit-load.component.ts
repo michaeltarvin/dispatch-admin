@@ -7,6 +7,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { NgxMatDateFormats, NGX_MAT_DATE_FORMATS } from '@angular-material-components/datetime-picker';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { LoadInterface } from "./load.interface";
+import { CustomerList } from '../../../core/classes/customer.list';
 import * as moment from 'moment';
 import { environment } from '../../../../environments/environment';
 
@@ -21,12 +22,6 @@ const CUSTOM_DATE_FORMATS: NgxMatDateFormats = {
     monthYearA11yLabel: 'MMMM YYYY',
   },
 };
-
-export class CustomerList {
-  id: number;
-  name: string;
-  alias: string;
-}
 
 export class LinkedLoadPosition {
   loadId: number;

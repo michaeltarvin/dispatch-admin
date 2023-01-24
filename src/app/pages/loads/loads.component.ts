@@ -1,10 +1,10 @@
-// implements OnInit {
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-import { CellClickedEvent, ColDef, GridOptions, GridApi } from 'ag-grid-community';
+import { CellClickedEvent, GridOptions, GridApi } from 'ag-grid-community';
 import { MatDialog } from '@angular/material/dialog';
 import { AddEditLoadComponent } from "./add-edit-load/add-edit-load.component";
+import { TableService } from '../../core/table/table.service';
 import { environment } from '../../../environments/environment';
 import * as moment from "moment";
 
@@ -16,8 +16,10 @@ import * as moment from "moment";
 export class LoadsComponent implements OnInit {
 
   constructor(private http: HttpClient,
-    private dialog: MatDialog) { }
+    private dialog: MatDialog,
+    private tableService: TableService) { }
 
+  tableName: string = 'load';
   gridApi: GridApi;
   gridOptions: GridOptions;
   loadData: any = [];
@@ -33,71 +35,9 @@ export class LoadsComponent implements OnInit {
     end: new FormControl<Date | null>(new Date()),
   });
 
-  columnDefs: ColDef[] = [
-    {
-      "field": "id",
-      "hide": true
-    },
-    {
-      "headerName": "Trip",
-      "field": "trip_id",
-      "width": 100,
-      "suppressSizeToFit": true
-    },
-    {
-      "headerName": "Type",
-      "field": "type",
-      "width": 115,
-      "suppressSizeToFit": true
-    },
-    {
-      "headerName": "Sub-Type",
-      "field": "subtype",
-      "width": 115,
-      "suppressSizeToFit": true
-    },
-    {
-      "headerName": "Dispatched",
-      "field": "is_dispatched",
-      "width": 135,
-      "suppressSizeToFit": true
-    },
-    {
-      "headerName": "Pick-Up Date",
-      "field": "pudate",
-      "width": 190,
-      "valueFormatter": this.dateFormatter,
-      "suppressSizeToFit": true
-    },
-    {
-      "headerName": "Delivery Date",
-      "field": "deldate",
-      "width": 190,
-      "valueFormatter": this.dateFormatter,
-      "suppressSizeToFit": true
-    },
-    {
-      "headerName": "Linked Loads",
-      "field": "has_linked_loads",
-      "width": 175,
-      "hide": true
-    },
-    {
-      "field": "driver"
-    },
-    {
-      "field": "shipper"
-    },
-    {
-      "field": "receiver"
-    }
-  ];
-
   ngOnInit(): void {
-
     this.getLoads();
     this.getBackHauls();
-
   }
 
   getLoads(): any {
@@ -106,6 +46,7 @@ export class LoadsComponent implements OnInit {
       .subscribe({
         next: (response) => {
           this.loadData = response;
+          this.tableService.refresh(true);
         },
         error: (error) => console.error(error),
       });
@@ -117,6 +58,7 @@ export class LoadsComponent implements OnInit {
       .subscribe({
         next: (response) => {
           this.backHaulData = response;
+          this.tableService.refresh(true);
         },
         error: (error) => console.error(error),
       });
@@ -214,10 +156,6 @@ export class LoadsComponent implements OnInit {
       this.getLoads();
       this.getBackHauls();
     }
-  }
-
-  dateFormatter(params: any): string {
-    return params.value ? moment(params.value).format('lll') : '';
   }
 
 }
