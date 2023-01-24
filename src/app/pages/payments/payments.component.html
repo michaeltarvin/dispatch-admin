@@ -25,13 +25,13 @@
 
           <mat-form-field appearance="outline"
             class="example-full-width"
-            color="primary">
+            color="primary"
+            [floatLabel]="'always'">
             <mat-label>Payment Amount</mat-label>
             <input type="number"
               class="example-right-align"
               matInput
-              [(ngModel)]="paymentAmount"
-              placeholder="Payment Amount">
+              [(ngModel)]="paymentAmount">
             <span class="raquo"
               matPrefix>$&nbsp;</span>
             <mat-icon (click)="findLoads()"
@@ -50,8 +50,9 @@
             (selectionChanged)="onSelectionChanged($event)">
           </ms-table>
 
-          <div fxLayout.gt-sm="row"
-            fxLayoutGap.gt-sm="48px">
+          <div fxLayout="row"
+            fxLayoutGap.gt-sm="75px"
+            fxLayoutAlign="start center">
 
             <mat-form-field appearance="outline"
               class="example-full-width"
@@ -84,6 +85,14 @@
                   matPrefix>$&nbsp;</span>
               </mat-form-field>
             </div>
+
+            <button type="button"
+              color="primary"
+              mat-raised-button
+              [disabled]="(paymentAmount == 0 || billerId == 0 || !canCreatePayment)"
+              (click)="createPayment()">
+              Create Payment
+            </button>
 
           </div>
 

@@ -1,0 +1,42 @@
+<div class="padding"
+  fxLayout="column">
+
+  <div fxLayout="column"
+    fxLayout.gt-md="row"
+    fxLayoutGap="24px">
+
+    <fury-card fxFlex="auto">
+      <fury-card-header>
+        <fury-card-header-heading>
+          <span>Payment History</span>
+        </fury-card-header-heading>
+      </fury-card-header>
+
+      <fury-card-content fxLayout="column">
+
+        <div fxLayout.gt-sm="row"
+          fxLayoutGap.gt-sm="75px">
+
+          <fury-customer-auto-complete class="example-full-width"
+            [title]="'Billers'"
+            [customerType]="'billers-list'"
+            (selectionChanged)="onCustomerChange($event)"
+            fxFlex></fury-customer-auto-complete>
+
+        </div>
+
+        <fury-scrollbar class="icon-list"
+          fxFlex="grow">
+
+          <ms-table [columnDefs]="columnDefs"
+            [rowData]="rowData">
+          </ms-table>
+
+        </fury-scrollbar>
+
+      </fury-card-content>
+
+    </fury-card>
+  </div>
+
+</div>

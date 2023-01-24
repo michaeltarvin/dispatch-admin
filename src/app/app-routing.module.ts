@@ -63,6 +63,11 @@ const routes: Routes = [
         canActivate: [LoggedInGuard],
       },
       {
+        path: 'payment-history',
+        loadChildren: () => import('./pages/payment-history/payment-history.module').then(m => m.PaymentHistoryModule),
+        canActivate: [LoggedInGuard],
+      },
+      {
         path: 'users',
         loadChildren: () => import('./pages/user/user.module').then(m => m.UserModule),
         canActivate: [LoggedInGuard],

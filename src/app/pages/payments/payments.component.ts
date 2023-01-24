@@ -23,13 +23,14 @@ export class PaymentsComponent implements OnInit {
 
   rowData: any = [];
   totalAmount: number = 0;
-  paymentAmount: number = 0;
+  paymentAmount: number;
   paymentBalance: number = 0;
   gridApi: GridApi;
   billerId: number;
+  canCreatePayment: boolean = false;
 
   columnDefs: ColDef[] = [
-    { field: 'id', headerName: 'Load ID', hide: true },
+    { field: 'id', hide: true },
     {
       field: 'trip_id', headerName: 'Trip', width: 155,
       headerCheckboxSelection: true,
@@ -74,8 +75,46 @@ export class PaymentsComponent implements OnInit {
     if (selection) {
       selection.forEach((value) => {
         this.totalAmount += Number(value.allmoney);
+        this.canCreatePayment = true;
       });
     }
+  }
+
+  createPayment() {
+    const selection = this.gridApi.getSelectedRows();
+    const ids: number[] = [];
+    if (selection) {
+
+      selection.forEach((value) => {
+        ids.push(value.id);
+      });
+
+      const payment = {
+        amount: this.paymentAmount,
+        customer_id: this.billerId,
+        user_id: Number(window.localStorage.getItem("userId").toString()),
+        loadIds: ids,
+        is_partial: false
+      };
+
+      this.http
+        .post(`${environment.apiUrl}payments`, payment)
+        .subscribe({
+          next: (response) => {
+            console.log(response);
+            this.getUnpaidLoadsForBiller(this.billerId);
+            this.paymentAmount = null;
+            this.canCreatePayment = false;
+          },
+          error: (error) => {
+            console.error(error.error.message);
+          },
+        });
+    }
+  }
+
+  disableCreatePayment() {
+    return this.billerId <= 0;
   }
 
   findLoads() {

@@ -133,9 +133,16 @@ export class AppComponent {
         position: 12,
       },
       {
-        name: 'Payments',
+        name: 'Payments Due',
         routeOrFunction: '/payments',
         icon: 'payment',
+        position: 13,
+      },
+      {
+        name: 'Payment History',
+        routeOrFunction: '/payment-history',
+        icon: 'fa fa-money-check-dollar fa-lg',
+        isFaIcon: true,
         position: 13,
       },
       {
