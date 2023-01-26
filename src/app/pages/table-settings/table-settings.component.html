@@ -33,16 +33,17 @@
 
           <button mat-raised-button
             color="primary"
+            [disabled]="columnData.length==0"
             (click)="reset()">Reset</button>
 
           <button mat-raised-button
             color="warn"
+            [disabled]="columnData.length==0"
             (click)="save()">Save</button>
 
         </div>
 
         <div *ngIf="columnData">
-
 
           <ms-table [columnDefs]="columnDefs"
             [rowData]="columnData"

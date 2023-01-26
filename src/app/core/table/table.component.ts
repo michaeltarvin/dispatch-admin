@@ -4,14 +4,21 @@ import {
   GridOptions,
   GridApi,
   RowDragEndEvent,
+  ICellRendererParams,
   SelectionChangedEvent,
   CellDoubleClickedEvent
 } from "ag-grid-community";
 import { HttpClient } from '@angular/common/http';
 import { TableInterface } from './table.column.interface';
 import { TableService } from './table.service';
+import { CurrencyRenderer } from './currency.render.component';
 import { environment } from '../../../environments/environment';
 import * as moment from "moment";
+
+interface IRow {
+  value: number | string;
+  type: 'currency';
+}
 
 @Component({
   selector: "ms-table",
@@ -109,7 +116,23 @@ export class TableComponent implements OnDestroy {
               }
 
               if (item.type === 'currency') {
-                column.valueFormatter = this.moneyFormatter;
+
+                column.cellRendererSelector = (params: ICellRendererParams<IRow>) => {
+                  const cur = {
+                    component: CurrencyRenderer,
+                  };
+                  if (params.data) {
+                    return cur;
+                  }
+                  return undefined;
+                };
+                //   if (params.data) {
+                //     if (params.data.type === 'gender') return genderDetails;
+                //     else if (params.data.type === 'mood') return moodDetails;
+                //   }
+                //   return undefined;
+                // },
+                //column.valueFormatter = this.moneyFormatter;
               }
 
               if (item.type === 'checkbox') {
@@ -195,7 +218,7 @@ export class TableComponent implements OnDestroy {
   }
 
   moneyFormatter(params: any): string {
-    return `$${params.value}`
+    return `<span style="font-weight: bold">$ ${params.value}</span>`
   }
 
 }

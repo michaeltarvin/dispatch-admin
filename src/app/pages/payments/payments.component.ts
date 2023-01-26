@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { GridApi, SelectionChangedEvent } from 'ag-grid-community';
+import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { TableService } from '../../core/table/table.service';
 import { CustomerList } from '../../core/classes/customer.list';
+import { Payment } from '../../core/classes/payment';
+
 import { environment } from '../../../environments/environment';
 
 @Component({
@@ -12,7 +15,9 @@ import { environment } from '../../../environments/environment';
 })
 export class PaymentsComponent implements OnInit {
 
-  constructor(private http: HttpClient, private tableService: TableService) { }
+  constructor(private http: HttpClient,
+    private _snackBar: MatSnackBar,
+    private tableService: TableService) { }
 
   ngOnInit(): void { }
 
@@ -41,6 +46,7 @@ export class PaymentsComponent implements OnInit {
       .subscribe({
         next: (response) => {
           this.rowData = response;
+          console.log('refresh')
           this.tableService.refresh(true);
         },
         error: (error) => console.error(error),
@@ -77,13 +83,14 @@ export class PaymentsComponent implements OnInit {
       };
 
       this.http
-        .post(`${environment.apiUrl}payments`, payment)
+        .post<Payment>(`${environment.apiUrl}payments`, payment)
         .subscribe({
           next: (response) => {
             console.log(response);
             this.getUnpaidLoadsForBiller(this.billerId);
             this.paymentAmount = null;
             this.canCreatePayment = false;
+            this.openSnackBar(`Payment Created: ${response.id}`);
           },
           error: (error) => {
             console.error(error.error.message);
@@ -116,6 +123,17 @@ export class PaymentsComponent implements OnInit {
 
       this.paymentBalance = balance;
     }
+  }
+
+  openSnackBar(message: string, action: string = 'Close') {
+
+    const config: MatSnackBarConfig = {
+      duration: 4 * 1000,
+      horizontalPosition: 'center',
+      panelClass: "success-dialog"
+    };
+
+    this._snackBar.open(message, action, config);
   }
 
 }

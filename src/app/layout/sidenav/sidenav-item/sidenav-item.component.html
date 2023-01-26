@@ -44,15 +44,20 @@
         class="icon">{{ item.icon }}</mat-icon>
     </div>
 
-    <div *ngIf="level > 0"
+    <!-- TODO  this is where the short name is -->
+    <!-- <div *ngIf="level > 0"
       class="text-icon"
-      fxFlex="none">{{ getTextIcon(item) }}</div>
+      fxFlex="none">{{ getTextIcon(item) }}
+    </div> -->
+    <!-- <mat-icon *ngIf="level > 0"
+      class="icon">{{ item.icon }}</mat-icon> -->
     <span class="name">{{ item.name }}</span>
     <span fxFlex>
       <!-- fill space --></span>
     <span *ngIf="item.badge"
       [style.background-color]="item.badgeColor"
-      class="badge">{{ item.badge }}</span>
+      class="badge">{{ item.badge }}
+    </span>
     <mat-icon *ngIf="item.subItems && item.subItems.length > 0"
       [class.rotate]="dropdownOpen$ | async"
       class="expand-indicator">
@@ -66,6 +71,7 @@
     fxLayout="column">
     <fury-sidenav-item *ngFor="let subItem of item.subItems"
       [item]="subItem"
-      [level]="level+1"></fury-sidenav-item>
+      [level]="level+1">
+    </fury-sidenav-item>
   </div>
 </div>

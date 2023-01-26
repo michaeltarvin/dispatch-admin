@@ -23,6 +23,14 @@
             (selectionChanged)="onCustomerChange($event)"
             fxFlex></fury-customer-auto-complete>
 
+          <div>
+            <mat-checkbox [checked]="showRecentPayments"
+              style="margin-top: 40px"
+              (change)="onCheckBoxShowRecentChanged($event)"
+              [(ngModel)]="showRecentPayments"
+              color="primary">Show Recent</mat-checkbox>
+          </div>
+
         </div>
 
         <fury-scrollbar class="icon-list"

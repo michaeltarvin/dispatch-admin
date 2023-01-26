@@ -24,7 +24,7 @@ export class DriversComponent {
     this.dialog.open(AddEditDriverComponent, {
       data: { id: $id },
       disableClose: false,
-      width: "700px",
+      width: "1200px",
       position: { top: "85px" }
     }).afterClosed().subscribe(() => {
       this.tableService.refresh(true);

@@ -1,3 +1,9 @@
 
 
-add form control on loads to disable save if required fields are missing 
+add form control on loads to disable save if required fields are missing
+
+src/app/layout/sidenav/sidenav-item/sidenav-item.component.scss
+// TARVIN: I like this margin, but it doesn't work when collapsed
+// .sidenav-item-link {
+//   margin-left: 25px;
+// }

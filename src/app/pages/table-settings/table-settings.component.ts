@@ -4,6 +4,7 @@ import { ColDef, GridOptions, RowDragEndEvent } from 'ag-grid-community';
 import { MatSelectChange } from '@angular/material/select';
 import { TableInterface } from '../../core/table/table.column.interface';
 import { NgxSpinnerService } from "ngx-spinner";
+import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { environment } from '../../../environments/environment';
 
 @Component({
@@ -14,6 +15,7 @@ import { environment } from '../../../environments/environment';
 export class TableSettingsComponent implements OnInit {
 
   constructor(private http: HttpClient,
+    private _snackBar: MatSnackBar,
     private spinner: NgxSpinnerService, ) { }
 
   ngOnInit(): void {
@@ -150,6 +152,10 @@ export class TableSettingsComponent implements OnInit {
   }
 
   save() {
+
+    if (!this.columnData || this.columnData.length == 0)
+      return;
+
     this.spinner.show(undefined, {
       type: 'ball-spin',
       size: 'large',
@@ -158,20 +164,19 @@ export class TableSettingsComponent implements OnInit {
       fullScreen: false,
     });
 
-    this.columnData.forEach(element => {
+    for (let i = 0; i < this.columnData.length; i++) {
+
       this.http
-        .patch(`${environment.apiUrl}table/${element.id}`, element)
+        .patch(`${environment.apiUrl}table/${this.columnData[i].id}`, this.columnData[i])
         .subscribe({
-          next: (response) => {
-            console.log(response);
-          },
           error: (error) => console.error(error),
         });
-    });
 
-    setTimeout(() => {
-      this.spinner.hide();
-    }, 1000);
+      if (i == this.columnData.length - 1) {
+        this.spinner.hide();
+      }
+    }
+    this.openSnackBar("Table");
   }
 
   onRowDragEnd($event: RowDragEndEvent) {
@@ -190,6 +195,17 @@ export class TableSettingsComponent implements OnInit {
       }
     }
     this.columnData = rows;
+  }
+
+  openSnackBar(message: string, action: string = 'Close') {
+
+    const config: MatSnackBarConfig = {
+      duration: 4 * 1000,
+      horizontalPosition: 'center',
+      panelClass: "success-dialog"
+    };
+
+    this._snackBar.open(message, action, config);
   }
 
 }

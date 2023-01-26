@@ -294,45 +294,39 @@
             class="example-full-width"
             color="primary">
             <mat-label>Rate</mat-label>
-            <input type="number"
+            <input currencyMask
               class="example-right-align"
               matInput
               [readonly]="load.is_paid_for == true"
               [disabled]="load.is_paid_for == true"
               [(ngModel)]="load.rate"
               placeholder="Rate">
-            <span class="raquo"
-              matPrefix>$&nbsp;</span>
           </mat-form-field>
 
           <mat-form-field appearance="outline"
             class="example-full-width"
             color="primary">
             <mat-label>Lumper</mat-label>
-            <input type="number"
+            <input currencyMask
               class="example-right-align"
               matInput
               [readonly]="load.is_paid_for == true"
               [disabled]="load.is_paid_for == true"
               [(ngModel)]="load.lumper"
               placeholder="Lumper">
-            <span class="raquo"
-              matPrefix>$&nbsp;</span>
           </mat-form-field>
 
           <mat-form-field appearance="outline"
             class="example-full-width"
             color="primary">
             <mat-label>Driver Unload</mat-label>
-            <input type="number"
+            <input currencyMask
               class="example-right-align"
               matInput
               [readonly]="load.is_paid_for == true"
               [disabled]="load.is_paid_for == true"
               [(ngModel)]="load.unload"
               placeholder="Driver Unload">
-            <span class="raquo"
-              matPrefix>$&nbsp;</span>
           </mat-form-field>
 
         </div>
@@ -344,45 +338,39 @@
             class="example-full-width"
             color="primary">
             <mat-label>Fuel Paid</mat-label>
-            <input type="number"
+            <input currencyMask
               class="example-right-align"
               matInput
               [readonly]="load.is_paid_for == true"
               [disabled]="load.is_paid_for == true"
               [(ngModel)]="load.fuelpaid"
               placeholder="Fuel Paid">
-            <span class="raquo"
-              matPrefix>$&nbsp;</span>
           </mat-form-field>
 
           <mat-form-field appearance="outline"
             class="example-full-width"
             color="primary">
             <mat-label>Fuel SC</mat-label>
-            <input type="number"
+            <input currencyMask
               class="example-right-align"
               matInput
               [readonly]="load.is_paid_for == true"
               [disabled]="load.is_paid_for == true"
               [(ngModel)]="load.fuelsc"
               placeholder="Fuel SC">
-            <span class="raquo"
-              matPrefix>$&nbsp;</span>
           </mat-form-field>
 
           <mat-form-field appearance="outline"
             class="example-full-width"
             color="primary">
             <mat-label>Misc</mat-label>
-            <input type="number"
+            <input currencyMask
               class="example-right-align"
               matInput
               [readonly]="load.is_paid_for == true"
               [disabled]="load.is_paid_for == true"
               [(ngModel)]="load.misc"
               placeholder="Misc">
-            <span class="raquo"
-              matPrefix>$&nbsp;</span>
           </mat-form-field>
 
         </div>
@@ -394,45 +382,39 @@
             class="example-full-width"
             color="primary">
             <mat-label>Layover</mat-label>
-            <input type="number"
+            <input currencyMask
               class="example-right-align"
               matInput
               [readonly]="load.is_paid_for == true"
               [disabled]="load.is_paid_for == true"
               [(ngModel)]="load.layover"
               placeholder="Layover">
-            <span class="raquo"
-              matPrefix>$&nbsp;</span>
           </mat-form-field>
 
           <mat-form-field appearance="outline"
             class="example-full-width"
             color="primary">
             <mat-label>Detention</mat-label>
-            <input type="number"
+            <input currencyMask
               class="example-right-align"
               matInput
               [readonly]="load.is_paid_for == true"
               [disabled]="load.is_paid_for == true"
               [(ngModel)]="load.detention"
               placeholder="Detention">
-            <span class="raquo"
-              matPrefix>$&nbsp;</span>
           </mat-form-field>
 
           <mat-form-field appearance="outline"
             class="example-full-width"
             color="primary">
             <mat-label>Exten</mat-label>
-            <input type="number"
+            <input currencyMask
               class="example-right-align"
               matInput
               [readonly]="load.is_paid_for == true"
               [disabled]="load.is_paid_for == true"
               [(ngModel)]="load.exten"
               placeholder="Exten">
-            <span class="raquo"
-              matPrefix>$&nbsp;</span>
           </mat-form-field>
 
         </div>
@@ -444,7 +426,7 @@
             class="example-full-width"
             color="primary">
             <mat-label>Total</mat-label>
-            <input type="number"
+            <input currencyMask
               class="example-right-align"
               matInput
               readonly="true"
@@ -452,8 +434,6 @@
               [value]="getTotal()"
               [(ngModel)]="load.total"
               placeholder="Total">
-            <span class="raquo"
-              matPrefix>$&nbsp;</span>
           </mat-form-field>
 
 
@@ -461,7 +441,7 @@
             class="example-full-width"
             color="primary">
             <mat-label>All Money</mat-label>
-            <input type="number"
+            <input currencyMask
               class="example-right-align"
               matInput
               readonly="true"
@@ -469,8 +449,6 @@
               [value]="getAllMoney()"
               [(ngModel)]="load.allmoney"
               placeholder="All Money">
-            <span class="raquo"
-              matPrefix>$&nbsp;</span>
           </mat-form-field>
 
         </div>

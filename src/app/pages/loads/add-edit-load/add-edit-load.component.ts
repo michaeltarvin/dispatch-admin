@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, ViewChild } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { ColDef, GridOptions, GridApi, RowDragEndEvent } from 'ag-grid-community';
@@ -8,6 +8,7 @@ import { NgxMatDateFormats, NGX_MAT_DATE_FORMATS } from '@angular-material-compo
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { LoadInterface } from "./load.interface";
 import { CustomerList } from '../../../core/classes/customer.list';
+import { LinkedLoadPosition } from '../../../core/classes/linked.load.position';
 import * as moment from 'moment';
 import { environment } from '../../../../environments/environment';
 
@@ -23,11 +24,6 @@ const CUSTOM_DATE_FORMATS: NgxMatDateFormats = {
   },
 };
 
-export class LinkedLoadPosition {
-  loadId: number;
-  position: number;
-}
-
 @Component({
   selector: 'fury-add-edit-load',
   templateUrl: './add-edit-load.component.html',
@@ -35,8 +31,6 @@ export class LinkedLoadPosition {
   providers: [{ provide: NGX_MAT_DATE_FORMATS, useValue: CUSTOM_DATE_FORMATS }],
 })
 export class AddEditLoadComponent implements OnInit {
-
-  @ViewChild('picker') picker: any;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: {
@@ -144,6 +138,8 @@ export class AddEditLoadComponent implements OnInit {
       .subscribe({
         next: (response) => {
           this.load = response as LoadInterface;
+          console.log(this.load);
+          this.load.paid_on = moment(this.load.paid_on).toDate();
           this.dateControl.setValue(moment(this.load.pudate).toDate());
           this.delDateControl.setValue(moment(this.load.deldate).toDate());
 
@@ -363,6 +359,11 @@ export class AddEditLoadComponent implements OnInit {
     };
 
     this._snackBar.open(message, action, config);
+  }
+
+  currencyInputChanged(value: any) {
+    var num = value.replace(/[$,]/g, "");
+    return Number(num);
   }
 
 }

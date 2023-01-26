@@ -7,8 +7,8 @@
 
     <fury-card fxFlex="auto">
       <fury-card-header>
-        <fury-card-header-heading><span>Payments (Work In Progress)</span>
-
+        <fury-card-header-heading>
+          <span>Payments (Work In Progress)</span>
         </fury-card-header-heading>
       </fury-card-header>
 
@@ -90,7 +90,7 @@
             <button type="button"
               color="primary"
               mat-raised-button
-              [disabled]="(paymentAmount == 0 || billerId == 0 || !canCreatePayment)"
+              [disabled]="((paymentAmount != totalAmount) || billerId == 0 || !canCreatePayment)"
               (click)="createPayment()">
               Create Payment
             </button>

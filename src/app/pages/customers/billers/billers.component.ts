@@ -24,7 +24,7 @@ export class BillersComponent {
     this.dialog.open(AddEditCustomerComponent, {
       data: { id: $id },
       disableClose: false,
-      width: "700px",
+      width: "1200px",
       position: { top: "85px" }
     }).afterClosed().subscribe(() => {
       this.tableService.refresh(true);

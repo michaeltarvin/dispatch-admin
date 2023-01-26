@@ -12,6 +12,7 @@ import { AddEditLoadComponent } from "./add-edit-load/add-edit-load.component";
 import { LoadsRoutingModule } from './loads-routing.module';
 import { BrokerageComponent } from './brokerage/brokerage.component';
 import { NgxMatMomentModule } from '@angular-material-components/moment-adapter';
+import { CurrencyMaskModule } from "ng2-currency-mask";
 import { CustomerAutoCompleteModule } from "../../core/customer-auto-complete/customer-auto-complete.module";
 
 @NgModule({
@@ -28,6 +29,7 @@ import { CustomerAutoCompleteModule } from "../../core/customer-auto-complete/cu
     LoadsRoutingModule,
     NgxMatMomentModule,
     CustomerAutoCompleteModule,
+    CurrencyMaskModule,
   ],
   declarations: [
     LoadsComponent,

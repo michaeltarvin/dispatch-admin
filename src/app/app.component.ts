@@ -63,7 +63,6 @@ export class AppComponent {
       {
         name: 'Drivers',
         routeOrFunction: '/drivers',
-        //<i class="fa-light fa-id-card"></i>
         icon: 'fa fa-light fa-id-card fa-lg',
         isFaIcon: true,
         position: 34,
@@ -71,7 +70,6 @@ export class AppComponent {
       {
         name: 'Driver Types',
         routeOrFunction: '/driver-types',
-        //<i class="fa-solid fa-id-card"></i>
         icon: 'fa fa-address-card fa-lg',
         isFaIcon: true,
         position: 32,

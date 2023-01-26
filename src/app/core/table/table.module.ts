@@ -6,6 +6,7 @@ import { MaterialModule } from '../../../@fury/shared/material-components.module
 import { TableComponent } from './table.component';
 import { ScrollbarModule } from '../../../@fury/shared/scrollbar/scrollbar.module';
 import { AgGridModule } from 'ag-grid-angular';
+import { CurrencyRenderer } from './currency.render.component';
 
 @NgModule({
   imports: [
@@ -16,8 +17,12 @@ import { AgGridModule } from 'ag-grid-angular';
     ScrollbarModule,
     AgGridModule,
   ],
-  declarations: [TableComponent],
-  exports: [TableComponent]
+  declarations: [
+    TableComponent,
+    CurrencyRenderer],
+  exports: [
+    TableComponent
+  ]
 })
 export class TableModule {
 }
