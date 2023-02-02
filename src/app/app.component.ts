@@ -59,6 +59,7 @@ export class AppComponent {
         name: 'CONFIGURATION',
         position: 30,
         type: 'subheading',
+        customClass: 'first-subheading'
       },
       {
         name: 'Drivers',
@@ -123,6 +124,7 @@ export class AppComponent {
         name: 'FINANCE',
         position: 11,
         type: 'subheading',
+        customClass: 'first-subheading'
       },
       {
         name: 'Ageing',

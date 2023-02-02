@@ -43,12 +43,20 @@ export class SidenavComponent implements OnInit, OnDestroy {
   @HostListener('mouseenter')
   @HostListener('touchenter')
   onMouseEnter() {
+    // console.log("expanded: ", this.expanded);
+    // console.log("collapsed: ", this.collapsed);
+    // console.log("onMouseEnter()");
+    // console.log("setExpanded(true)");
     this.sidenavService.setExpanded(true);
   }
 
   @HostListener('mouseleave')
   @HostListener('touchleave')
   onMouseLeave() {
+    // console.log("expanded: ", this.expanded);
+    // console.log("collapsed: ", this.collapsed);
+    // console.log("onMouseLeave()");
+    // console.log("setExpanded(false)");
     this.sidenavService.setExpanded(false);
   }
 

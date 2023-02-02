@@ -126,13 +126,6 @@ export class TableComponent implements OnDestroy {
                   }
                   return undefined;
                 };
-                //   if (params.data) {
-                //     if (params.data.type === 'gender') return genderDetails;
-                //     else if (params.data.type === 'mood') return moodDetails;
-                //   }
-                //   return undefined;
-                // },
-                //column.valueFormatter = this.moneyFormatter;
               }
 
               if (item.type === 'checkbox') {

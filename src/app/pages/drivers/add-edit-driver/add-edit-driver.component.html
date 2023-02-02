@@ -115,6 +115,7 @@
 
         <div fxLayout.gt-sm="row"
           fxLayoutGap.gt-sm="48px">
+
           <mat-form-field appearance="outline"
             class="example-full-width"
             color="primary"
@@ -158,6 +159,22 @@
               [(ngModel)]="driver.mcnumber"
               type="text">
           </mat-form-field>
+
+        </div>
+
+        <div fxLayout.gt-sm="row"
+          fxLayoutGap.gt-sm="48px">
+
+          <mat-form-field appearance="outline"
+            color="primary">
+            <mat-label>CA Nnumber</mat-label>
+            <input matInput
+              placeholder="canumber"
+              [(ngModel)]="driver.canumber"
+              type="text">
+          </mat-form-field>
+
+          <!-- <span fxFlex></span> -->
 
         </div>
 
@@ -255,16 +272,6 @@
                 matSuffix></mat-datepicker-toggle>
             </mat-form-field>
             <mat-datepicker #datepickerRef6></mat-datepicker>
-
-            <mat-form-field appearance="outline"
-              class="example-full-width"
-              color="primary">
-              <mat-label>CA Nnumber</mat-label>
-              <input matInput
-                placeholder="canumber"
-                [(ngModel)]="driver.canumber"
-                type="text">
-            </mat-form-field>
 
           </div>
         </div>

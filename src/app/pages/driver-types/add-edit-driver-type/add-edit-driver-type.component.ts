@@ -1,7 +1,8 @@
 import { Component, OnInit, Inject } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { DriverTypeInterface } from "./driver-type.interface";
+import { DriverType } from "./driver-type";
 import { environment } from '../../../../environments/environment';
 
 @Component({
@@ -13,27 +14,32 @@ export class AddEditDriverTypeComponent implements OnInit {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: { id: number },
+    private fb: FormBuilder,
     public dialogRef: MatDialogRef<AddEditDriverTypeComponent>,
     private http: HttpClient) {
   }
 
-  driverType: DriverTypeInterface;
+  form: FormGroup;
+  driverType: DriverType;
 
   ngOnInit(): void {
+    this.form = this.fb.group({
+      name: ['', Validators.required],
+      description: ['']
+    });
+
     if (this.data.id > 0) {
-      this.getDriverTypes();
-    } else {
-      this.driverType = { name: "" } as DriverTypeInterface;
+      this.getDriverType();
     }
   }
 
-  getDriverTypes() {
+  getDriverType() {
     this.http
-      .get(`${environment.apiUrl}driverTypes/${this.data.id}`)
+      .get<DriverType>(`${environment.apiUrl}driver_types/${this.data.id}`)
       .subscribe({
         next: (response) => {
-          this.driverType = response as DriverTypeInterface;
-          console.log(this.driverType);
+          this.driverType = response;
+          this.form.patchValue(this.driverType);
         },
         error: (error) => console.error(error),
       });
@@ -45,29 +51,18 @@ export class AddEditDriverTypeComponent implements OnInit {
   }
 
   save() {
-    console.log(this.driverType);
 
-    if (this.driverType.id > 0) {
-      this.http
-        .patch(`${environment.apiUrl}driverTypes/${this.data.id}`, this.driverType)
-        .subscribe({
-          next: (response) => {
-            console.log(response);
-          },
-          error: (error) => console.error(error),
-        });
-    } else {
-      this.http
-        .post(`${environment.apiUrl}driverTypes`, this.driverType)
-        .subscribe({
-          next: (response) => {
-            console.log(response);
-          },
-          error: (error) => console.error(error),
-        });
-    }
+    let r = (this.driverType.id > 0) ?
+      this.http.patch(`${environment.apiUrl}driver_types/${this.data.id}`, this.form.value) :
+      this.http.post(`${environment.apiUrl}driver_types`, this.form.value);
 
-    this.dialogRef.close('saved');
+    r.subscribe({
+      next: () => {
+        this.dialogRef.close('saved');
+      },
+      error: (error) => console.error(error),
+    });
+
   }
 
 }

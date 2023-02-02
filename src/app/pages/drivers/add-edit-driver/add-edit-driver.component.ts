@@ -54,7 +54,7 @@ export class AddEditDriverComponent implements OnInit {
 
   getDriverTypes() {
     this.http
-      .get(`${environment.apiUrl}driverTypes`)
+      .get(`${environment.apiUrl}driver_types`)
       .subscribe({
         next: (response) => {
           this.driverTypes = response;

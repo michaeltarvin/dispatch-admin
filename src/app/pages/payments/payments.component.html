@@ -28,12 +28,10 @@
             color="primary"
             [floatLabel]="'always'">
             <mat-label>Payment Amount</mat-label>
-            <input type="number"
+            <input currencyMask
               class="example-right-align"
               matInput
               [(ngModel)]="paymentAmount">
-            <span class="raquo"
-              matPrefix>$&nbsp;</span>
             <mat-icon (click)="findLoads()"
               matSuffix>search</mat-icon>
 
@@ -59,15 +57,13 @@
               class="example-full-width"
               color="primary">
               <mat-label>Total Selected Amount</mat-label>
-              <input type="number"
+              <input currencyMask
                 class="example-right-align"
                 matInput
                 readonly
                 disabled
                 [(ngModel)]="totalAmount"
                 placeholder="Total Selected Amount">
-              <span class="raquo"
-                matPrefix>$&nbsp;</span>
             </mat-form-field>
 
             <div *ngIf="paymentBalance>0">
@@ -75,15 +71,13 @@
                 class="example-full-width"
                 color="primary">
                 <mat-label>Payment Balance</mat-label>
-                <input type="number"
+                <input currencyMask
                   class="example-right-align"
                   matInput
                   readonly
                   disabled
                   [(ngModel)]="paymentBalance"
                   placeholder="Payment Balance">
-                <span class="raquo"
-                  matPrefix>$&nbsp;</span>
               </mat-form-field>
             </div>
 

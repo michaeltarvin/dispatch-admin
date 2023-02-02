@@ -6,7 +6,7 @@
 
 <mat-dialog-content>
 
-  <div *ngIf="driverType">
+  <div [formGroup]="form">
 
     <div class="tab-content"
       fxLayout.gt-sm="row"
@@ -18,7 +18,7 @@
         <mat-label>Name</mat-label>
         <input matInput
           placeholder="Name"
-          [(ngModel)]="driverType.name"
+          formControlName="name"
           type="text">
       </mat-form-field>
 
@@ -29,7 +29,7 @@
         <input matInput
           placeholder="Description"
           type="text"
-          [(ngModel)]="driverType.description">
+          formControlName="description">
       </mat-form-field>
 
     </div>
@@ -44,5 +44,6 @@
     (click)="close()">Cancel</button>
   <button mat-raised-button
     color="primary"
+    [disabled]="!form.valid"
     (click)="save()">Save</button>
 </mat-dialog-actions>

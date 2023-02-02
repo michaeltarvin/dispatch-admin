@@ -176,7 +176,7 @@ export class TableSettingsComponent implements OnInit {
         this.spinner.hide();
       }
     }
-    this.openSnackBar("Table");
+    this.openSnackBar("Table Definition Updated");
   }
 
   onRowDragEnd($event: RowDragEndEvent) {
