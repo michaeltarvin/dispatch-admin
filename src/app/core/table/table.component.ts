@@ -113,9 +113,10 @@ export class TableComponent implements OnDestroy {
 
               if (item.type === 'date') {
                 column.valueFormatter = this.dateFormatter;
+              } else if (item.type === 'date_short') {
+                column.valueFormatter = this.dateFormatterShort;
               }
-
-              if (item.type === 'currency') {
+              else if (item.type === 'currency') {
 
                 column.cellRendererSelector = (params: ICellRendererParams<IRow>) => {
                   const cur = {
@@ -126,9 +127,7 @@ export class TableComponent implements OnDestroy {
                   }
                   return undefined;
                 };
-              }
-
-              if (item.type === 'checkbox') {
+              } else if (item.type === 'checkbox') {
                 column.headerCheckboxSelection = true;
                 column.checkboxSelection = true;
                 column.showDisabledCheckboxes = true;
@@ -208,6 +207,10 @@ export class TableComponent implements OnDestroy {
 
   dateFormatter(params: any): string {
     return params.value ? moment(params.value).format('lll') : '';
+  }
+
+  dateFormatterShort(params: any): string {
+    return params.value ? moment(params.value).format('ll') : '';
   }
 
   moneyFormatter(params: any): string {

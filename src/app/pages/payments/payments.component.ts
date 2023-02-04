@@ -26,6 +26,8 @@ export class PaymentsComponent implements OnInit {
   totalAmount: number = 0;
   paymentAmount: number;
   paymentBalance: number = 0;
+  checkNumber: string;
+  checkDate: Date;
   gridApi: GridApi;
   billerId: number;
   canCreatePayment: boolean = false;
@@ -77,6 +79,8 @@ export class PaymentsComponent implements OnInit {
       const payment = {
         amount: this.paymentAmount,
         customer_id: this.billerId,
+        check_number: this.checkNumber,
+        check_date: this.checkDate,
         user_id: Number(window.localStorage.getItem("userId").toString()),
         loadIds: ids,
         is_partial: false

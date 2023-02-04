@@ -15,13 +15,41 @@
       <fury-card-content fxLayout="column">
 
         <div fxLayout.gt-sm="row"
-          fxLayoutGap.gt-sm="75px">
+          fxLayoutGap.gt-sm="25px">
 
           <fury-customer-auto-complete class="example-full-width"
             [title]="'Billers'"
+            [floatLabel]="'always'"
             [customerType]="'billers-list'"
             (selectionChanged)="onCustomerChange($event)"
-            fxFlex></fury-customer-auto-complete>
+            fxFlex>
+          </fury-customer-auto-complete>
+
+          <mat-form-field appearance="outline"
+            class="example-full-width"
+            color="primary"
+            [floatLabel]="'always'">
+            <mat-label>Check Number</mat-label>
+            <input type="text"
+              class="example-right-align"
+              matInput
+              autocomplete="off"
+              [(ngModel)]="checkNumber">
+          </mat-form-field>
+
+          <mat-form-field appearance="outline"
+            class="example-full-width"
+            color="primary"
+            [floatLabel]="'always'">
+            <mat-label>Check Date</mat-label>
+            <input [matDatepicker]="datepicker"
+              [(ngModel)]="checkDate"
+              autocomplete="off"
+              matInput>
+            <mat-datepicker-toggle [for]="datepicker"
+              matSuffix></mat-datepicker-toggle>
+          </mat-form-field>
+          <mat-datepicker #datepicker></mat-datepicker>
 
           <mat-form-field appearance="outline"
             class="example-full-width"
@@ -30,11 +58,11 @@
             <mat-label>Payment Amount</mat-label>
             <input currencyMask
               class="example-right-align"
+              autocomplete="off"
               matInput
               [(ngModel)]="paymentAmount">
             <mat-icon (click)="findLoads()"
               matSuffix>search</mat-icon>
-
           </mat-form-field>
 
         </div>

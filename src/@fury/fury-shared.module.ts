@@ -9,6 +9,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatChipsModule } from '@angular/material/chips';
 import { TitleModule } from './shared/title/title.module';
 import { SidebarModule } from './shared/sidebar/sidebar.module';
 import { RouterModule } from '@angular/router';
@@ -34,6 +35,7 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
     MatCheckboxModule,
     MatRadioModule,
     MatMenuModule,
+    MatChipsModule,
     ScrollingModule
   ]
 })

@@ -23,6 +23,7 @@ export class CustomerAutoCompleteComponent implements OnInit {
   @Input() customerId: number;
   @Input() customerType: string;
   @Input() title: string;
+  @Input() floatLabel: string = "never";
   @Output() selectionChanged = new EventEmitter<any>();
 
   customers: any[] = [];

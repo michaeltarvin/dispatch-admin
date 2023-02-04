@@ -5,6 +5,10 @@ import { DriverInterface } from "./driver.interface";
 import { environment } from '../../../../environments/environment';
 import * as moment from 'moment';
 
+export interface Vegetable {
+  name: string;
+}
+
 @Component({
   selector: 'fury-add-edit-driver',
   templateUrl: './add-edit-driver.component.html',
@@ -20,6 +24,15 @@ export class AddEditDriverComponent implements OnInit {
 
   driver: DriverInterface;
   driverTypes: any;
+
+  vegetables: Vegetable[] = [
+    { name: 'apple' },
+    { name: 'banana' },
+    { name: 'strawberry' },
+    { name: 'orange' },
+    { name: 'kiwi' },
+    { name: 'cherry' },
+  ];
 
   ngOnInit(): void {
 

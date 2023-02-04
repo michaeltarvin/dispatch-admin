@@ -138,7 +138,6 @@ export class AddEditLoadComponent implements OnInit {
       .subscribe({
         next: (response) => {
           this.load = response as LoadInterface;
-          console.log(this.load);
           this.load.paid_on = moment(this.load.paid_on).toDate();
           this.dateControl.setValue(moment(this.load.pudate).toDate());
           this.delDateControl.setValue(moment(this.load.deldate).toDate());

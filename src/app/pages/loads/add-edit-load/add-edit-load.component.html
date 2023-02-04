@@ -86,6 +86,7 @@
             <input matInput
               [ngxMatDatetimePicker]="picker"
               placeholder="Pick Up Date"
+              autocomplete="off"
               [formControl]="dateControl">
             <mat-datepicker-toggle matSuffix
               [for]="picker"></mat-datepicker-toggle>
@@ -108,6 +109,7 @@
             <input matInput
               [ngxMatDatetimePicker]="picker2"
               placeholder="Del Up Date"
+              autocomplete="off"
               [formControl]="delDateControl">
             <mat-datepicker-toggle matSuffix
               [for]="picker2"></mat-datepicker-toggle>
@@ -130,6 +132,7 @@
 
           <fury-customer-auto-complete class="example-full-width"
             [title]="'Driver'"
+            [floatLabel]="'always'"
             [customerType]="'drivers-list'"
             [customerId]="data.driverId"
             (selectionChanged)="onDriverChange($event)"
@@ -137,6 +140,7 @@
 
           <fury-customer-auto-complete class="example-full-width"
             [title]="'Shipper'"
+            [floatLabel]="'always'"
             [customerType]="'shippers-list'"
             [customerId]="data.shipperId"
             (selectionChanged)="onShipperChange($event)"
@@ -144,6 +148,7 @@
 
           <fury-customer-auto-complete class="example-full-width"
             [title]="'Biller'"
+            [floatLabel]="'always'"
             [customerType]="'billers-list'"
             [customerId]="data.billerId"
             (selectionChanged)="onBillerChange($event)"
@@ -151,6 +156,7 @@
 
           <fury-customer-auto-complete class="example-full-width"
             [title]="'Receiver'"
+            [floatLabel]="'always'"
             [customerType]="'receivers-list'"
             [customerId]="data.receiverId"
             (selectionChanged)="onReceiverChange($event)"
@@ -164,10 +170,11 @@
           <!-- PU # -->
           <mat-form-field appearance="outline"
             class="example-full-width"
+            [floatLabel]="'always'"
             color="primary">
             <mat-label>PU #</mat-label>
             <input matInput
-              placeholder="PU #"
+              autocomplete="off"
               [(ngModel)]="load.punum"
               type="text">
           </mat-form-field>
@@ -175,10 +182,11 @@
           <!-- BOL # -->
           <mat-form-field appearance="outline"
             class="example-full-width"
+            [floatLabel]="'always'"
             color="primary">
             <mat-label>BOL #</mat-label>
             <input matInput
-              placeholder="BOL #"
+              autocomplete="off"
               [(ngModel)]="load.bolnum"
               type="text">
           </mat-form-field>
@@ -186,10 +194,11 @@
           <!-- Confirmation # -->
           <mat-form-field appearance="outline"
             class="example-full-width"
+            [floatLabel]="'always'"
             color="primary">
             <mat-label>Confirmation #</mat-label>
             <input matInput
-              placeholder="Confirmation #"
+              autocomplete="off"
               [(ngModel)]="load.confirmation"
               type="text">
           </mat-form-field>
@@ -197,10 +206,11 @@
           <!-- CHRW #: -->
           <mat-form-field appearance="outline"
             class="example-full-width"
+            [floatLabel]="'always'"
             color="primary">
             <mat-label>CHRW #</mat-label>
             <input matInput
-              placeholder="CHRW #"
+              autocomplete="off"
               [(ngModel)]="load.chrwnum"
               type="text">
           </mat-form-field>
@@ -213,10 +223,11 @@
           <!-- Weight # -->
           <mat-form-field appearance="outline"
             class="example-full-width"
+            [floatLabel]="'always'"
             color="primary">
             <mat-label>Weight</mat-label>
             <input matInput
-              placeholder="Weight"
+              autocomplete="off"
               [(ngModel)]="load.weight"
               type="text">
           </mat-form-field>
@@ -224,10 +235,11 @@
           <!-- Truck #: -->
           <mat-form-field appearance="outline"
             class="example-full-width"
+            [floatLabel]="'always'"
             color="primary">
             <mat-label>Truck #</mat-label>
             <input matInput
-              placeholder="Truck #"
+              autocomplete="off"
               [(ngModel)]="load.trucknum"
               type="text">
           </mat-form-field>
@@ -235,10 +247,11 @@
           <!-- Trailer # -->
           <mat-form-field appearance="outline"
             class="example-full-width"
+            [floatLabel]="'always'"
             color="primary">
             <mat-label>Trailer #</mat-label>
             <input matInput
-              placeholder="Trailer #"
+              autocomplete="off"
               [(ngModel)]="load.trailernum"
               type="text">
           </mat-form-field>
@@ -246,10 +259,11 @@
           <!-- Sub #: -->
           <mat-form-field appearance="outline"
             class="example-full-width"
+            [floatLabel]="'always'"
             color="primary">
             <mat-label>Sub #</mat-label>
             <input matInput
-              placeholder="Sub #"
+              autocomplete="off"
               [(ngModel)]="load.subnum"
               type="text">
           </mat-form-field>
@@ -279,6 +293,7 @@
             <mat-label>Date Paid</mat-label>
             <input [matDatepicker]="datepicker"
               [(ngModel)]="load.paid_on"
+              autocomplete="off"
               matInput>
             <mat-datepicker-toggle [for]="datepicker"
               matSuffix></mat-datepicker-toggle>
@@ -292,41 +307,44 @@
 
           <mat-form-field appearance="outline"
             class="example-full-width"
+            [floatLabel]="'always'"
             color="primary">
             <mat-label>Rate</mat-label>
             <input currencyMask
               class="example-right-align"
               matInput
+              autocomplete="off"
               [readonly]="load.is_paid_for == true"
               [disabled]="load.is_paid_for == true"
-              [(ngModel)]="load.rate"
-              placeholder="Rate">
+              [(ngModel)]="load.rate">
           </mat-form-field>
 
           <mat-form-field appearance="outline"
             class="example-full-width"
+            [floatLabel]="'always'"
             color="primary">
             <mat-label>Lumper</mat-label>
             <input currencyMask
               class="example-right-align"
               matInput
+              autocomplete="off"
               [readonly]="load.is_paid_for == true"
               [disabled]="load.is_paid_for == true"
-              [(ngModel)]="load.lumper"
-              placeholder="Lumper">
+              [(ngModel)]="load.lumper">
           </mat-form-field>
 
           <mat-form-field appearance="outline"
             class="example-full-width"
+            [floatLabel]="'always'"
             color="primary">
             <mat-label>Driver Unload</mat-label>
             <input currencyMask
               class="example-right-align"
               matInput
+              autocomplete="off"
               [readonly]="load.is_paid_for == true"
               [disabled]="load.is_paid_for == true"
-              [(ngModel)]="load.unload"
-              placeholder="Driver Unload">
+              [(ngModel)]="load.unload">
           </mat-form-field>
 
         </div>
@@ -336,41 +354,44 @@
 
           <mat-form-field appearance="outline"
             class="example-full-width"
+            [floatLabel]="'always'"
             color="primary">
             <mat-label>Fuel Paid</mat-label>
             <input currencyMask
               class="example-right-align"
               matInput
+              autocomplete="off"
               [readonly]="load.is_paid_for == true"
               [disabled]="load.is_paid_for == true"
-              [(ngModel)]="load.fuelpaid"
-              placeholder="Fuel Paid">
+              [(ngModel)]="load.fuelpaid">
           </mat-form-field>
 
           <mat-form-field appearance="outline"
             class="example-full-width"
+            [floatLabel]="'always'"
             color="primary">
             <mat-label>Fuel SC</mat-label>
             <input currencyMask
               class="example-right-align"
               matInput
+              autocomplete="off"
               [readonly]="load.is_paid_for == true"
               [disabled]="load.is_paid_for == true"
-              [(ngModel)]="load.fuelsc"
-              placeholder="Fuel SC">
+              [(ngModel)]="load.fuelsc">
           </mat-form-field>
 
           <mat-form-field appearance="outline"
             class="example-full-width"
+            [floatLabel]="'always'"
             color="primary">
             <mat-label>Misc</mat-label>
             <input currencyMask
               class="example-right-align"
               matInput
+              autocomplete="off"
               [readonly]="load.is_paid_for == true"
               [disabled]="load.is_paid_for == true"
-              [(ngModel)]="load.misc"
-              placeholder="Misc">
+              [(ngModel)]="load.misc">
           </mat-form-field>
 
         </div>
@@ -380,11 +401,13 @@
 
           <mat-form-field appearance="outline"
             class="example-full-width"
+            [floatLabel]="'always'"
             color="primary">
             <mat-label>Layover</mat-label>
             <input currencyMask
               class="example-right-align"
               matInput
+              autocomplete="off"
               [readonly]="load.is_paid_for == true"
               [disabled]="load.is_paid_for == true"
               [(ngModel)]="load.layover"
@@ -393,11 +416,13 @@
 
           <mat-form-field appearance="outline"
             class="example-full-width"
+            [floatLabel]="'always'"
             color="primary">
             <mat-label>Detention</mat-label>
             <input currencyMask
               class="example-right-align"
               matInput
+              autocomplete="off"
               [readonly]="load.is_paid_for == true"
               [disabled]="load.is_paid_for == true"
               [(ngModel)]="load.detention"
@@ -406,11 +431,13 @@
 
           <mat-form-field appearance="outline"
             class="example-full-width"
+            [floatLabel]="'always'"
             color="primary">
             <mat-label>Exten</mat-label>
             <input currencyMask
               class="example-right-align"
               matInput
+              autocomplete="off"
               [readonly]="load.is_paid_for == true"
               [disabled]="load.is_paid_for == true"
               [(ngModel)]="load.exten"
@@ -424,6 +451,7 @@
 
           <mat-form-field appearance="outline"
             class="example-full-width"
+            [floatLabel]="'always'"
             color="primary">
             <mat-label>Total</mat-label>
             <input currencyMask
@@ -432,13 +460,13 @@
               readonly="true"
               disabled="true"
               [value]="getTotal()"
-              [(ngModel)]="load.total"
-              placeholder="Total">
+              [(ngModel)]="load.total">
           </mat-form-field>
 
 
           <mat-form-field appearance="outline"
             class="example-full-width"
+            [floatLabel]="'always'"
             color="primary">
             <mat-label>All Money</mat-label>
             <input currencyMask
@@ -447,8 +475,7 @@
               readonly="true"
               disabled="true"
               [value]="getAllMoney()"
-              [(ngModel)]="load.allmoney"
-              placeholder="All Money">
+              [(ngModel)]="load.allmoney">
           </mat-form-field>
 
         </div>
