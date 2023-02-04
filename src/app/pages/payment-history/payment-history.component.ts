@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { MatCheckboxChange } from '@angular/material/checkbox';
+import { GridApi } from 'ag-grid-community';
 import { TableService } from '../../core/table/table.service';
 import { CustomerList } from '../../core/classes/customer.list';
 import { environment } from '../../../environments/environment';
@@ -20,6 +21,11 @@ export class PaymentHistoryComponent implements OnInit {
   rowData: any = [];
   billerId: number;
   showRecentPayments: boolean = false;
+  gridApi: GridApi;
+
+  onTableReady(params: any) {
+    this.gridApi = params.api;
+  }
 
   onCustomerChange($event: CustomerList) {
     this.getPaymentHistory($event.id);
@@ -44,9 +50,16 @@ export class PaymentHistoryComponent implements OnInit {
         next: (response) => {
           this.rowData = response;
           this.tableService.refresh(true);
+          this.sizeColumnsToFit();
         },
         error: (error) => console.error(error),
       });
+  }
+
+  sizeColumnsToFit() {
+    this.gridApi.sizeColumnsToFit({
+      defaultMinWidth: 200,
+    });
   }
 
 }

@@ -16,41 +16,55 @@
 
       <fury-card-content fxLayout="column">
 
-        <div fxLayout="column"
-          fxLayoutGap="8px"
-          style="padding-bottom: 20px;">
+        <fury-scrollbar class="icon-list"
+          fxFlex="grow">
 
-          <mat-form-field appearance="outline"
-            class="example-full-width"
-            color="primary">
-            <mat-label>Table</mat-label>
-            <mat-select (selectionChange)="onSelectionChanged($event)"
-              [(ngModel)]="selectedTableName">
-              <mat-option *ngFor="let table of tableNames"
-                [value]="table.table_name">{{ table.table_name }}</mat-option>
-            </mat-select>
-          </mat-form-field>
+          <div fxLayout="row"
+            fxLayoutGap.gt-sm="48px">
 
-          <button mat-raised-button
-            color="primary"
-            [disabled]="columnData.length==0"
-            (click)="reset()">Reset</button>
+            <mat-form-field appearance="outline"
+              class="example-full-width"
+              style="width: 300px;"
+              color="primary">
+              <mat-label>Table</mat-label>
+              <mat-select (selectionChange)="onSelectionChanged($event)"
+                [(ngModel)]="selectedTableName">
+                <mat-option *ngFor="let table of tableNames"
+                  [value]="table.table_name">{{ table.table_name }}</mat-option>
+              </mat-select>
+            </mat-form-field>
 
-          <button mat-raised-button
-            color="warn"
-            [disabled]="columnData.length==0"
-            (click)="save()">Save</button>
+          </div>
 
-        </div>
+          <div fxLayout="row"
+            fxLayoutGap.gt-sm="20px"
+            style="padding-bottom: 20px;">
 
-        <div *ngIf="columnData">
+            <button mat-raised-button
+              color="primary"
+              style="width: 140px;"
+              [disabled]="columnData.length==0"
+              (click)="reset()">Reset</button>
 
-          <ms-table [columnDefs]="columnDefs"
-            [rowData]="columnData"
-            (rowDragEnd)=onRowDragEnd($event)>
-          </ms-table>
+            <button mat-raised-button
+              color="warn"
+              style="width: 140px;"
+              [disabled]="columnData.length==0"
+              (click)="save()">Save</button>
 
-        </div>
+          </div>
+
+          <div *ngIf="columnData">
+
+            <ms-table [columnDefs]="columnDefs"
+              [rowData]="columnData"
+              (tableReady)="onTableReady($event)"
+              (rowDragEnd)=onRowDragEnd($event)>
+            </ms-table>
+
+          </div>
+
+        </fury-scrollbar>
 
       </fury-card-content>
 

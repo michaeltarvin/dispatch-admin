@@ -37,6 +37,7 @@
           fxFlex="grow">
 
           <ms-table [tableName]="tableName"
+            (tableReady)="onTableReady($event)"
             [rowData]="rowData">
           </ms-table>
 

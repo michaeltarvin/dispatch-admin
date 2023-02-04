@@ -18,7 +18,8 @@ export class AgeingComponent {
   }
 
   openDialog($id: Number) {
-    console.log($id)
+    console.log($id);
+    //TODO: find out if ageing has any actions on row click
   }
 
 }

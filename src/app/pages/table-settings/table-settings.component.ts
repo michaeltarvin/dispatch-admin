@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { ColDef, GridOptions, RowDragEndEvent } from 'ag-grid-community';
+import { GridApi, ColDef, GridOptions, RowDragEndEvent } from 'ag-grid-community';
 import { MatSelectChange } from '@angular/material/select';
 import { TableInterface } from '../../core/table/table.column.interface';
 import { NgxSpinnerService } from "ngx-spinner";
@@ -28,6 +28,7 @@ export class TableSettingsComponent implements OnInit {
   columnData: TableInterface[] = [];
   tableTheme: string;
   gridOptions: GridOptions;
+  gridApi: GridApi;
   showSpinners = true;
 
   public columnDefs: ColDef[] = [
@@ -128,6 +129,7 @@ export class TableSettingsComponent implements OnInit {
         next: (response) => {
           let data = response;
           this.columnData = data;
+          this.sizeColumnsToFit();
         },
         error: (error) => console.error(error),
       });
@@ -177,6 +179,16 @@ export class TableSettingsComponent implements OnInit {
       }
     }
     this.openSnackBar("Table Definition Updated");
+  }
+
+  onTableReady(params: any) {
+    this.gridApi = params.api;
+  }
+
+  sizeColumnsToFit() {
+    this.gridApi.sizeColumnsToFit({
+      defaultMinWidth: 200,
+    });
   }
 
   onRowDragEnd($event: RowDragEndEvent) {

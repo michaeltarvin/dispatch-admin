@@ -48,8 +48,10 @@ export class PaymentsComponent implements OnInit {
       .subscribe({
         next: (response) => {
           this.rowData = response;
-          console.log('refresh')
           this.tableService.refresh(true);
+          this.gridApi.sizeColumnsToFit({
+            defaultMinWidth: 200,
+          });
         },
         error: (error) => console.error(error),
       });
