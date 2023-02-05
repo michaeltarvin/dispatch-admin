@@ -21,7 +21,7 @@ export class SidenavService implements OnDestroy {
    * @type {BehaviorSubject<SidenavItem[]>}
    * @private
    */
-  private _items = new BehaviorSubject<SidenavItem[]>([]);
+  private _items: BehaviorSubject<SidenavItem[]> = new BehaviorSubject<SidenavItem[]>([]);
 
   items$ = this._items.asObservable();
 
@@ -38,7 +38,7 @@ export class SidenavService implements OnDestroy {
    * @type {BehaviorSubject<SidenavItem[]>}
    * @private
    */
-  private _currentlyOpen = new BehaviorSubject<SidenavItem[]>([]);
+  private _currentlyOpen: BehaviorSubject<SidenavItem[]> = new BehaviorSubject<SidenavItem[]>([]);
 
   currentlyOpen$ = this._currentlyOpen.asObservable();
 
@@ -60,6 +60,8 @@ export class SidenavService implements OnDestroy {
   private _expandedSubject = new BehaviorSubject<boolean>(false);
   expanded$ = this._expandedSubject.asObservable();
 
+  ngOnDestroy(): void { }
+
   constructor(private router: Router,
     private mediaObserver: MediaObserver) {
     this.router.events.pipe(
@@ -69,7 +71,6 @@ export class SidenavService implements OnDestroy {
       this.setCurrentlyOpenByRoute(event.url);
 
       if (this.mediaObserver.isActive(this.mobileBreakpoint)) {
-        // Close Sidenav on Mobile after Route Change
         this._openSubject.next(false);
       }
     });
@@ -156,13 +157,32 @@ export class SidenavService implements OnDestroy {
     return sortBy(array, propertyName);
   }
 
-  getItemByRoute(route) {
+  getItemByRoute(route: string) {
     return this.getItemByRouteRecursive(route, this.items);
   }
 
-  ngOnDestroy(): void { }
 
-  private getParents(item: SidenavItem, items: SidenavItem[] = []) {
+  // getParentSubHeading(item: SidenavItem): SidenavItem {
+  //
+  //   let headers: SidenavItem[] = [];
+  //   this.items.forEach((i) => {
+  //     if (i.type && i.type === 'subheading') {
+  //       headers.push(i);
+  //     }
+  //   });
+  //
+  //   headers = this.sortRecursive(headers, 'position').reverse();
+  //
+  //   for (let i = 0; i < headers.length; i++) {
+  //     if (item.position > headers[i].position) {
+  //       return headers[i];
+  //     }
+  //   }
+  //
+  //   return null;
+  // }
+
+  getParents(item: SidenavItem, items: SidenavItem[] = []) {
     items.unshift(item);
 
     if (item.parent) {

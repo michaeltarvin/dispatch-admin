@@ -20,7 +20,8 @@ export class LoadsComponent implements OnInit {
     private tableService: TableService) { }
 
   tableName: string = 'load';
-  gridApi: GridApi;
+  gridLoadApi: GridApi;
+  gridBackApi: GridApi;
   gridOptions: GridOptions;
   loadData: any = [];
   backHaulData: any = [];
@@ -46,7 +47,7 @@ export class LoadsComponent implements OnInit {
       .subscribe({
         next: (response) => {
           this.loadData = response;
-          this.tableService.refresh(true);
+          // this.tableService.resize();
         },
         error: (error) => console.error(error),
       });
@@ -58,7 +59,7 @@ export class LoadsComponent implements OnInit {
       .subscribe({
         next: (response) => {
           this.backHaulData = response;
-          this.tableService.refresh(true);
+          // this.tableService.resize();
         },
         error: (error) => console.error(error),
       });
@@ -131,6 +132,9 @@ export class LoadsComponent implements OnInit {
       .subscribe({
         next: (response) => {
           this.loadData = response;
+          this.gridLoadApi.sizeColumnsToFit({
+            defaultMinWidth: 200,
+          });
         },
         error: (error) => console.error(error),
       });
@@ -140,14 +144,27 @@ export class LoadsComponent implements OnInit {
       .subscribe({
         next: (response) => {
           this.backHaulData = response;
+          this.gridBackApi.sizeColumnsToFit({
+            defaultMinWidth: 200,
+          });
         },
         error: (error) => console.error(error),
       });
 
   }
 
-  onTableReady(params: any) {
-    this.gridApi = params.api;
+  // sizeColumnsToFit(api: GridApi) {
+  //   api.sizeColumnsToFit({
+  //     defaultMinWidth: 200,
+  //   });
+  // }
+
+  onTable1Ready(params: any) {
+    this.gridLoadApi = params.api;
+  }
+
+  onTable2Ready(params: any) {
+    this.gridBackApi = params.api;
   }
 
   onDateChange($event: any) {

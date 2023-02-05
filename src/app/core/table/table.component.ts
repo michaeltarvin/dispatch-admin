@@ -27,8 +27,8 @@ interface IRow {
 })
 export class TableComponent implements OnDestroy {
 
-  @Input() tableName: string = '';
-  @Input() dataRoute: string = '';
+  @Input() tableName: string = null;
+  @Input() dataRoute: string = null;
   @Input() gridOptions: GridOptions;
   @Input() columnDefs: ColDef[] = [];
   @Input() rowData: any;
@@ -60,8 +60,8 @@ export class TableComponent implements OnDestroy {
   };
 
   constructor(private http: HttpClient, private tableService: TableService) {
-
     this.tableService.refresh$.subscribe(item => this.refreshTable(item));
+    this.tableService.resize$.subscribe(() => this.sizeColumnsToFit());
   }
 
   ngOnInit(): void {

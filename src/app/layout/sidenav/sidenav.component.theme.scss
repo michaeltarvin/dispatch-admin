@@ -50,6 +50,14 @@ fury-sidenav {
   &.collapsed {
     width: $sidenav-collapsed-width;
 
+    // MTarvin hide fontawesome icon on collapse
+    fury-sidenav-item{
+      display: none;
+    }
+    i.fa{
+      overflow: hidden;
+    }
+
     .sidenav {
       width: $sidenav-collapsed-width;
     }
@@ -74,6 +82,14 @@ fury-sidenav {
 
     &.expanded {
       width: $sidenav-collapsed-width;
+
+      // MTarvin show fontawesome icon on collapse
+      fury-sidenav-item{
+        display: inline;
+      }
+      i.fa{
+        overflow: visible;
+      }
 
       .sidenav {
         width: $sidenav-width;

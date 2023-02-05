@@ -23,13 +23,17 @@
   display: block;
 }
 
+.nav-item{
+  margin-left: 20px;
+}
+
 .sidenav-item {
   transition: background-color $swift-ease-out-duration $swift-ease-out-timing-function;
 }
 
 .subheading {
   font: var(--font-caption);
-  margin-left: $sidenav-item-padding-left + 2px;
+  // margin-left: $sidenav-item-padding-left + 2px;
   margin-top: $spacing;
   margin-bottom: 8px;
   font-weight: 500;

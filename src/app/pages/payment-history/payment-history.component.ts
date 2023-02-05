@@ -35,7 +35,6 @@ export class PaymentHistoryComponent implements OnInit {
   onCheckBoxShowRecentChanged($event: MatCheckboxChange) {
     if ($event.checked === true) {
       this.getPaymentHistory();
-      console.log($event);
     } else {
       this.rowData = [];
     }

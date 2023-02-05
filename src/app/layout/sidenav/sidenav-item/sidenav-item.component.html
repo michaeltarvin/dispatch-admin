@@ -3,19 +3,14 @@
   [ngClass]="levelClass"
   class="sidenav-item">
 
-  <div *ngIf="item.type === 'subheading'"
+  <!-- STATIC HEADER  -->
+  <!-- <div *ngIf="item.type === 'subheading'"
     [ngClass]="item.customClass"
-    class="subheading">
-    <span class="name">{{ item.name }}</span>
-    <!-- <span fxFlex></span>
-    <mat-icon [class.rotate]="dropdownOpen$ | async"
-      style="margin-right: 15px;"
-      class="expand-indicator">
-      expand_more
-    </mat-icon> -->
-  </div>
+    class="subheading">{{ item.name }}
+  </div> -->
 
-  <ng-container *ngIf="item.type !== 'subheading'">
+  <ng-container>
+    <!-- <ng-container *ngIf="item.type !== 'subheading'"> -->
     <ng-container *ngIf="item.subItems?.length > 0 || isFunction(item.routeOrFunction); then functionOrSubItems; else link"></ng-container>
   </ng-container>
 
@@ -42,21 +37,33 @@
   </ng-template>
 
   <ng-template #linkContent>
-    <div *ngIf="item.isFaIcon == true">
-      <i *ngIf="level === 0"
-        [class]="item.icon"> </i>
+
+    <div *ngIf="item.type !== 'subheading'">
+      <span class="nav-item"></span>
     </div>
-    <div *ngIf="!item.isFaIcon">
-      <mat-icon *ngIf="level === 0"
-        class="icon">{{ item.icon }}</mat-icon>
+
+    <mat-icon *ngIf="item.icon && !item.isFaIcon"
+      class="icon">{{ item.icon }}</mat-icon>
+    <i *ngIf="item.icon && item.isFaIcon"
+      [class]="item.icon"> </i>
+
+    <div *ngIf="item.type === 'subheading'"
+      [ngClass]="item.customClass"
+      class="subheading">{{ item.name }}
     </div>
-    <span class="name">{{ item.name }}</span>
+
+    <div *ngIf="item.type !== 'subheading'">
+      <span class="name">{{ item.name }}</span>
+    </div>
+
     <span fxFlex></span>
+
     <mat-icon *ngIf="item.subItems && item.subItems.length > 0"
       [class.rotate]="dropdownOpen$ | async"
       class="expand-indicator">
       expand_more
     </mat-icon>
+
   </ng-template>
 
 
@@ -65,7 +72,6 @@
     fxLayout="column">
     <fury-sidenav-item *ngFor="let subItem of item.subItems"
       [item]="subItem"
-      [level]="level+1">
-    </fury-sidenav-item>
+      [level]="level+1"></fury-sidenav-item>
   </div>
 </div>

@@ -37,15 +37,18 @@ export class SidenavItemComponent implements OnInit {
     );
   }
 
+  ngOnInit() { }
+
   get levelClass() {
     return `level-${this.level}`;
   }
 
-  ngOnInit() {
-  }
-
   isFunction(routeOrFunction: string[] | Function) {
     return isFunction(routeOrFunction);
+  }
+
+  handleRouteClick() {
+    this.router.navigate([this.item.routeOrFunction]);
   }
 
   handleClick() {

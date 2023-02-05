@@ -1,5 +1,4 @@
 import { Component, HostBinding, HostListener, Input, OnDestroy, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { SidenavItem } from './sidenav-item/sidenav-item.interface';
@@ -25,9 +24,7 @@ export class SidenavComponent implements OnInit, OnDestroy {
 
   items$: Observable<SidenavItem[]>;
 
-  constructor(private router: Router,
-    private sidenavService: SidenavService,
-    private themeService: ThemeService) {
+  constructor(private sidenavService: SidenavService, private themeService: ThemeService) {
   }
 
   ngOnInit() {
@@ -43,20 +40,12 @@ export class SidenavComponent implements OnInit, OnDestroy {
   @HostListener('mouseenter')
   @HostListener('touchenter')
   onMouseEnter() {
-    // console.log("expanded: ", this.expanded);
-    // console.log("collapsed: ", this.collapsed);
-    // console.log("onMouseEnter()");
-    // console.log("setExpanded(true)");
     this.sidenavService.setExpanded(true);
   }
 
   @HostListener('mouseleave')
   @HostListener('touchleave')
   onMouseLeave() {
-    // console.log("expanded: ", this.expanded);
-    // console.log("collapsed: ", this.collapsed);
-    // console.log("onMouseLeave()");
-    // console.log("setExpanded(false)");
     this.sidenavService.setExpanded(false);
   }
 
