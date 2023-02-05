@@ -24,7 +24,6 @@ export class NotesComponent {
       data: { id: $id },
       disableClose: false,
       width: "700px",
-      position: { top: "85px" }
     }).afterClosed().subscribe(() => {
       this.tableService.refresh(true);
     });

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-import { CellClickedEvent } from 'ag-grid-community';
+import { GridApi, CellClickedEvent } from 'ag-grid-community';
 import { MatDialog } from '@angular/material/dialog';
 import { AddEditLoadComponent } from "../add-edit-load/add-edit-load.component";
 import { TableService } from '../../../core/table/table.service';
@@ -26,6 +26,7 @@ export class BrokerageComponent implements OnInit {
   searchDate: Date = new Date();
   panelOpenState = false;
   tripId: number;
+  gridApi: GridApi;
 
   range = new FormGroup({
     start: new FormControl<Date | null>(new Date()),
@@ -43,6 +44,9 @@ export class BrokerageComponent implements OnInit {
         next: (response) => {
           this.loadData = response;
           this.tableService.refresh(true);
+          this.gridApi.sizeColumnsToFit({
+            defaultMinWidth: 200,
+          });
         },
         error: (error) => console.error(error),
       });
@@ -82,7 +86,6 @@ export class BrokerageComponent implements OnInit {
       },
       disableClose: false,
       width: "1200px",
-      position: { top: "85px" }
     }).afterClosed().subscribe(result => {
       this.result = result;
       if (result) {
@@ -114,10 +117,17 @@ export class BrokerageComponent implements OnInit {
       .subscribe({
         next: (response) => {
           this.loadData = response;
+          this.gridApi.sizeColumnsToFit({
+            defaultMinWidth: 200,
+          });
         },
         error: (error) => console.error(error),
       });
 
+  }
+
+  onTableReady(params: any) {
+    this.gridApi = params.api;
   }
 
   onDateChange($event: any) {

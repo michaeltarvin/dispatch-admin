@@ -7,13 +7,13 @@
 
     <fury-card fxFlex="auto">
       <fury-card-header>
-        <fury-card-header-heading><span>Brokerage</span>
+        <!-- <fury-card-header-heading><span>Brokerage</span>
           <button mat-icon-button
             color="primary"
             (click)="openDialog(0)">
             <mat-icon>add_circle_outline</mat-icon>
           </button>
-        </fury-card-header-heading>
+        </fury-card-header-heading> -->
       </fury-card-header>
 
       <fury-card-content fxLayout="column">
@@ -51,6 +51,14 @@
             </button>
           </mat-form-field>
 
+          <div style="padding-top: 10px">
+            <button mat-icon-button
+              color="primary"
+              (click)="openDialog(0)">
+              <mat-icon>add_circle_outline</mat-icon>
+            </button>
+          </div>
+
         </div>
 
         <fury-scrollbar fxFlex="grow">
@@ -58,8 +66,14 @@
           <div class="table-space"
             fxLayout="column">
 
+            <h3>
+              <span #tooltip="matTooltip"
+                matTooltip="Double click row to edit.">Brokerage</span>
+            </h3>
+
             <ms-table [tableName]="tableName"
               [rowData]="loadData"
+              (tableReady)="onTableReady($event)"
               (cellClicked)="onCellClicked($event)">
             </ms-table>
 

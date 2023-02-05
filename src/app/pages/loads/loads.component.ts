@@ -99,7 +99,6 @@ export class LoadsComponent implements OnInit {
       },
       disableClose: false,
       width: "1200px",
-      position: { top: "85px" }
     }).afterClosed().subscribe(result => {
       this.result = result;
       if (result) {

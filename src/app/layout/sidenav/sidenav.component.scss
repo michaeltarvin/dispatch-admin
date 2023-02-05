@@ -11,6 +11,12 @@
   width: $sidenav-width;
 }
 
+.company-header{
+  font-family: 'Noto Serif Khojki', serif;
+  font-weight: bold;
+  font-size: 24px;
+}
+
 .sidenav {
   height: 100%;
   will-change: width;
