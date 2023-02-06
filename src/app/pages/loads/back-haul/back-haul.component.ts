@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
-import { LoadsService } from './loads.service';
+import { LoadsService } from '../loads.service';
 
 @Component({
-  selector: 'fury-drivers',
-  templateUrl: './loads.component.html',
-  styleUrls: ['./loads.component.scss']
+  selector: 'fury-back-haul',
+  templateUrl: './back-haul.component.html',
+  styleUrls: ['./back-haul.component.scss']
 })
-export class LoadsComponent {
+export class BackHaulComponent {
 
   constructor(private loadsService: LoadsService) { }
 

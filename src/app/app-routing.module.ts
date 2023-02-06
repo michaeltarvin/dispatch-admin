@@ -33,6 +33,11 @@ const routes: Routes = [
         canActivate: [LoggedInGuard],
       },
       {
+        path: 'back-hauls',
+        loadChildren: () => import('./pages/loads/loads.module').then(m => m.LoadsModule),
+        canActivate: [LoggedInGuard],
+      },
+      {
         path: 'drivers',
         loadChildren: () => import('./pages/drivers/drivers.module').then(m => m.DriversModule),
         canActivate: [LoggedInGuard],

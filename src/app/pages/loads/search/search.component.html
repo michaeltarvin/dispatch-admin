@@ -1,0 +1,45 @@
+<div fxLayout="column"
+  fxLayout.gt-sm="row"
+  fxLayoutGap.gt-sm="16px">
+
+  <mat-form-field appearance="outline"
+    color="primary">
+    <mat-label>Search</mat-label>
+    <input [matDatepicker]="datepicker"
+      [(ngModel)]="searchDate"
+      (dateChange)="onDateChange()"
+      autocomplete="off"
+      matInput>
+    <mat-datepicker-toggle [for]="datepicker"
+      matSuffix></mat-datepicker-toggle>
+  </mat-form-field>
+  <mat-datepicker #datepicker></mat-datepicker>
+
+  <mat-form-field appearance="outline"
+    class="example-full-width"
+    color="primary"
+    [floatLabel]="'always'">
+    <mat-label>Trip</mat-label>
+    <input matInput
+      [(ngModel)]="tripId"
+      placeholder="Trip"
+      autocomplete="off"
+      (keyup.enter)="searchByTrip()"
+      type="text">
+    <button matSuffix
+      mat-icon-button
+      aria-label="Clear"
+      (click)="searchByTrip()">
+      <mat-icon>search</mat-icon>
+    </button>
+  </mat-form-field>
+
+  <div style="padding-top: 10px">
+    <button mat-icon-button
+      color="primary"
+      (click)="openDialog(0)">
+      <mat-icon>add_circle_outline</mat-icon>
+    </button>
+  </div>
+
+</div>

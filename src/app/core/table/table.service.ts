@@ -6,10 +6,12 @@ import { EventEmitter, Injectable } from '@angular/core';
 export class TableService {
   public refresh$: EventEmitter<boolean>;
   public resize$: EventEmitter<boolean>;
+  public dataRouteChange$: EventEmitter<string>;
 
   constructor() {
     this.refresh$ = new EventEmitter();
     this.resize$ = new EventEmitter();
+    this.dataRouteChange$ = new EventEmitter();
   }
 
   public refresh(value: boolean): void {
@@ -18,5 +20,9 @@ export class TableService {
 
   public resize(value: boolean = true): void {
     this.resize$.emit(value);
+  }
+
+  public dataRouteChange(route: string): void {
+    this.dataRouteChange$.emit(route);
   }
 }

@@ -61,7 +61,11 @@ export class TableComponent implements OnDestroy {
 
   constructor(private http: HttpClient, private tableService: TableService) {
     this.tableService.refresh$.subscribe(item => this.refreshTable(item));
-    this.tableService.resize$.subscribe(() => this.sizeColumnsToFit());
+    //this.tableService.resize$.subscribe(() => this.sizeColumnsToFit());
+    this.tableService.dataRouteChange$.subscribe((route) => {
+      this.dataRoute = route;
+      this.gedata();
+    });
   }
 
   ngOnInit(): void {
@@ -74,6 +78,17 @@ export class TableComponent implements OnDestroy {
     this.gedata();
   }
 
+  ngOnDestroy() {
+    this.gridOptions = null;
+    this.columnDefs = null;
+    this.rowData = null;
+    this.tableName = null;
+    this.dataRoute = null;
+    // this.tableService.refresh$.unsubscribe();
+    // this.tableService.resize$.unsubscribe();
+    // this.tableService.dataRouteChange$.unsubscribe();
+  }
+
   /*
   components can initialize the table in route name so this component can load the data rows.
   */
@@ -84,7 +99,9 @@ export class TableComponent implements OnDestroy {
         .subscribe({
           next: (response) => {
             this.rowData = response;
-            this.sizeColumnsToFit();
+            if (this.rowData && this.rowData.length > 0) {
+              this.sizeColumnsToFit();
+            }
           },
           error: (error) => console.error(error),
         });
@@ -176,14 +193,6 @@ export class TableComponent implements OnDestroy {
     this.selectionChanged.emit($event);
   }
 
-  ngOnDestroy() {
-    this.gridOptions = null;
-    this.columnDefs = null;
-    this.rowData = null;
-    this.tableName = null;
-    this.dataRoute = null;
-  }
-
   getTableTheme(): string {
     const theme = window.localStorage.getItem("table-theme");
     if (theme)
@@ -204,13 +213,17 @@ export class TableComponent implements OnDestroy {
   }
 
   sizeColumnsToFit(params: any = null) {
-    if (params) {
-      this.gridApi.sizeColumnsToFit(params);
-    } else {
-      this.gridApi.sizeColumnsToFit({
-        defaultMinWidth: 200,
-      });
-    }
+
+    setTimeout(() => {
+      if (params) {
+        this.gridApi.sizeColumnsToFit(params);
+      } else {
+        this.gridApi.sizeColumnsToFit({
+          defaultMinWidth: 200,
+        });
+      }
+    }, 50);
+
   }
 
   onRowDragEnd($event: RowDragEndEvent) {

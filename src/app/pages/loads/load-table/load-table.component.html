@@ -1,0 +1,13 @@
+<div class="table-space"
+  fxLayout="column">
+
+  <h3>
+    <span #tooltip="matTooltip"
+      matTooltip="Double click row to edit.">{{ name }}</span>
+  </h3>
+
+  <ms-table [tableName]="tableName"
+    (cellClicked)="onCellClicked($event)">
+  </ms-table>
+
+</div>

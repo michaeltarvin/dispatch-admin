@@ -6,78 +6,19 @@
     fxLayoutGap="24px">
 
     <fury-card fxFlex="auto">
+
       <fury-card-header>
-        <!-- <fury-card-header-heading><span>Brokerage</span>
-          <button mat-icon-button
-            color="primary"
-            (click)="openDialog(0)">
-            <mat-icon>add_circle_outline</mat-icon>
-          </button>
-        </fury-card-header-heading> -->
       </fury-card-header>
 
       <fury-card-content fxLayout="column">
 
-        <div fxLayout="column"
-          fxLayout.gt-sm="row"
-          fxLayoutGap.gt-sm="16px">
-
-          <mat-form-field appearance="outline"
-            color="primary">
-            <mat-label>Search</mat-label>
-            <input [matDatepicker]="datepicker"
-              [(ngModel)]="searchDate"
-              (dateChange)="onDateChange($event)"
-              matInput>
-            <mat-datepicker-toggle [for]="datepicker"
-              matSuffix></mat-datepicker-toggle>
-          </mat-form-field>
-          <mat-datepicker #datepicker></mat-datepicker>
-
-          <mat-form-field appearance="outline"
-            class="example-full-width"
-            color="primary">
-            <mat-label>Trip</mat-label>
-            <input matInput
-              [(ngModel)]="tripId"
-              placeholder="Trip"
-              (keyup.enter)="searchByTrip()"
-              type="text">
-            <button matSuffix
-              mat-icon-button
-              aria-label="Clear"
-              (click)="searchByTrip()">
-              <mat-icon>search</mat-icon>
-            </button>
-          </mat-form-field>
-
-          <div style="padding-top: 10px">
-            <button mat-icon-button
-              color="primary"
-              (click)="openDialog(0)">
-              <mat-icon>add_circle_outline</mat-icon>
-            </button>
-          </div>
-
-        </div>
+        <fury-search (dateChanged)="onDateChange($event)"
+          (tripChanged)="searchByTrip($event)"></fury-search>
 
         <fury-scrollbar fxFlex="grow">
 
-          <div class="table-space"
-            fxLayout="column">
-
-            <h3>
-              <span #tooltip="matTooltip"
-                matTooltip="Double click row to edit.">Brokerage</span>
-            </h3>
-
-            <ms-table [tableName]="tableName"
-              [rowData]="loadData"
-              (tableReady)="onTableReady($event)"
-              (cellClicked)="onCellClicked($event)">
-            </ms-table>
-
-          </div>
+          <fury-load-table [name]="'Brokerage'"
+            [isBrokerage]="'true'"></fury-load-table>
 
         </fury-scrollbar>
 

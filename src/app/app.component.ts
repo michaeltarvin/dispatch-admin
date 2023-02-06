@@ -40,16 +40,24 @@ export class AppComponent {
       {
         name: 'Loads',
         routeOrFunction: '/loads',
-        icon: 'fa fa-truck-fast fa-lg',
-        isFaIcon: true,
+        // icon: 'fa fa-truck-fast fa-lg',
+        // isFaIcon: true,
+        position: 5,
+        pathMatchExact: true
+      },
+      {
+        name: 'Back-Hauls',
+        routeOrFunction: '/back-hauls',
+        // icon: 'fa fa-truck-fast fa-flip-horizontal fa-lg',
+        // isFaIcon: true,
         position: 5,
         pathMatchExact: true
       },
       {
         name: 'Brokerage',
         routeOrFunction: '/loads/brokerage',
-        icon: 'fa fa-truck fa-lg',
-        isFaIcon: true,
+        // icon: 'fa fa-truck fa-lg',
+        // isFaIcon: true,
         position: 6,
         pathMatchExact: true
       },

@@ -14,6 +14,9 @@ import { BrokerageComponent } from './brokerage/brokerage.component';
 import { NgxMatMomentModule } from '@angular-material-components/moment-adapter';
 import { CurrencyMaskModule } from "ng2-currency-mask";
 import { CustomerAutoCompleteModule } from "../../core/customer-auto-complete/customer-auto-complete.module";
+import { SearchComponent } from './search/search.component';
+import { LoadTableComponent } from './load-table/load-table.component';
+import { BackHaulComponent } from './back-haul/back-haul.component';
 
 @NgModule({
   imports: [
@@ -34,7 +37,10 @@ import { CustomerAutoCompleteModule } from "../../core/customer-auto-complete/cu
   declarations: [
     LoadsComponent,
     AddEditLoadComponent,
-    BrokerageComponent
+    BrokerageComponent,
+    SearchComponent,
+    LoadTableComponent,
+    BackHaulComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
