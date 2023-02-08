@@ -44,24 +44,16 @@ export class AddEditUserComponent implements OnInit {
   }
 
   save() {
-    console.log(this.user);
-
     if (this.user.id > 0) {
       this.http
         .patch(`${environment.apiUrl}users/${this.data.id}`, this.user)
         .subscribe({
-          next: (response) => {
-            console.log(response);
-          },
           error: (error) => console.error(error),
         });
     } else {
       this.http
         .post(`${environment.apiUrl}users`, this.user)
         .subscribe({
-          next: (response) => {
-            console.log(response);
-          },
           error: (error) => console.error(error),
         });
     }

@@ -39,7 +39,6 @@ export class AddEditCustomerComponent implements OnInit {
       .subscribe({
         next: (response) => {
           this.customerTypes = response as CustomerInterface;
-          console.log(this.customerTypes);
         },
         error: (error) => console.error(error),
       });
@@ -51,36 +50,26 @@ export class AddEditCustomerComponent implements OnInit {
       .subscribe({
         next: (response) => {
           this.customer = response as CustomerInterface;
-          console.log(this.customer);
         },
         error: (error) => console.error(error),
       });
   }
 
   close() {
-    console.log(this.customer);
     this.dialogRef.close('close');
   }
 
   save() {
-    console.log(this.customer);
-
     if (this.customer.id > 0) {
       this.http
         .patch(`${environment.apiUrl}customers/${this.data.id}`, this.customer)
         .subscribe({
-          next: (response) => {
-            console.log(response);
-          },
           error: (error) => console.error(error),
         });
     } else {
       this.http
         .post(`${environment.apiUrl}customers`, this.customer)
         .subscribe({
-          next: (response) => {
-            console.log(response);
-          },
           error: (error) => console.error(error),
         });
     }

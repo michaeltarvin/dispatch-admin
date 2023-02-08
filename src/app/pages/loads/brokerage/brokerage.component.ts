@@ -89,7 +89,6 @@ export class BrokerageComponent implements OnInit {
     }).afterClosed().subscribe(result => {
       this.result = result;
       if (result) {
-        console.log(result);
         this.openDialog(0,
           result.tripId,
           result.type,

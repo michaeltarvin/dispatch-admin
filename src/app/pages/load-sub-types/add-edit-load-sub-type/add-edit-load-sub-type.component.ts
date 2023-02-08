@@ -33,36 +33,26 @@ export class AddEditLoadSubTypeComponent implements OnInit {
       .subscribe({
         next: (response) => {
           this.loadSubType = response;
-          console.log(this.loadSubType);
         },
         error: (error) => console.error(error),
       });
   }
 
   close() {
-    console.log(this.loadSubType);
     this.dialogRef.close('close');
   }
 
   save() {
-    console.log(this.loadSubType);
-
     if (this.loadSubType.id > 0) {
       this.http
         .patch(`${environment.apiUrl}load_sub_types/${this.data.id}`, this.loadSubType)
         .subscribe({
-          next: (response) => {
-            console.log(response);
-          },
           error: (error) => console.error(error),
         });
     } else {
       this.http
         .post(`${environment.apiUrl}load_sub_types`, this.loadSubType)
         .subscribe({
-          next: (response) => {
-            console.log(response);
-          },
           error: (error) => console.error(error),
         });
     }

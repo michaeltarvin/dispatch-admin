@@ -74,9 +74,7 @@ export class LoginComponent implements OnInit {
   }
 
   loginError(res: any) {
-    console.log(res);
     this.result = res.error.message;
-    console.log(this.result);
   }
 
   toggleVisibility() {

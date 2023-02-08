@@ -178,16 +178,7 @@ export class AppComponent {
     ]);
 
     //this a lame way to make sure the user is authenticated on app load
-    this.http
-      .get(`${environment.apiUrl}customer_types`)
-      .subscribe({
-        next: (response) => {
-          if (!response) {
-            console.log(response);
-          }
-        }
-      });
-
+    this.http.get(`${environment.apiUrl}customer_types`).subscribe();
   }
 
 }

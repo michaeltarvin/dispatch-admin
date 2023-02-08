@@ -53,7 +53,7 @@ export class PaymentsComponent implements OnInit {
             defaultMinWidth: 200,
           });
         },
-        error: (error) => console.error(error),
+        error: (error) => this.openSnackBar(error),
       });
   }
 
@@ -92,14 +92,13 @@ export class PaymentsComponent implements OnInit {
         .post<Payment>(`${environment.apiUrl}payments`, payment)
         .subscribe({
           next: (response) => {
-            console.log(response);
             this.getUnpaidLoadsForBiller(this.billerId);
             this.paymentAmount = null;
             this.canCreatePayment = false;
             this.openSnackBar(`Payment Created: ${response.id}`);
           },
           error: (error) => {
-            console.error(error.error.message);
+            this.openSnackBar(error.error.message);
           },
         });
     }
@@ -112,7 +111,10 @@ export class PaymentsComponent implements OnInit {
       this.paymentBalance = 0;
       let balance = this.paymentAmount;
 
-      console.log('starting balance: ', balance);
+      //unselect all rows first
+      this.gridApi.forEachNode((node) => {
+        node.setSelected(false);
+      });
 
       this.gridApi.forEachNode((node) => {
 
@@ -120,10 +122,6 @@ export class PaymentsComponent implements OnInit {
         if (balance >= am) {
           balance -= am;
           node.setSelected(true);
-
-          console.log('allmoney: ', am);
-          console.log('new balance: ', balance);
-
         }
       });
 

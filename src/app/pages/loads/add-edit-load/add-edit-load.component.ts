@@ -300,7 +300,6 @@ export class AddEditLoadComponent implements OnInit {
       billerId: this.load.billto_id,
       receiverId: this.load.receiver_id
     };
-    console.log(config)
     this.dialogRef.close(config);
   }
 
@@ -336,9 +335,6 @@ export class AddEditLoadComponent implements OnInit {
         .patch(`${environment.apiUrl}loads/${this.linkedLoadData[i].loadId}`,
           { linked_load_position: this.linkedLoadData[i].position })
         .subscribe({
-          next: (response) => {
-            console.log(response);
-          },
           error: (error) => console.error(error),
         });
     }

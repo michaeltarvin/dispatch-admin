@@ -55,7 +55,6 @@ export class CustomerAutoCompleteComponent implements OnInit {
   }
 
   onOptionSelected($event: MatAutocompleteSelectedEvent) {
-    console.log($event.option.value);
     this.selectionChanged.emit($event.option.value);
   }
 

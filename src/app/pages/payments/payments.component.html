@@ -57,11 +57,12 @@
             [floatLabel]="'always'">
             <mat-label>Payment Amount</mat-label>
             <input currencyMask
-              class="example-right-align"
+              class="example-right-align left"
               autocomplete="off"
               matInput
               [(ngModel)]="paymentAmount">
-            <mat-icon (click)="findLoads()"
+            <mat-icon class="find-loads"
+              (click)="findLoads()"
               matSuffix>search</mat-icon>
           </mat-form-field>
 

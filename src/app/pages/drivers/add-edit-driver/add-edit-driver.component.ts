@@ -59,7 +59,6 @@ export class AddEditDriverComponent implements OnInit {
           data.workcompna = moment(data.workcompna).toDate();
           data.drugtest = moment(data.drugtest).toDate();
           this.driver = data;
-          console.log('driver', this.driver);
         },
         error: (error) => console.error(error),
       });
@@ -71,14 +70,12 @@ export class AddEditDriverComponent implements OnInit {
       .subscribe({
         next: (response) => {
           this.driverTypes = response;
-          console.log(this.driverTypes);
         },
         error: (error) => console.error(error),
       });
   }
 
   close() {
-    console.log(this.driver);
     this.dialogRef.close('close');
   }
 
@@ -88,18 +85,12 @@ export class AddEditDriverComponent implements OnInit {
       this.http
         .patch(`${environment.apiUrl}drivers/${this.data.id}`, this.driver)
         .subscribe({
-          next: (response) => {
-            console.log(response);
-          },
           error: (error) => console.error(error),
         });
     } else {
       this.http
         .post(`${environment.apiUrl}drivers`, this.driver)
         .subscribe({
-          next: (response) => {
-            console.log(response);
-          },
           error: (error) => console.error(error),
         });
     }

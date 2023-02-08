@@ -46,7 +46,6 @@ export class AddEditDriverTypeComponent implements OnInit {
   }
 
   close() {
-    console.log(this.driverType);
     this.dialogRef.close('close');
   }
 
