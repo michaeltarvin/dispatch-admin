@@ -13,7 +13,8 @@
     (optionSelected)="onOptionSelected($event)"
     #customers="matAutocomplete">
     <mat-option *ngFor="let option of customersOptions | async"
-      [value]="option">
+      [value]="option"
+      [class]="option.customClass">
       {{option.name}}
     </mat-option>
   </mat-autocomplete>

@@ -3,3 +3,22 @@
   color: white !important;
   font-weight: bold;
 }
+
+
+// if (moment(params.data.license) < moment()) {
+//   return { 'background-color': "#F44336", 'color': "white" };
+// } else if (moment(params.data.license) <= moment().add(1, 'M')) {
+//   return { 'background-color': "#FFEB3B", 'color': "black" };
+// }
+
+.mat-option.warning  {
+  background: #FFEB3B !important;
+  color: black !important;
+  font-weight: bold;
+}
+
+.mat-option.error  {
+  background: #F44336 !important;
+  color: white !important;
+  font-weight: bold;
+}

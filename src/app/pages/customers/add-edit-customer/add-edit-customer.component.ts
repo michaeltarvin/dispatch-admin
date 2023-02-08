@@ -33,7 +33,6 @@ export class AddEditCustomerComponent implements OnInit {
   }
 
   getCustomerTypes() {
-    //customerTypes
     this.http
       .get(`${environment.apiUrl}customer_types`)
       .subscribe({

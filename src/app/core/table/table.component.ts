@@ -154,16 +154,30 @@ export class TableComponent implements OnDestroy {
 
   // set background color when load has linked loads
   getRowStyle(params: any) {
+
     if (params.data.has_linked_loads === true) {
-      return { 'background-color': "#1976d2", 'color': "white" }
+      return { 'background-color': "#1976d2", 'color': "white" };
     }
 
-    const username = window.localStorage.getItem("username");
-    if (username) {
-      if (params.data.is_closed === false && params.data.to_user == username.toString()) {
-        return { 'background-color': "#1976d2", 'color': "white" }
+    if (params.data.license) {
+      if (moment(params.data.license) < moment()) {
+        return { 'background-color': "#F44336", 'color': "white" };
+      } else if (moment(params.data.license) <= moment().add(1, 'M')) {
+        return { 'background-color': "#FFEB3B", 'color': "black" };
+      } else if (params.data.license === null) {
+        return { 'background-color': "pink", 'color': "white" };
       }
+      // else {
+      //   console.log(params.data);
+      // }
     }
+
+    // const username = window.localStorage.getItem("username");
+    // if (username) {
+    //   if (params.data.is_closed === false && params.data.to_user == username.toString()) {
+    //     return { 'background-color': "#1976d2", 'color': "white" }
+    //   }
+    // }
 
     return null;
   };
