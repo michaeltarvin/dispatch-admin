@@ -33,10 +33,6 @@ export class DispatchHttpInterceptor implements HttpInterceptor {
       return next.handle(this.emptyRequest(request));
     }
 
-    if (this.tokenExpired()) {
-      this.router.navigate(["/login"]);
-    }
-
     if (this.requiresRefresh()) {
 
       if (this.refreshTokenInProgress) {
@@ -51,8 +47,8 @@ export class DispatchHttpInterceptor implements HttpInterceptor {
 
         return this.getNewToken().pipe(
           switchMap((token) => {
-            this.refreshTokenSubject.next(token);
             this.loginResult(token);
+            this.refreshTokenSubject.next(token);
             return next.handle(this.setAuthToken(request));
           }),
           finalize(() => (this.refreshTokenInProgress = false))
@@ -65,7 +61,6 @@ export class DispatchHttpInterceptor implements HttpInterceptor {
   }
 
   getNewToken() {
-
     let token = window.localStorage.getItem("token");
 
     const headers = new HttpHeaders({
@@ -75,7 +70,6 @@ export class DispatchHttpInterceptor implements HttpInterceptor {
 
     const requestOptions = { headers: headers };
     return this.http.post(environment.refreshUrl, null, requestOptions);
-
   }
 
   setAuthToken(request: HttpRequest<any>): HttpRequest<any> {
@@ -83,24 +77,18 @@ export class DispatchHttpInterceptor implements HttpInterceptor {
     if (!window.localStorage.getItem("token"))
       return request;
 
+    const token = window.localStorage.getItem("token").trim();
+
     return request.clone({
       setHeaders: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${window.localStorage.getItem("token").trim()}`
+        'Authorization': `Bearer ${token}`
       }
     });
   }
 
   emptyRequest(request: HttpRequest<any>): HttpRequest<any> {
     return request;
-  }
-
-  tokenExpired() {
-
-    var duration = moment.duration(moment().diff(moment(window.localStorage.getItem("lastlogin"))));
-    var minutes = duration.asMinutes();
-
-    return (minutes >= environment.tokenTimeout);
   }
 
   requiresRefresh(): boolean {
@@ -112,7 +100,7 @@ export class DispatchHttpInterceptor implements HttpInterceptor {
     var duration = moment.duration(moment().diff(moment(window.localStorage.getItem("lastlogin"))));
     var minutes = duration.asMinutes();
 
-    return (minutes >= environment.refreshTokenInMinutes);
+    return (minutes >= environment.tokenTimeout);
   }
 
   loginResult(res: any): boolean {

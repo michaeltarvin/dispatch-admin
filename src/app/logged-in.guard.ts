@@ -1,23 +1,28 @@
 import { Injectable } from '@angular/core';
 import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { AppService } from './app.service';
-//import { UserService } from './pages/authentication/login//user.service';
 import * as moment from "moment";
+import { environment } from '../environments/environment';
 
 @Injectable()
 export class LoggedInGuard implements CanActivate {
   constructor(
-    //public user: UserService,
     public router: Router,
     public appService: AppService
   ) {
   }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+
+    if (!route) {
+      console.error('no route provided to activate.');
+    }
+
     if (this.isLoggedIn() === false) {
       this.router.navigate(["/login"]);
       return false;
     }
+
     if (this.checkUserToken()) {
       if (state && state.url) {
         if (state.url === "/noaccess" || state.url === "/") {
@@ -25,22 +30,15 @@ export class LoggedInGuard implements CanActivate {
         }
       }
     }
-
     return true;
   }
 
   checkUserToken(): boolean {
 
-    if (this.requiresTokenCheck()) {
-      // this.user.loginByToken().subscribe((result) => {
-      //   if (result.Token === "" || result.Token === undefined) {
-      //     window.localStorage.removeItem("token");
-      //     window.localStorage.removeItem("loggedIn");
-      //     this.router.navigate(["/login"]);
-      //     return false;
-      //   }
-      // });
-    }
+    //TODO: find out if this is needed, or just let http intercept handle it
+    // if (this.requiresTokenCheck()) {
+    //     return false;
+    // }
     return true;
   }
 
@@ -58,7 +56,7 @@ export class LoggedInGuard implements CanActivate {
 
     if (!lastlogin) return true;
 
-    if (moment().add(60, "minutes").isAfter(moment(lastlogin))) {
+    if (moment().add(environment.tokenTimeout, "minutes").isAfter(moment(lastlogin))) {
       return false;
     }
 
