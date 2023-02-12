@@ -37,6 +37,7 @@
     "moment": "~2.29.1",
     "ng2-charts": "~2.4.3",
     "ng2-currency-mask": "^13.0.3",
+    "ngx-extended-pdf-viewer": "^16.0.2",
     "ngx-mat-select-search": "^5.0.0",
     "ngx-quill": "~16.0.1",
     "ngx-spinner": "^14.0.0",

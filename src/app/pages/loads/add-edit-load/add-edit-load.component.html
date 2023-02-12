@@ -33,7 +33,7 @@
 
     <ngx-spinner type="ball-spin"></ngx-spinner>
 
-    <mat-tab-group>
+    <mat-tab-group (selectedTabChange)="selectedTabChange($event)">
 
       <mat-tab label="Details">
 
@@ -167,7 +167,6 @@
         <div fxLayout.gt-sm="row"
           fxLayoutGap.gt-sm="48px">
 
-          <!-- PU # -->
           <mat-form-field appearance="outline"
             class="example-full-width"
             [floatLabel]="'always'"
@@ -179,7 +178,6 @@
               type="text">
           </mat-form-field>
 
-          <!-- BOL # -->
           <mat-form-field appearance="outline"
             class="example-full-width"
             [floatLabel]="'always'"
@@ -191,7 +189,6 @@
               type="text">
           </mat-form-field>
 
-          <!-- Confirmation # -->
           <mat-form-field appearance="outline"
             class="example-full-width"
             [floatLabel]="'always'"
@@ -203,7 +200,6 @@
               type="text">
           </mat-form-field>
 
-          <!-- CHRW #: -->
           <mat-form-field appearance="outline"
             class="example-full-width"
             [floatLabel]="'always'"
@@ -220,7 +216,6 @@
         <div fxLayout.gt-sm="row"
           fxLayoutGap.gt-sm="48px">
 
-          <!-- Weight # -->
           <mat-form-field appearance="outline"
             class="example-full-width"
             [floatLabel]="'always'"
@@ -232,7 +227,6 @@
               type="text">
           </mat-form-field>
 
-          <!-- Truck #: -->
           <mat-form-field appearance="outline"
             class="example-full-width"
             [floatLabel]="'always'"
@@ -244,7 +238,6 @@
               type="text">
           </mat-form-field>
 
-          <!-- Trailer # -->
           <mat-form-field appearance="outline"
             class="example-full-width"
             [floatLabel]="'always'"
@@ -256,7 +249,6 @@
               type="text">
           </mat-form-field>
 
-          <!-- Sub #: -->
           <mat-form-field appearance="outline"
             class="example-full-width"
             [floatLabel]="'always'"
@@ -538,7 +530,52 @@
 
       </mat-tab>
 
+      <mat-tab label="Invoice">
+
+        <div class="tab-content"
+          fxLayout.gt-sm="row"
+          fxLayoutGap.gt-sm="48px">
+
+          <mat-form-field appearance="outline"
+            class="example-full-width"
+            [floatLabel]="'always'"
+            color="primary">
+            <mat-label>Email To:</mat-label>
+            <input matInput
+              autocomplete="off"
+              [(ngModel)]="email"
+              type="text">
+          </mat-form-field>
+
+          <button mat-raised-button
+            (click)="emailPdf()"
+            name="button">Email</button>
+
+        </div>
+
+        <!-- localeFolderPath="dispatch/assets/locale" -->
+        <div class="tab-content-sm"
+          *ngIf="displayPdf">
+          <ngx-extended-pdf-viewer [src]="src"
+            [filenameForDownload]="fileName"
+            [useBrowserLocale]="true"
+            height="50vh"
+            [showOpenFileButton]="false"
+            [showBookmarkButton]="false"
+            [showRotateButton]="false"
+            [showSidebarButton]="false"
+            [showEditor]="false"
+            [showSecondaryToolbarButton]="false"
+            [showPresentationModeButton]="false"
+            [textLayer]="false">
+          </ngx-extended-pdf-viewer>
+        </div>
+
+      </mat-tab>
+
     </mat-tab-group>
+
+
 
   </div>
 

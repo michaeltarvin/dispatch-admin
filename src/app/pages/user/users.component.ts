@@ -11,7 +11,9 @@ import { TableService } from '../../core/table/table.service';
 })
 export class UsersComponent {
 
-  constructor(private dialog: MatDialog, private tableService: TableService) { }
+  constructor(private dialog: MatDialog,
+    private tableService: TableService) {
+  }
 
   tableName: string = 'users';
 

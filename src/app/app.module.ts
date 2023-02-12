@@ -27,6 +27,7 @@ import { DispatchHttpInterceptor } from "./dispatch-http.interceptor";
 
     // Displays Loading Bar when a Route Request or HTTP Request is pending
     PendingInterceptorModule,
+
   ],
   declarations: [AppComponent],
   bootstrap: [AppComponent],

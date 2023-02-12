@@ -9,6 +9,7 @@ import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { LoadInterface } from "./load.interface";
 import { CustomerList } from '../../../core/classes/customer.list';
 import { LinkedLoadPosition } from '../../../core/classes/linked.load.position';
+import { pdfDefaultOptions } from 'ngx-extended-pdf-viewer';
 import * as moment from 'moment';
 import { environment } from '../../../../environments/environment';
 
@@ -48,6 +49,9 @@ export class AddEditLoadComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private http: HttpClient,
     private _snackBar: MatSnackBar) {
+    pdfDefaultOptions.doubleTapZoomFactor = '150%'; // The default value is '200%'
+    pdfDefaultOptions.maxCanvasPixels = 4096 * 4096 * 5; // The default value is 4096 * 4096 pixels,
+    pdfDefaultOptions.assetsFolder = 'bleeding-edge';
   }
 
   public disabled = false;
@@ -69,6 +73,10 @@ export class AddEditLoadComponent implements OnInit {
   gridOptions: GridOptions;
   myDriverId: number = 97;
   errorMessage: string;
+  src: Blob;
+  fileName: string = 'document.pdf';
+  displayPdf: boolean = false;
+  email: string = "michael.tarvin@gmail.com";
 
   load: LoadInterface;
 
@@ -121,6 +129,37 @@ export class AddEditLoadComponent implements OnInit {
     }
   }
 
+  selectedTabChange($event: any) {
+    console.log($event);
+    console.log($event.index);
+
+    if ($event.tab.textLabel === "Invoice") {
+      this.displayPdf = true;
+    }
+  }
+
+  getPdf($id: number) {
+    this.fileName = `invoice.${$id}.pdf`;
+    var mediaType = 'application/pdf';
+    this.http.get(`${environment.apiUrl}pdf/${$id}`, { responseType: 'blob' })
+      .subscribe(
+        (response) => {
+          this.src = new Blob([response], { type: mediaType });
+        },
+        e => { console.log(e); }
+      );
+  }
+
+  emailPdf() {
+    this.http.get(`${environment.apiUrl}invoice/${this.load.trip_id}`)
+      .subscribe(
+        (response) => {
+          console.log(response);
+        },
+        e => { console.error(e); }
+      );
+  }
+
   getNextPosition() {
     this.http
       .get<LoadInterface[]>(`${environment.apiUrl}loads?trip_id=${this.load.trip_id}`)
@@ -138,6 +177,7 @@ export class AddEditLoadComponent implements OnInit {
       .subscribe({
         next: (response) => {
           this.load = response as LoadInterface;
+          this.getPdf(this.load.trip_id);
           this.load.paid_on = moment(this.load.paid_on).toDate();
           this.dateControl.setValue(moment(this.load.pudate).toDate());
           this.delDateControl.setValue(moment(this.load.deldate).toDate());

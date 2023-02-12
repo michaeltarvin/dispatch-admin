@@ -14,6 +14,7 @@ import { BrokerageComponent } from './brokerage/brokerage.component';
 import { NgxMatMomentModule } from '@angular-material-components/moment-adapter';
 import { CurrencyMaskModule } from "ng2-currency-mask";
 import { CustomerAutoCompleteModule } from "../../core/customer-auto-complete/customer-auto-complete.module";
+import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 
 @NgModule({
   imports: [
@@ -30,6 +31,7 @@ import { CustomerAutoCompleteModule } from "../../core/customer-auto-complete/cu
     NgxMatMomentModule,
     CustomerAutoCompleteModule,
     CurrencyMaskModule,
+    NgxExtendedPdfViewerModule,
   ],
   declarations: [
     LoadsComponent,
