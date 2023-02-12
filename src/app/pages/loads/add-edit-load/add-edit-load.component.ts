@@ -8,6 +8,7 @@ import { NgxMatDateFormats, NGX_MAT_DATE_FORMATS } from '@angular-material-compo
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { LoadInterface } from "./load.interface";
 import { CustomerList } from '../../../core/classes/customer.list';
+import { GenericResponse } from '../../../core/classes/generic.response';
 import { LinkedLoadPosition } from '../../../core/classes/linked.load.position';
 import { pdfDefaultOptions } from 'ngx-extended-pdf-viewer';
 import * as moment from 'moment';
@@ -130,9 +131,6 @@ export class AddEditLoadComponent implements OnInit {
   }
 
   selectedTabChange($event: any) {
-    console.log($event);
-    console.log($event.index);
-
     if ($event.tab.textLabel === "Invoice") {
       this.displayPdf = true;
     }
@@ -146,15 +144,15 @@ export class AddEditLoadComponent implements OnInit {
         (response) => {
           this.src = new Blob([response], { type: mediaType });
         },
-        e => { console.log(e); }
+        e => { console.error(e); }
       );
   }
 
   emailPdf() {
-    this.http.get(`${environment.apiUrl}invoice/${this.load.trip_id}`)
+    this.http.get<GenericResponse>(`${environment.apiUrl}invoice/${this.load.trip_id}`)
       .subscribe(
         (response) => {
-          console.log(response);
+          this.openSnackBar(`Email Trip: ${this.load.trip_id}: ${response.message}`, "Close");
         },
         e => { console.error(e); }
       );

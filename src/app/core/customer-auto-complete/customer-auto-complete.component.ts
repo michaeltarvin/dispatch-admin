@@ -36,9 +36,6 @@ export class CustomerAutoCompleteComponent implements OnInit {
       .subscribe({
         next: (response) => {
           this.customers = response as CustomerList[];
-          if (this.customerType === 'drivers-list') {
-            console.log(this.customers.find(x => x.id == 1));
-          }
           if (this.customerId > 0) {
             this.customersControl.setValue(this.getCustomerFromArray(this.customerId, this.customers));
           }

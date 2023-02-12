@@ -532,7 +532,7 @@
 
       <mat-tab label="Invoice">
 
-        <div class="tab-content"
+        <div class="action-space"
           fxLayout.gt-sm="row"
           fxLayoutGap.gt-sm="48px">
 
@@ -548,7 +548,9 @@
           </mat-form-field>
 
           <button mat-raised-button
+            style="height: 55px"
             (click)="emailPdf()"
+            color="primary"
             name="button">Email</button>
 
         </div>
