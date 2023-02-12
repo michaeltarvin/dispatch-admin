@@ -9,6 +9,7 @@ import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { LoadInterface } from "./load.interface";
 import { CustomerList } from '../../../core/classes/customer.list';
 import { GenericResponse } from '../../../core/classes/generic.response';
+import { Customer } from '../../../core/classes/customer';
 import { LinkedLoadPosition } from '../../../core/classes/linked.load.position';
 import { pdfDefaultOptions } from 'ngx-extended-pdf-viewer';
 import * as moment from 'moment';
@@ -132,6 +133,7 @@ export class AddEditLoadComponent implements OnInit {
 
   selectedTabChange($event: any) {
     if ($event.tab.textLabel === "Invoice") {
+      this.getBillerEmail();
       this.displayPdf = true;
     }
   }
@@ -148,13 +150,31 @@ export class AddEditLoadComponent implements OnInit {
       );
   }
 
+  getBillerEmail() {
+    if (this.load && this.load.billto_id > 0) {
+      this.http.get<Customer>(`${environment.apiUrl}customers/${this.load.billto_id}`)
+        .subscribe(
+          (response) => {
+            this.email = response.email;
+          },
+          e => { console.error(e); }
+        );
+    }
+  }
+
   emailPdf() {
-    this.http.get<GenericResponse>(`${environment.apiUrl}invoice/${this.load.trip_id}`)
+    this.showSpinner();
+    this.http.get<GenericResponse>(`${environment.apiUrl}invoice/${this.load.trip_id}/email/${this.email}`)
       .subscribe(
         (response) => {
           this.openSnackBar(`Email Trip: ${this.load.trip_id}: ${response.message}`, "Close");
+          this.spinner.hide();
         },
-        e => { console.error(e); }
+        e => {
+          this.openSnackBar(`Email Error: ${e.error.message}`, "Close");
+          console.error(e);
+          this.spinner.hide();
+        }
       );
   }
 
@@ -360,13 +380,7 @@ export class AddEditLoadComponent implements OnInit {
   savePositions() {
     if (!this.linkedLoadData || this.linkedLoadData.length == 0) return;
     /** spinner starts on init */
-    this.spinner.show(undefined, {
-      type: 'ball-spin',
-      size: 'large',
-      bdColor: 'rgba(100,149,237, .8)',
-      color: 'white',
-      fullScreen: false,
-    });
+    this.showSpinner();
 
     for (let i = 0; i < this.linkedLoadData.length; i++) {
       this.http
@@ -381,6 +395,16 @@ export class AddEditLoadComponent implements OnInit {
       /** spinner ends after 5 seconds */
       this.spinner.hide();
     }, 5000);
+  }
+
+  showSpinner() {
+    this.spinner.show(undefined, {
+      type: 'ball-spin',
+      size: 'large',
+      bdColor: 'rgba(100,149,237, .8)',
+      color: 'white',
+      fullScreen: false,
+    });
   }
 
   openSnackBar(message: string, action: string) {
